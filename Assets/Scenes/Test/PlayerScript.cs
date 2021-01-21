@@ -11,14 +11,32 @@ public class PlayerScript : MonoBehaviourPunCallbacks
 
     private float speed = 3f;
 
+    private bool fireable = true;
 
+    private bool isDead = false;
+
+    public float AttackCooltime = 5f;
+
+    
     private Rigidbody2D body;
 
     // Start is called before the first frame update
     void Start()
     {
         body = GetComponent<Rigidbody2D>();
+
+        
     }
+
+    IEnumerator Reload()
+    {
+        Debug.Log("reloading");
+        yield return new WaitForSeconds(AttackCooltime);
+        fireable = true;
+        
+    }
+
+    
 
     // Update is called once per frame
     void Update()
@@ -46,17 +64,21 @@ public class PlayerScript : MonoBehaviourPunCallbacks
             transform.Translate(-speed * Time.deltaTime * transform.up);
         }
 
-
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0) && fireable)
         {
-            
+
+            Debug.Log("fire");
+            fireable = false;
             Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 playerposition = transform.position;
-            GameObject bullet= PhotonNetwork.Instantiate("bullet", transform.position, Quaternion.identity, 0);
-            
+            GameObject bullet = PhotonNetwork.Instantiate("bullet", transform.position, Quaternion.identity, 0);
+
             Vector2 bulletvelocity = (mouse - playerposition).normalized * bulletspeed;
             bullet.GetComponent<Rigidbody2D>().velocity = bulletvelocity;
+
+            StartCoroutine("Reload");
         }
+
     }
     private void OnCollisionEnter(Collision collision)
     {
