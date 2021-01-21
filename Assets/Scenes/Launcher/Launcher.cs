@@ -22,7 +22,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     #region Private Fields
 
     private string gameVersion = "1";
-
+    private bool isConnecting;
     #endregion
 
 
@@ -42,6 +42,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         progressLabel.SetActive(true);
         controlPanel.SetActive(false);
+        isConnecting = true;
 
         if (PhotonNetwork.IsConnected)
         {
@@ -61,7 +62,10 @@ public class Launcher : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         Debug.Log("PUN Basics Tutorial/Launcher: OnConnectedToMaster() was Called By PUN");
-        PhotonNetwork.JoinRandomRoom();
+        if (isConnecting)
+        {
+            PhotonNetwork.JoinRandomRoom();
+        }
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
