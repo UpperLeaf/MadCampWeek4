@@ -23,18 +23,10 @@ namespace Photon.Pun.Demo.PunBasics
 		#endregion
 
 		#region MonoBehaviour CallBacks
-
-		/// <summary>
-		/// MonoBehaviour method called on GameObject by Unity during initialization phase.
-		/// </summary>
 	    void Start () 
 	    {
 	        animator = GetComponent<Animator>();
 	    }
-	        
-		/// <summary>
-		/// MonoBehaviour method called on GameObject by Unity on every frame.
-		/// </summary>
 	    void Update () 
 	    {
 
