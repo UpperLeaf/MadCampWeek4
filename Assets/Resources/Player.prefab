@@ -1358,6 +1358,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 813b824e389d6524191d5ab569bf1f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CinemachineCameraPrefab: {fileID: 6120111442147011207, guid: 017e344745cc1104d8f9108ce7316df7,
+    type: 3}
 --- !u!114 &-4068083564111462334
 MonoBehaviour:
   m_ObjectHideFlags: 0

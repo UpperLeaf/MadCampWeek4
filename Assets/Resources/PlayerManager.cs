@@ -1,13 +1,14 @@
-﻿using Photon.Pun;
-using System.Collections;
-using System.Collections.Generic;
+﻿using Cinemachine;
+using Photon.Pun;
 using UnityEngine;
 
 public class PlayerManager : MonoBehaviourPunCallbacks
 {
-
     [Tooltip("The Local Player Instance. Use this to know if the local player is represented in the Scene")]
     public static GameObject LocalPlayerInstance;
+
+    [SerializeField]
+    private GameObject CinemachineCameraPrefab;
 
     private void Awake()
     {
@@ -20,13 +21,16 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        CameraWork _cameraWork = GetComponent<CameraWork>();
-
-        if (_cameraWork != null)
+        GameObject camera = Instantiate(CinemachineCameraPrefab);
+        DontDestroyOnLoad(camera);
+        
+        CinemachineVirtualCamera virtualCamera = camera.GetComponent<CinemachineVirtualCamera>();
+        if (virtualCamera != null)
         {
             if (photonView.IsMine)
             {
-                _cameraWork.OnStartFollowing();
+                virtualCamera.Follow = gameObject.transform;
+                virtualCamera.LookAt = gameObject.transform;
             }
         }
         else
