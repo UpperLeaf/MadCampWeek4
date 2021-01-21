@@ -69,19 +69,21 @@ public class PlayerScript : MonoBehaviourPunCallbacks
 
         if (Input.GetMouseButtonUp(0) && fireable)
         {
-            photonView.RPC("FireBullet", PhotonTargets.All);
+            
+            Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 playerposition = transform.position;
+            Vector2 bulletvelocity = (mouse - playerposition).normalized * bulletspeed;
+            photonView.RPC("FireBullet", PhotonTargets.All, new object[] {bulletvelocity });
         }
     }
 
 
     [PunRPC]
-    public void FireBullet()
+    public void FireBullet(Vector2 bulletvelocity)
     {
         fireable = false;
 
-        Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 playerposition = transform.position;
-        Vector2 bulletvelocity = (mouse - playerposition).normalized * bulletspeed;
+        
 
         _bullet.transform.position = transform.position;
         _bullet.GetComponent<bulletScript>()._player = _player;
