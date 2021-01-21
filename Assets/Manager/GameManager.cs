@@ -5,7 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
-
+    [Tooltip("The Prefab to use for representing the player")]
+    [SerializeField]
+    private GameObject playerPrefab;
 
     #region Photon Callbacks
     public override void OnLeftRoom()
@@ -34,7 +36,22 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
     #endregion
 
+    #region MonoBehaviour Callbacks
 
+    private void Start()
+    {
+        if (playerPrefab == null)
+            Debug.LogError("Missing Prefab");
+        else
+        {
+            if (PlayerManager.LocalPlayerInstance == null)
+            {
+                Debug.LogFormat("Instantiate LocalPlayer");
+                PhotonNetwork.Instantiate(playerPrefab.name, new Vector3(0f, 5f, 0f), Quaternion.identity, 0);
+            }
+        }
+    }
+    #endregion
 
     #region Public Methods
     public void LeaveRoom()
