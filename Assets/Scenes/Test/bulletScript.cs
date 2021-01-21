@@ -3,12 +3,14 @@ using UnityEngine;
 
 public class bulletScript : MonoBehaviourPunCallbacks
 {
+    public int id;
     public GameObject player;
 
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject == player) return;
+        if (collision.CompareTag("Player") && id == collision.GetComponent<PlayerScript>().id)
+            return;
         
         if (collision.CompareTag("Player"))
         {

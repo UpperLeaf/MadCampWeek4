@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PlayerScript : MonoBehaviourPunCallbacks
 {
+    public int id;
 
     public GameObject _bullet;
     
@@ -76,6 +77,7 @@ public class PlayerScript : MonoBehaviourPunCallbacks
 
             _bullet.GetComponent<bulletScript>().player = gameObject;
             GameObject bullet = PhotonNetwork.Instantiate("bullet", transform.position, Quaternion.identity, 0);
+            bullet.GetComponent<bulletScript>().id = id;
 
             Vector2 bulletvelocity = (mouse - playerposition).normalized * bulletspeed;
             bullet.GetComponent<Rigidbody2D>().velocity = bulletvelocity;
