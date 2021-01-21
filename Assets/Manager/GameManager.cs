@@ -48,7 +48,6 @@ public class GameManager : MonoBehaviourPunCallbacks
             {
                 Debug.LogFormat("Instantiate LocalPlayer");
                 GameObject _player = PhotonNetwork.Instantiate(playerPrefab.name, new Vector3(0f, 5f, 0f), Quaternion.identity, 0);
-                _player.GetComponent<PlayerScript>().id = PhotonNetwork.CountOfPlayers;
             }
         }
     }

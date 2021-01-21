@@ -40,7 +40,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer
                 if (photonView.IsMine)
                 {
                     virtualCamera.Follow = gameObject.transform;
-                    //virtualCamera.LookAt = gameObject.transform;
                 }
             }
             else

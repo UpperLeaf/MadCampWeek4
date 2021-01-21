@@ -7,7 +7,7 @@ public class bulletScript : MonoBehaviourPunCallbacks
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player") && id == collision.GetComponent<PlayerScript>().id)
+        if (photonView.IsMine)
             return;
         
         if (collision.CompareTag("Player"))
@@ -15,8 +15,6 @@ public class bulletScript : MonoBehaviourPunCallbacks
             collision.GetComponent<IPlayer>().Damaged(0.1f);
 
         }
-
-        PhotonNetwork.Destroy(this.gameObject);
-
+        PhotonNetwork.Destroy(gameObject);
     }
 }
