@@ -1,12 +1,14 @@
 ﻿using Photon.Pun;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(InputField))]
+
+[RequireComponent(typeof(TMP_InputField))]
 public class PlayerNameInputField : MonoBehaviour
 {
 
-    #region
+    #region Private Constants
     const string playerNamePrefkey = "Playername";
     #endregion
 
@@ -15,7 +17,7 @@ public class PlayerNameInputField : MonoBehaviour
     private void Start()
     {
         string defaultName = string.Empty;
-        InputField _inputField = GetComponent<InputField>();
+        TMP_InputField _inputField = GetComponent<TMP_InputField>();
         if(_inputField != null)
         {
             if (PlayerPrefs.HasKey(playerNamePrefkey))
@@ -28,9 +30,10 @@ public class PlayerNameInputField : MonoBehaviour
     }
     #endregion
 
-    #region
-    public void SetPlayername(string value)
+    #region Public Methods
+    public void SetPlayerName(string value)
     {
+        Debug.Log(value);
         if (string.IsNullOrEmpty(value))
         {
             Debug.LogError("Player Name is null or empty");
