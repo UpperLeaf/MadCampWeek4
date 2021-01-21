@@ -33,7 +33,7 @@ namespace Photon.Pun
 
     /// <summary>Enum of "target" options for RPCs. These define which remote clients get your RPC call. </summary>
     /// \ingroup publicApi
-    public enum RpcTarget
+    public enum PhotonTargets
     {
         /// <summary>Sends the RPC to everyone else and executes it immediately on this client. Player who join later will not execute this RPC.</summary>
         All,

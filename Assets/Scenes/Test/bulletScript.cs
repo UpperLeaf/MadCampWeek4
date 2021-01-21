@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class bulletScript : MonoBehaviourPunCallbacks
 {
-    public int id;
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (photonView.IsMine)

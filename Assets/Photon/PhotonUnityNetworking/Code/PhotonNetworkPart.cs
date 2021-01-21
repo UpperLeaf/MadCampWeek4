@@ -1189,7 +1189,7 @@ namespace Photon.Pun
         static RaiseEventOptions RpcOptionsToAll = new RaiseEventOptions();
 
 
-        internal static void RPC(PhotonView view, string methodName, RpcTarget target, Player player, bool encrypt, params object[] parameters)
+        internal static void RPC(PhotonView view, string methodName, PhotonTargets target, Player player, bool encrypt, params object[] parameters)
         {
             if (blockedSendingGroups.Contains(view.Group))
             {
@@ -1256,20 +1256,20 @@ namespace Photon.Pun
             switch (target)
             {
                 // send to a specific set of players
-                case RpcTarget.All:
+                case PhotonTargets.All:
                     RpcOptionsToAll.InterestGroup = (byte)view.Group;   // NOTE: Test-wise, this is static and re-used to avoid memory garbage
                     PhotonNetwork.RaiseEventInternal(PunEvent.RPC, rpcEvent, RpcOptionsToAll, sendOptions);
 
                     // Execute local
                     ExecuteRpc(rpcEvent, NetworkingClient.LocalPlayer);
                     break;
-                case RpcTarget.Others:
+                case PhotonTargets.Others:
                     {
                         RaiseEventOptions options = new RaiseEventOptions() { InterestGroup = (byte)view.Group };
                         PhotonNetwork.RaiseEventInternal(PunEvent.RPC, rpcEvent, options, sendOptions);
                         break;
                     }
-                case RpcTarget.AllBuffered:
+                case PhotonTargets.AllBuffered:
                     {
                         RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.AddToRoomCache };
                         PhotonNetwork.RaiseEventInternal(PunEvent.RPC, rpcEvent, options, sendOptions);
@@ -1278,13 +1278,13 @@ namespace Photon.Pun
                         ExecuteRpc(rpcEvent, NetworkingClient.LocalPlayer);
                         break;
                     }
-                case RpcTarget.OthersBuffered:
+                case PhotonTargets.OthersBuffered:
                     {
                         RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.AddToRoomCache };
                         PhotonNetwork.RaiseEventInternal(PunEvent.RPC, rpcEvent, options, sendOptions);
                         break;
                     }
-                case RpcTarget.MasterClient:
+                case PhotonTargets.MasterClient:
                     {
                         if (NetworkingClient.LocalPlayer.IsMasterClient)
                         {
@@ -1298,7 +1298,7 @@ namespace Photon.Pun
 
                         break;
                     }
-                case RpcTarget.AllViaServer:
+                case PhotonTargets.AllViaServer:
                     {
                         RaiseEventOptions options = new RaiseEventOptions() { InterestGroup = (byte)view.Group, Receivers = ReceiverGroup.All };
                         PhotonNetwork.RaiseEventInternal(PunEvent.RPC, rpcEvent, options, sendOptions);
@@ -1309,7 +1309,7 @@ namespace Photon.Pun
 
                         break;
                     }
-                case RpcTarget.AllBufferedViaServer:
+                case PhotonTargets.AllBufferedViaServer:
                     {
                         RaiseEventOptions options = new RaiseEventOptions() { InterestGroup = (byte)view.Group, Receivers = ReceiverGroup.All, CachingOption = EventCaching.AddToRoomCache };
                         PhotonNetwork.RaiseEventInternal(PunEvent.RPC, rpcEvent, options, sendOptions);

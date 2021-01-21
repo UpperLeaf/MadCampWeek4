@@ -2809,7 +2809,7 @@ namespace Photon.Pun
         /// <summary>
         /// Internal to send an RPC on given PhotonView. Do not call this directly but use: PhotonView.RPC!
         /// </summary>
-        internal static void RPC(PhotonView view, string methodName, RpcTarget target, bool encrypt, params object[] parameters)
+        internal static void RPC(PhotonView view, string methodName, PhotonTargets target, bool encrypt, params object[] parameters)
         {
             if (string.IsNullOrEmpty(methodName))
             {
@@ -2861,7 +2861,7 @@ namespace Photon.Pun
 
             if (NetworkingClient != null)
             {
-                RPC(view, methodName, RpcTarget.Others, targetPlayer, encrpyt, parameters);
+                RPC(view, methodName, PhotonTargets.Others, targetPlayer, encrpyt, parameters);
             }
             else
             {

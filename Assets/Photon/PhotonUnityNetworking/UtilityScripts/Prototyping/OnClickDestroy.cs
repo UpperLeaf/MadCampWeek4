@@ -53,7 +53,7 @@ namespace Photon.Pun.UtilityScripts
 
             if (this.DestroyByRpc)
             {
-                this.photonView.RPC("DestroyRpc", RpcTarget.AllBuffered);
+                this.photonView.RPC("DestroyRpc", PhotonTargets.AllBuffered);
             }
             else
             {

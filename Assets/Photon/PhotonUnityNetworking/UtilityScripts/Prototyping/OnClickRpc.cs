@@ -25,7 +25,7 @@ namespace Photon.Pun.UtilityScripts
         public PointerEventData.InputButton Button;
         public KeyCode ModifierKey;
 
-        public RpcTarget Target;
+        public PhotonTargets Target;
 
         void IPointerClickHandler.OnPointerClick(PointerEventData eventData)
         {

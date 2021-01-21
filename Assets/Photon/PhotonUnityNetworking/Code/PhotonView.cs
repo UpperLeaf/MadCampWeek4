@@ -795,7 +795,7 @@ namespace Photon.Pun
         /// <param name="methodName">The name of a fitting method that was has the RPC attribute.</param>
         /// <param name="target">The group of targets and the way the RPC gets sent.</param>
         /// <param name="parameters">The parameters that the RPC method has (must fit this call!).</param>
-        public void RPC(string methodName, RpcTarget target, params object[] parameters)
+        public void RPC(string methodName, PhotonTargets target, params object[] parameters)
         {
             PhotonNetwork.RPC(this, methodName, target, false, parameters);
         }
@@ -821,7 +821,7 @@ namespace Photon.Pun
         ///<param name="target">The group of targets and the way the RPC gets sent.</param>
         ///<param name="encrypt"> </param>
         ///<param name="parameters">The parameters that the RPC method has (must fit this call!).</param>
-        public void RpcSecure(string methodName, RpcTarget target, bool encrypt, params object[] parameters)
+        public void RpcSecure(string methodName, PhotonTargets target, bool encrypt, params object[] parameters)
         {
             PhotonNetwork.RPC(this, methodName, target, encrypt, parameters);
         }

@@ -74,7 +74,7 @@ namespace Photon.Pun.Demo.Asteroids
             {
                 shootingTimer = 0.2f;
 
-                photonView.RPC("Fire", RpcTarget.AllViaServer, rigidbody.position, rigidbody.rotation);
+                photonView.RPC("Fire", PhotonTargets.AllViaServer, rigidbody.position, rigidbody.rotation);
             }
 
             if (shootingTimer > 0.0f)
@@ -117,7 +117,7 @@ namespace Photon.Pun.Demo.Asteroids
         {
             yield return new WaitForSeconds(AsteroidsGame.PLAYER_RESPAWN_TIME);
 
-            photonView.RPC("RespawnSpaceship", RpcTarget.AllViaServer);
+            photonView.RPC("RespawnSpaceship", PhotonTargets.AllViaServer);
         }
 
         #endregion

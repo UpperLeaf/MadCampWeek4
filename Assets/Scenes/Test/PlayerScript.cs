@@ -10,7 +10,7 @@ public class PlayerScript : MonoBehaviourPunCallbacks
     public GameObject _player;
 
     public GameObject _bullet;
-    
+
     private float bulletspeed = 12f;
 
     private float speed = 3f;
@@ -22,7 +22,7 @@ public class PlayerScript : MonoBehaviourPunCallbacks
     public float AttackCooltime = 0.3f;
 
     private GameObject bulletInstance;
-    
+
     private Rigidbody2D body;
 
     // Start is called before the first frame update
@@ -30,7 +30,7 @@ public class PlayerScript : MonoBehaviourPunCallbacks
     {
         body = GetComponent<Rigidbody2D>();
 
-        
+
     }
 
     IEnumerator Reload()
@@ -39,10 +39,10 @@ public class PlayerScript : MonoBehaviourPunCallbacks
         yield return new WaitForSeconds(AttackCooltime);
         fireable = true;
         Debug.Log(fireable);
-        
+
     }
 
-    
+
 
     // Update is called once per frame
     void Update()
@@ -52,7 +52,7 @@ public class PlayerScript : MonoBehaviourPunCallbacks
 
         if (Input.GetKey(KeyCode.A))
         {
-            transform.Translate(-speed*Time.deltaTime*transform.right);
+            transform.Translate(-speed * Time.deltaTime * transform.right);
         }
 
         if (Input.GetKey(KeyCode.D))
@@ -72,18 +72,27 @@ public class PlayerScript : MonoBehaviourPunCallbacks
 
         if (Input.GetMouseButtonUp(0) && fireable)
         {
-            Debug.Log("fire");
-            fireable = false;
-            
-            Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector2 playerposition = transform.position;
-
-            GameObject bullet = PhotonNetwork.Instantiate("bullet", transform.position, Quaternion.identity, 0, new object[] { id });
-           
-            Vector2 bulletvelocity = (mouse - playerposition).normalized * bulletspeed;
-            bullet.GetComponent<Rigidbody2D>().velocity = bulletvelocity;
-
-            StartCoroutine("Reload");
+            photonView.RPC("FireBullet", PhotonTargets.All, null);
+            GetComponent<PhotonView>().RPC("FireBullet", PhotonTargets.All);
+            FireBullet();
         }
+    }
+
+    public void FireBullet()
+    {
+        Debug.Log("fire");
+        fireable = false;
+
+        Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 playerposition = transform.position;
+
+        _bullet.transform.position = transform.position;
+        GameObject bullet = Instantiate(_bullet);
+        //GameObject bullet = PhotonNetwork.Instantiate("bullet", transform.position, Quaternion.identity, 0, new object[] { id });
+
+        Vector2 bulletvelocity = (mouse - playerposition).normalized * bulletspeed;
+        bullet.GetComponent<Rigidbody2D>().velocity = bulletvelocity;
+
+        StartCoroutine("Reload");
     }
 }
