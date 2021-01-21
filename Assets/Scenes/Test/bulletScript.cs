@@ -3,11 +3,11 @@ using UnityEngine;
 
 public class bulletScript : MonoBehaviourPunCallbacks
 {
-    public GameObject player;
+    public int id;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (player == collision.GetComponent<PlayerScript>()._player)
+        if (collision.CompareTag("Player") && id == collision.GetComponent<PlayerScript>().id)
             return;
         
         if (collision.CompareTag("Player"))

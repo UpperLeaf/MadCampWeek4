@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class PlayerScript : MonoBehaviourPunCallbacks, IPunInstantiateMagicCallback
 {
+    public int id;
 
     public GameObject _player;
 
@@ -78,8 +79,8 @@ public class PlayerScript : MonoBehaviourPunCallbacks, IPunInstantiateMagicCallb
             Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 playerposition = transform.position;
 
-            _bullet.GetComponent<bulletScript>().player = gameObject;
-            bulletInstance = PhotonNetwork.Instantiate("bullet", transform.position, Quaternion.identity, 0, new object[] { gameObject });
+            bulletInstance = PhotonNetwork.Instantiate("bullet", transform.position, Quaternion.identity, 0, new object[] { id });
+            bulletInstance.GetComponent<bulletScript>().id = id;
            
             Vector2 bulletvelocity = (mouse - playerposition).normalized * bulletspeed;
             bulletInstance.GetComponent<Rigidbody2D>().velocity = bulletvelocity;
@@ -90,6 +91,6 @@ public class PlayerScript : MonoBehaviourPunCallbacks, IPunInstantiateMagicCallb
 
     public void OnPhotonInstantiate(PhotonMessageInfo info)
     {
-        bulletInstance.GetComponent<bulletScript>().player = (GameObject)info.photonView.InstantiationData[0];
+        bulletInstance.GetComponent<bulletScript>().id = (int)info.photonView.InstantiationData[0];
     }
 }
