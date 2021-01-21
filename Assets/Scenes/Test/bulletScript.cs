@@ -15,6 +15,6 @@ public class bulletScript : MonoBehaviourPunCallbacks
             collision.GetComponent<IPlayer>().Damaged(0.1f);
 
         }
-        PhotonNetwork.Destroy(gameObject);
+        Destroy(gameObject);
     }
 }
