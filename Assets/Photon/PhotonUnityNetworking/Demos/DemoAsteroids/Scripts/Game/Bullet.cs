@@ -1,31 +1,28 @@
 ﻿using Photon.Realtime;
 using UnityEngine;
 
-namespace Photon.Pun.Demo.Asteroids
+public class Bullet : MonoBehaviour
 {
-    public class Bullet : MonoBehaviour
+    public Player Owner { get; private set; }
+
+    public void Start()
     {
-        public Player Owner { get; private set; }
+        Destroy(gameObject, 3.0f);
+    }
 
-        public void Start()
-        {
-            Destroy(gameObject, 3.0f);
-        }
+    public void OnCollisionEnter(Collision collision)
+    {
+        Destroy(gameObject);
+    }
 
-        public void OnCollisionEnter(Collision collision)
-        {
-            Destroy(gameObject);
-        }
+    public void InitializeBullet(Player owner, Vector3 originalDirection, float lag)
+    {
+        Owner = owner;
 
-        public void InitializeBullet(Player owner, Vector3 originalDirection, float lag)
-        {
-            Owner = owner;
+        transform.forward = originalDirection;
 
-            transform.forward = originalDirection;
-
-            Rigidbody rigidbody = GetComponent<Rigidbody>();
-            rigidbody.velocity = originalDirection * 200.0f;
-            rigidbody.position += rigidbody.velocity * lag;
-        }
+        Rigidbody rigidbody = GetComponent<Rigidbody>();
+        rigidbody.velocity = originalDirection * 200.0f;
+        rigidbody.position += rigidbody.velocity * lag;
     }
 }

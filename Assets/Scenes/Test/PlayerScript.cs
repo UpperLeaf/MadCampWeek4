@@ -1,8 +1,9 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerScript : MonoBehaviour
+public class PlayerScript : MonoBehaviourPunCallbacks
 {
 
     public GameObject _bullet;
@@ -22,6 +23,9 @@ public class PlayerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
+            return;
+
         if (Input.GetKey(KeyCode.A))
         {
             transform.Translate(-speed*Time.deltaTime*transform.right);
@@ -42,36 +46,17 @@ public class PlayerScript : MonoBehaviour
             transform.Translate(-speed * Time.deltaTime * transform.up);
         }
 
-        
-        
-        //if (Input.GetKeyDown(KeyCode.Space) && grounded)
-        //{
-        //    Debug.Log(Physics.gravity);
-        //    Debug.Log(2f * jumpheight * Physics.gravity.y * transform.up);
-        //    body.velocity =Mathf.Sqrt(-2f * jumpheight * Physics.gravity.y) * transform.up;
-        //    grounded = false;
-        //}
 
         if (Input.GetMouseButtonUp(0))
         {
             
             Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 playerposition = transform.position;
-            GameObject bullet = Instantiate(_bullet);
-
-            Debug.Log(mouse);
-
-            bullet.transform.eulerAngles = 
+            GameObject bullet= PhotonNetwork.Instantiate("bullet", transform.position, Quaternion.identity, 0);
             
-            bullet.transform.position = transform.position;
             Vector2 bulletvelocity = (mouse - playerposition).normalized * bulletspeed;
             bullet.GetComponent<Rigidbody2D>().velocity = bulletvelocity;
-                                                
         }
-
-       
-
-        
     }
     private void OnCollisionEnter(Collision collision)
     {
