@@ -10,6 +10,14 @@ public class PlayerManager : MonoBehaviourPunCallbacks
     [SerializeField]
     private GameObject CinemachineCameraPrefab;
 
+    [Tooltip("The Player's UI GameObject Prefab")]
+    [SerializeField]
+    private GameObject playerUiPrefab;
+
+    [Tooltip("The Current Health of Our Player")]
+    [SerializeField]
+    public float Health = 1f;
+
     private void Awake()
     {
         if (photonView.IsMine)
@@ -40,5 +48,12 @@ public class PlayerManager : MonoBehaviourPunCallbacks
                 Debug.LogError("CameraWork Component on PlayerPrefab");
             }
         }
+
+        if (playerUiPrefab != null)
+        {
+            GameObject _uiObject = Instantiate(playerUiPrefab);
+            _uiObject.SendMessage("SetTarget", this, SendMessageOptions.RequireReceiver);
+        }
     }
+
 }

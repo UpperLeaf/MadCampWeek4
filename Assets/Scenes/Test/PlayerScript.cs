@@ -58,10 +58,4 @@ public class PlayerScript : MonoBehaviourPunCallbacks
             bullet.GetComponent<Rigidbody2D>().velocity = bulletvelocity;
         }
     }
-    private void OnCollisionEnter(Collision collision)
-    {
-        
-    }
-
-    
 }

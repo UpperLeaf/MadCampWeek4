@@ -138,6 +138,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CinemachineCameraPrefab: {fileID: 6120111442147011207, guid: 017e344745cc1104d8f9108ce7316df7,
     type: 3}
+  playerUiPrefab: {fileID: 135604008483660686, guid: bff0a6130f59e69478ba29512ff3f8dc,
+    type: 3}
+  Health: 1
 --- !u!114 &5674659290007842767
 MonoBehaviour:
   m_ObjectHideFlags: 0
