@@ -80,10 +80,4 @@ public class PlayerScript : MonoBehaviourPunCallbacks
         }
 
     }
-    private void OnCollisionEnter(Collision collision)
-    {
-        
-    }
-
-    
 }
