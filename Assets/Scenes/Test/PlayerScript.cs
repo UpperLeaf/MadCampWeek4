@@ -7,6 +7,7 @@ public class PlayerScript : MonoBehaviourPunCallbacks
 {
 
     public GameObject _bullet;
+    
     private float bulletspeed = 12f;
 
     private float speed = 3f;
@@ -72,8 +73,9 @@ public class PlayerScript : MonoBehaviourPunCallbacks
             fireable = false;
             Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 playerposition = transform.position;
+
+            _bullet.GetComponent<bulletScript>().player = gameObject;
             GameObject bullet = PhotonNetwork.Instantiate("bullet", transform.position, Quaternion.identity, 0);
-            bullet.GetComponent<bulletScript>().player = gameObject;
 
             Vector2 bulletvelocity = (mouse - playerposition).normalized * bulletspeed;
             bullet.GetComponent<Rigidbody2D>().velocity = bulletvelocity;
