@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 5674659290007842767}
   - component: {fileID: -6310792866719810009}
   - component: {fileID: -2083597286691111685}
+  - component: {fileID: 2127500321533199139}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -98,6 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bullet: {fileID: 4275022112241208827, guid: a0385457dbe8b444ca6ac99532645561, type: 3}
+  AttackCooltime: 0.3
 --- !u!61 &1165432251998972881
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -197,3 +199,24 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
+--- !u!50 &2127500321533199139
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1165432251998972891}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0

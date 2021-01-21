@@ -2,7 +2,7 @@
 using Photon.Pun;
 using UnityEngine;
 
-public class PlayerManager : MonoBehaviourPunCallbacks
+public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer
 {
     [Tooltip("The Local Player Instance. Use this to know if the local player is represented in the Scene")]
     public static GameObject LocalPlayerInstance;
@@ -40,7 +40,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks
                 if (photonView.IsMine)
                 {
                     virtualCamera.Follow = gameObject.transform;
-                    virtualCamera.LookAt = gameObject.transform;
+                    //virtualCamera.LookAt = gameObject.transform;
                 }
             }
             else
@@ -56,4 +56,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks
         }
     }
 
+    public void Damaged(float damage)
+    {
+        Health -= damage;
+    }
 }

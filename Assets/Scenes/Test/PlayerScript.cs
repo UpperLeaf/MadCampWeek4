@@ -15,7 +15,7 @@ public class PlayerScript : MonoBehaviourPunCallbacks
 
     private bool isDead = false;
 
-    public float AttackCooltime = 5f;
+    public float AttackCooltime = 0.3f;
 
     
     private Rigidbody2D body;
@@ -33,6 +33,7 @@ public class PlayerScript : MonoBehaviourPunCallbacks
         Debug.Log("reloading");
         yield return new WaitForSeconds(AttackCooltime);
         fireable = true;
+        Debug.Log(fireable);
         
     }
 
@@ -72,6 +73,7 @@ public class PlayerScript : MonoBehaviourPunCallbacks
             Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 playerposition = transform.position;
             GameObject bullet = PhotonNetwork.Instantiate("bullet", transform.position, Quaternion.identity, 0);
+            bullet.GetComponent<bulletScript>().player = gameObject;
 
             Vector2 bulletvelocity = (mouse - playerposition).normalized * bulletspeed;
             bullet.GetComponent<Rigidbody2D>().velocity = bulletvelocity;

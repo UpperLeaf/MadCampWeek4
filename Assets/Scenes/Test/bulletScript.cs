@@ -1,23 +1,22 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Photon.Pun;
 using UnityEngine;
 
-public class bulletScript : MonoBehaviour
+public class bulletScript : MonoBehaviourPunCallbacks
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public GameObject player;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Destroy(this);
+        if (collision.gameObject == player) return;
+        
+        if (collision.CompareTag("Player"))
+        {
+            collision.GetComponent<IPlayer>().Damaged(0.1f);
+
+        }
+
+        PhotonNetwork.Destroy(this.gameObject);
+
     }
 }
