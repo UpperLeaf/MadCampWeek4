@@ -3,9 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerScript : MonoBehaviourPunCallbacks
+public class PlayerScript : MonoBehaviourPunCallbacks, IPunInstantiateMagicCallback
 {
-    public int id;
+
+    public GameObject _player;
 
     public GameObject _bullet;
     
@@ -19,6 +20,7 @@ public class PlayerScript : MonoBehaviourPunCallbacks
 
     public float AttackCooltime = 0.3f;
 
+    private GameObject bulletInstance;
     
     private Rigidbody2D body;
 
@@ -72,18 +74,22 @@ public class PlayerScript : MonoBehaviourPunCallbacks
 
             Debug.Log("fire");
             fireable = false;
+            
             Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 playerposition = transform.position;
 
             _bullet.GetComponent<bulletScript>().player = gameObject;
-            GameObject bullet = PhotonNetwork.Instantiate("bullet", transform.position, Quaternion.identity, 0);
-            bullet.GetComponent<bulletScript>().id = id;
-
+            bulletInstance = PhotonNetwork.Instantiate("bullet", transform.position, Quaternion.identity, 0, new object[] { gameObject });
+           
             Vector2 bulletvelocity = (mouse - playerposition).normalized * bulletspeed;
-            bullet.GetComponent<Rigidbody2D>().velocity = bulletvelocity;
+            bulletInstance.GetComponent<Rigidbody2D>().velocity = bulletvelocity;
 
             StartCoroutine("Reload");
         }
+    }
 
+    public void OnPhotonInstantiate(PhotonMessageInfo info)
+    {
+        bulletInstance.GetComponent<bulletScript>().player = (GameObject)info.photonView.InstantiationData[0];
     }
 }
