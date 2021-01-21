@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
-
     [Tooltip("The Prefab to use for representing the player")]
     [SerializeField]
     private GameObject playerPrefab;
@@ -45,8 +44,11 @@ public class GameManager : MonoBehaviourPunCallbacks
             Debug.LogError("Missing Prefab");
         else
         {
-            Debug.LogFormat("Instantiate LocalPlayer");
-            PhotonNetwork.Instantiate(playerPrefab.name, new Vector3(0f, 5f, 0f), Quaternion.identity, 0);
+            if (PlayerManager.LocalPlayerInstance == null)
+            {
+                Debug.LogFormat("Instantiate LocalPlayer");
+                PhotonNetwork.Instantiate(playerPrefab.name, new Vector3(0f, 5f, 0f), Quaternion.identity, 0);
+            }
         }
     }
     #endregion
