@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class PlayerScript : MonoBehaviourPunCallbacks
 {
-    public int id;
-
     public GameObject _player;
 
     public GameObject _bullet;
@@ -29,8 +27,7 @@ public class PlayerScript : MonoBehaviourPunCallbacks
     void Start()
     {
         body = GetComponent<Rigidbody2D>();
-
-
+        _player = gameObject;
     }
 
     IEnumerator Reload()
@@ -72,27 +69,25 @@ public class PlayerScript : MonoBehaviourPunCallbacks
 
         if (Input.GetMouseButtonUp(0) && fireable)
         {
-            photonView.RPC("FireBullet", PhotonTargets.All, null);
-            GetComponent<PhotonView>().RPC("FireBullet", PhotonTargets.All);
-            FireBullet();
+            photonView.RPC("FireBullet", PhotonTargets.All);
         }
     }
 
+
+    [PunRPC]
     public void FireBullet()
     {
-        Debug.Log("fire");
         fireable = false;
 
         Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2 playerposition = transform.position;
+        Vector2 bulletvelocity = (mouse - playerposition).normalized * bulletspeed;
 
         _bullet.transform.position = transform.position;
+        _bullet.GetComponent<bulletScript>()._player = _player;
+        
         GameObject bullet = Instantiate(_bullet);
-        //GameObject bullet = PhotonNetwork.Instantiate("bullet", transform.position, Quaternion.identity, 0, new object[] { id });
-
-        Vector2 bulletvelocity = (mouse - playerposition).normalized * bulletspeed;
         bullet.GetComponent<Rigidbody2D>().velocity = bulletvelocity;
-
         StartCoroutine("Reload");
     }
 }

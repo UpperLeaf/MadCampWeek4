@@ -190,7 +190,7 @@ namespace Photon.Pun
                     Profiler.EndSample();
                 }
 
-                this.nextSendTickCount = currentMsSinceStart + this.UpdateInterval;
+                nextSendTickCount = currentMsSinceStart + this.UpdateInterval;
             }
         }
 
