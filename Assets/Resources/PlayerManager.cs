@@ -21,21 +21,24 @@ public class PlayerManager : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        GameObject camera = Instantiate(CinemachineCameraPrefab);
-        DontDestroyOnLoad(camera);
-        
-        CinemachineVirtualCamera virtualCamera = camera.GetComponent<CinemachineVirtualCamera>();
-        if (virtualCamera != null)
+        if (photonView.IsMine)
         {
-            if (photonView.IsMine)
+            GameObject camera = Instantiate(CinemachineCameraPrefab);
+            DontDestroyOnLoad(camera);
+
+            CinemachineVirtualCamera virtualCamera = camera.GetComponent<CinemachineVirtualCamera>();
+            if (virtualCamera != null)
             {
-                virtualCamera.Follow = gameObject.transform;
-                virtualCamera.LookAt = gameObject.transform;
+                if (photonView.IsMine)
+                {
+                    virtualCamera.Follow = gameObject.transform;
+                    virtualCamera.LookAt = gameObject.transform;
+                }
             }
-        }
-        else
-        {
-            Debug.LogError("CameraWork Component on PlayerPrefab");
+            else
+            {
+                Debug.LogError("CameraWork Component on PlayerPrefab");
+            }
         }
     }
 }
