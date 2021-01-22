@@ -119,7 +119,6 @@ namespace Photon.Pun.Demo.PunBasics
 				return;
 			}
 
-			// Cache references for efficiency because we are going to reuse them.
 			this.target = _target;
             targetTransform = this.target.GetComponent<Transform>();
             targetRenderer = this.target.GetComponentInChildren<Renderer>();

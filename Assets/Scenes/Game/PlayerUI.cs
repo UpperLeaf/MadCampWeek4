@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class PlayerUI : MonoBehaviour
 {
     [Tooltip("Pixel offset from the Player Target")]
-    private Vector3 screenOffset = new Vector3(0f, 40f, 0f);
+    private Vector3 screenOffset = new Vector3(0f, 120f, 0f);
 
     [Tooltip("UI Text to display Player's name")]
     [SerializeField]
@@ -19,8 +19,6 @@ public class PlayerUI : MonoBehaviour
 
     Transform targetTransform;
     Vector3 targetPosition;
-
-
 
     private PlayerManager target;
 
