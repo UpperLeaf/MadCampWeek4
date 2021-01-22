@@ -58,5 +58,22 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer
     public void Damaged(float damage)
     {
         Health -= damage;
+
+        if (Health <= 0 )
+        {
+            gameObject.SetActive(false);
+
+            if (photonView.IsMine)
+            {
+                FindObjectOfType<Camera>().backgroundColor = Color.gray;
+
+                Renderer[] renderers = FindObjectsOfType<Renderer>();
+
+                foreach (Renderer renderer in renderers)
+                {
+                    renderer.material.SetColor("_Color", Color.gray);
+                }
+            }
+        }
     }
 }

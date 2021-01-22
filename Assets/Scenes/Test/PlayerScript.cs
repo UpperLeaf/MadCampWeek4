@@ -81,10 +81,8 @@ public class PlayerScript : MonoBehaviourPunCallbacks
     public void FireBullet(Vector2 bulletvelocity)
     {
         fireable = false;
-
         _bullet.transform.position = transform.position;
         _bullet.GetComponent<bulletScript>()._player = _player;
-        
         GameObject bullet = Instantiate(_bullet);
         bullet.GetComponent<Rigidbody2D>().velocity = bulletvelocity;
         StartCoroutine("Reload");

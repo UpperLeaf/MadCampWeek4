@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 491ae311275ba0d499cdfaf8154297ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
+  _player: {fileID: 0}
   _bullet: {fileID: 4275022112241208827, guid: a0385457dbe8b444ca6ac99532645561, type: 3}
   AttackCooltime: 0.3
 --- !u!61 &1165432251998972881
