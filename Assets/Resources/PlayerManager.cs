@@ -2,7 +2,7 @@
 using Photon.Pun;
 using UnityEngine;
 
-public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer
+public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
 {
     [Tooltip("The Local Player Instance. Use this to know if the local player is represented in the Scene")]
     public static GameObject LocalPlayerInstance;
@@ -74,6 +74,18 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer
                     renderer.material.SetColor("_Color", Color.gray);
                 }
             }
+        }
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(this.Health);
+        }
+        else
+        {
+            this.Health = (float)stream.ReceiveNext();
         }
     }
 }

@@ -17,12 +17,12 @@ public class PlayerUI : MonoBehaviour
     [SerializeField]
     private Slider playerHealthSlider;
 
-
-
     Transform targetTransform;
     Vector3 targetPosition;
 
     private PlayerManager target;
+
+    private Renderer targetRenderer;
 
     private void Awake()
     {
@@ -37,6 +37,7 @@ public class PlayerUI : MonoBehaviour
         }
         target = _target;
         targetTransform = target.transform;
+        targetRenderer = target.GetComponentInChildren<Renderer>();
         if(playerNameText != null)
         {
             playerNameText.text = target.photonView.Owner.NickName;
