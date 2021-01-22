@@ -34,9 +34,8 @@ public class PlayerUI : MonoBehaviour
     public void SetTarget(PlayerManager _target)
     {
         if(_target == null)
-        {
             Debug.LogError("PlayerMakerManager target for PlayerUI");
-        }
+        
         target = _target;
         targetTransform = target.transform;
         if(playerNameText != null)

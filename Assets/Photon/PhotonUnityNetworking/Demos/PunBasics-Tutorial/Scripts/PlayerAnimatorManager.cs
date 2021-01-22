@@ -20,54 +20,50 @@ namespace Photon.Pun.Demo.PunBasics
 	    private float directionDampTime = 0.25f;
         Animator animator;
 
+		private Vector3 dirc;
 		#endregion
 
 		#region MonoBehaviour CallBacks
 	    void Start () 
 	    {
 	        animator = GetComponent<Animator>();
+			dirc = new Vector3(1, 1, 1);
 	    }
 	    void Update () 
 	    {
-
-			// Prevent control is connected to Photon and represent the localPlayer
-	        if( photonView.IsMine == false && PhotonNetwork.IsConnected == true )
-	        {
+	        if(photonView.IsMine == false && PhotonNetwork.IsConnected == true )
 	            return;
-	        }
 
-			// failSafe is missing Animator component on GameObject
 	        if (!animator)
-	        {
 				return;
-			}
+            
+			AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
 
-			// deal with Jumping
-            AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);			
-
-			// only allow jumping if we are running.
-            if (stateInfo.IsName("Base Layer.Run"))
-            {
-				// When using trigger parameter
-                if (Input.GetButtonDown("Fire2")) animator.SetTrigger("Jump"); 
-			}
-           
-			// deal with movement
-            float h = Input.GetAxis("Horizontal");
-            float v = Input.GetAxis("Vertical");
-
-			// prevent negative Speed.
-            if( v < 0 )
-            {
-                v = 0;
-            }
-
-			// set the Animator Parameters
-            animator.SetFloat( "Speed", h*h+v*v );
-            animator.SetFloat( "Direction", h, directionDampTime, Time.deltaTime );
+			Move();
 	    }
 
-		#endregion
+        #endregion
 
-	}
+
+        private void Move()
+        {
+			float h = Input.GetAxisRaw("Horizontal");
+			float v = Input.GetAxisRaw("Vertical");
+
+
+			if (h < 0)
+				dirc.x = 1;
+			else if (h > 0)
+				dirc.x = -1;
+
+			transform.localScale = dirc;
+
+			animator.SetFloat("Walk", h * h + v * v);
+		}
+
+		private void Attack()
+        {
+
+        }
+    }
 }
