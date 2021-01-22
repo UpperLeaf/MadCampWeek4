@@ -16,6 +16,8 @@ public class PlayerAnimatorManager : MonoBehaviourPun
     [SerializeField]
 	private float directionDampTime = 0.25f;
 
+	[SerializeField]
+	private float dashSpeed;
 
 	private Animator animator;
 
@@ -37,22 +39,25 @@ public class PlayerAnimatorManager : MonoBehaviourPun
 		_player = gameObject;
 		dirc = new Vector3(1, 1, 1);
 	}
-	void Update()
-	{
+
+    private void FixedUpdate()
+    {
 		if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
 			return;
-
 		if (!animator)
 			return;
-
 		AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
 
-		Move();
-		Attack();
+		if (!stateInfo.IsName("Dash"))
+		{
+			Move();
+			Attack();
+			
+		}
 	}
-	#endregion
+    #endregion
 
-	private void Move()
+    private void Move()
 	{
 		float h = Input.GetAxisRaw("Horizontal");
 		float v = Input.GetAxisRaw("Vertical");

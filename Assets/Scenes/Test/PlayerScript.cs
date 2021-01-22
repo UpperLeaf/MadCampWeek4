@@ -5,41 +5,78 @@ using UnityEngine;
 
 public class PlayerScript : MonoBehaviourPunCallbacks
 {
-    private float speed = 3f;
+    private float speed = 300f;
+
+    private float dashSpeed = 1500f;
 
     private bool isDead = false;
 
     private Rigidbody2D body;
 
-    // Start is called before the first frame update
+    private Vector3 velocity;
+
+    private Animator animator;
+
+    private bool isDashAble;
+
+    [SerializeField]
+    private float dashCooltime;
+    
+    private float horizontal;
+    private float vertical;
+
     void Start()
     {
         body = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+
+        isDashAble = true;
+        dashCooltime = 3f;
     }
 
-    void Update()
+    private void Update()
     {
         if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
             return;
 
-        if (Input.GetKey(KeyCode.A))
-        {
-            transform.Translate(-speed * Time.deltaTime * transform.right);
-        }
+        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
 
-        if (Input.GetKey(KeyCode.D))
+        if (!stateInfo.IsName("Dash"))
         {
-            transform.Translate(speed * Time.deltaTime * transform.right);
-        }
+            horizontal = Input.GetAxisRaw("Horizontal");
+            vertical = Input.GetAxisRaw("Vertical");
 
-        if (Input.GetKey(KeyCode.W))
-        {
-            transform.Translate(speed * Time.deltaTime * transform.up);
+            velocity.x = speed * horizontal * Time.deltaTime;
+            velocity.y = speed * vertical * Time.deltaTime;
+            transform.Translate(velocity * Time.deltaTime);
+            Dash();
         }
+        else
+        {
+            velocity.x = dashSpeed * horizontal * Time.deltaTime;
+            velocity.y = dashSpeed * vertical * Time.deltaTime;
+            transform.Translate(velocity * Time.deltaTime);
+        }
+    }
+    private void Dash()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && isDashAble)
+        {
+            isDashAble = false;
+            animator.SetTrigger("Dash");
+            StartCoroutine("DashEnd");
+            StartCoroutine("DashCoolTime");
+        }
+    }
+    IEnumerator DashEnd()
+    {
+        yield return new WaitForSeconds(0.7f);
+        animator.SetTrigger("DashEnd");
+    }
 
-        if (Input.GetKey(KeyCode.S))
-        {
-            transform.Translate(-speed * Time.deltaTime * transform.up);
-        }
+    IEnumerator DashCoolTime()
+    {
+        yield return new WaitForSeconds(dashCooltime);
+        isDashAble = true;
     }
 }
