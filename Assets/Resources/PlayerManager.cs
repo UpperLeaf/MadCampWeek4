@@ -50,7 +50,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
 
         if (playerUiPrefab != null)
         {
-            GameObject _uiObject = Instantiate(playerUiPrefab);
+            Debug.Log("생성");
+             GameObject _uiObject = Instantiate(playerUiPrefab);
             _uiObject.SendMessage("SetTarget", this, SendMessageOptions.RequireReceiver);
         }
     }

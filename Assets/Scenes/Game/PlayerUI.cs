@@ -22,14 +22,13 @@ public class PlayerUI : MonoBehaviour
 
     private PlayerManager target;
 
-    private CanvasGroup canvasGroup;
-
-    private Renderer targetRenderer;
-
     private void Awake()
     {
-        canvasGroup = GetComponent<CanvasGroup>();
-        transform.SetParent(GameObject.Find("Canvas").GetComponent<Transform>(), false);
+        GameObject canvas = GameObject.Find("Canvas");
+        transform.SetParent(canvas.GetComponent<Transform>(), false);
+        
+        DontDestroyOnLoad(canvas);
+        DontDestroyOnLoad(gameObject);
     }
 
     public void SetTarget(PlayerManager _target)
@@ -40,7 +39,6 @@ public class PlayerUI : MonoBehaviour
         }
         target = _target;
         targetTransform = target.transform;
-        targetRenderer = target.GetComponentInChildren<Renderer>();
         if(playerNameText != null)
         {
             playerNameText.text = target.photonView.Owner.NickName;
@@ -64,9 +62,6 @@ public class PlayerUI : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (targetRenderer != null)
-            canvasGroup.alpha = targetRenderer.isVisible ? 1f : 0f;
-
         if(targetTransform != null)
         {
             targetPosition = targetTransform.position;
