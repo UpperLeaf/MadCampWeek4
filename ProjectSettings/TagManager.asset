@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ground
   - bullet
+  - Bullet
   layers:
   - Default
   - TransparentFX
@@ -42,4 +43,19 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 2315608695
+    locked: 0
+  - name: Wall
+    uniqueID: 706245201
+    locked: 0
+  - name: fire1
+    uniqueID: 1412373777
+    locked: 0
+  - name: fire2
+    uniqueID: 1142572929
+    locked: 0
+  - name: fire3
+    uniqueID: 736341777
     locked: 0
