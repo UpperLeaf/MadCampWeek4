@@ -1,6 +1,7 @@
 ﻿using Cinemachine;
 using Photon.Pun;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering.Universal;
 
 public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
 {
@@ -22,6 +23,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
     private int cameraSize = 7;
 
     private GameObject _uiObject;
+
+    private bool isGameStart;
 
     private void Awake()
     {
@@ -47,6 +50,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
                     virtualCamera.Follow = gameObject.transform;
                     virtualCamera.m_Lens.Orthographic = true;
                     virtualCamera.m_Lens.OrthographicSize = 7;
+                    isGameStart = false;
                 }
             }
             else
@@ -56,7 +60,14 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
         }
     }
 
-    public void CreatePlayerUI()
+    public void GameStart()
+    {
+        isGameStart = true;
+        gameObject.GetComponent<Light2D>().enabled = true;
+        CreatePlayerUI();
+    }
+
+    private void CreatePlayerUI()
     {
         if (playerUiPrefab != null)
         {
@@ -67,6 +78,9 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
 
     public void Damaged(float damage)
     {
+        if (!isGameStart)
+            return;
+
         Health -= damage;
 
         if (Health <= 0 )

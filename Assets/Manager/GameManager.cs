@@ -9,7 +9,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     [SerializeField]
     private GameObject playerPrefab;
 
-
     #region Photon Callbacks
     public override void OnLeftRoom()
     {
@@ -37,7 +36,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             PlayerManager playerManager = view.gameObject.GetComponent<PlayerManager>();
             if(playerManager != null)
             {
-                playerManager.CreatePlayerUI();
+                playerManager.GameStart();
             }
 
             if (!view.IsMine)
