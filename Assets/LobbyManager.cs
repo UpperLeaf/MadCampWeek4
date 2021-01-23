@@ -29,7 +29,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            Debug.Log("_game start button set Active");
             _gameStartButton.SetActive(true);
         }
         else
@@ -58,6 +57,8 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     public void GameStart()
     {
+        Debug.Log("Start Player : " + startPlayers);
+        Debug.Log("Current Player : " + PhotonNetwork.CurrentRoom.PlayerCount);
         if (PhotonNetwork.CurrentRoom.PlayerCount == startPlayers)
         {
             _gameStartButton.SetActive(false);
@@ -69,6 +70,4 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         _characterSelectUI.SetActive(false);
     }
-
-    
 }
