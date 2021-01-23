@@ -33,7 +33,7 @@ namespace Photon.Pun.Demo.PunBasics
 
 			Move();
 
-			if (Input.GetMouseButtonUp(0))
+			if (Input.GetMouseButtonUp(0) || Input.GetKeyUp(KeyCode.Space))
 			{
 				Attack();
 			}
@@ -48,12 +48,12 @@ namespace Photon.Pun.Demo.PunBasics
 			float v = Input.GetAxisRaw("Vertical");
 
 
-            if (h < 0)
-                dirc.x = 1;
-            else if (h > 0)
-                dirc.x = -1;
+            //if (h < 0)
+            //    dirc.x = 1;
+            //else if (h > 0)
+            //    dirc.x = -1;
 
-            transform.localScale = dirc;
+            //transform.localScale = dirc;
 
             animator.SetFloat("walk", h * h + v * v);
 		}

@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
-public class bombObject : MonoBehaviour
+public class bigBombScript : MonoBehaviour
 {
-    private Vector3 onAirVelocity = new Vector3(0,0,0);
-    
+    private Vector3 onAirVelocity = new Vector3(0, 0, 0);
+
     private float bombSpeed = 5f;
 
     private float bombheight = 3f;
@@ -23,7 +21,7 @@ public class bombObject : MonoBehaviour
 
     private bool blowup = false;
 
-    
+
 
     // Start is called before the first frame update
     void Start()
@@ -34,7 +32,7 @@ public class bombObject : MonoBehaviour
 
         //for far target
         acceleration = -8 * bombheight * bombSpeed * bombSpeed / (Distance * Distance);
-        displacementdir =new Vector3((Target - startposition).normalized.x, (Target - startposition).normalized.y,0) ;
+        displacementdir = new Vector3((Target - startposition).normalized.x, (Target - startposition).normalized.y, 0);
         onAirVelocity.y = 4 * bombSpeed * bombheight / Distance;
 
         //for near target
@@ -42,22 +40,22 @@ public class bombObject : MonoBehaviour
         {
             Debug.Log("near");
             acceleration = -60f;
-            onAirVelocity.y = -acceleration * Distance / (2*bombSpeed);
+            onAirVelocity.y = -acceleration * Distance / (2 * bombSpeed);
         }
-        
 
-        
+
+
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
         if (Vector2.Distance(Target, transform.position) > 0.3f)
         {
 
-                       
+
             transform.position += bombSpeed * Time.deltaTime * displacementdir + onAirVelocity * Time.deltaTime;
             onAirVelocity.y += acceleration * Time.deltaTime;
 
@@ -66,7 +64,7 @@ public class bombObject : MonoBehaviour
         {
             GetComponent<Animator>().SetTrigger("blowUp");
         }
-        
+
 
 
     }
@@ -81,9 +79,9 @@ public class bombObject : MonoBehaviour
         Debug.Log("blowup");
         CircleCollider2D collider = GetComponent<CircleCollider2D>();
         collider.radius = 0.7f;
-        Collider2D[] overlappedColliders = Physics2D.OverlapCircleAll(transform.position, 3*collider.radius);
-             
-               
+        Collider2D[] overlappedColliders = Physics2D.OverlapCircleAll(transform.position, 6 * collider.radius);
+
+
 
         foreach (Collider2D _collider in overlappedColliders)
         {
@@ -92,7 +90,7 @@ public class bombObject : MonoBehaviour
             {
                 _collider.gameObject.GetComponent<PlayerManager>().Damaged(0.1f);
             }
-        }        
+        }
 
     }
 
@@ -103,7 +101,4 @@ public class bombObject : MonoBehaviour
             GetComponent<Animator>().SetTrigger("blowUp");
         }
     }
-
-
-
 }

@@ -41,7 +41,7 @@ namespace Photon.Pun.Demo.PunBasics
 
 			Move();
 
-			if (Input.GetMouseButtonUp(0))
+			if (Input.GetMouseButtonUp(0)|| Input.GetKeyUp(KeyCode.Space))
             {
 				Attack();
 			}
