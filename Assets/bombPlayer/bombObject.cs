@@ -43,12 +43,12 @@ public class bombObject : MonoBehaviour
         if (Vector2.Distance(Target, transform.position)>0.1f)
         {
 
-            if (transform.position.y < Target.y)
-            {
-                transform.position = Target;
-                GetComponent<Animator>().SetTrigger("blowUp");
-                return;
-            }
+            //if (transform.position.y < Target.y)
+            //{
+            //    transform.position = Target;
+            //    GetComponent<Animator>().SetTrigger("blowUp");
+            //    return;
+            //}
             Debug.Log("movin");
             transform.position += bombSpeed * Time.deltaTime * displacementdir + onAirVelocity*Time.deltaTime;
             onAirVelocity.y += acceleration * Time.deltaTime;
