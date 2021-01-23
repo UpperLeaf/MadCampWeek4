@@ -52,7 +52,6 @@ public class PlayerAnimatorManager : MonoBehaviourPun
 		{
 			Move();
 			Attack();
-			
 		}
 	}
     #endregion

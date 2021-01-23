@@ -18,6 +18,9 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
     [SerializeField]
     public float Health = 1f;
 
+
+    private GameObject _uiObject;
+
     private void Awake()
     {
         if (photonView.IsMine)
@@ -47,11 +50,13 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
                 Debug.LogError("CameraWork Component on PlayerPrefab");
             }
         }
+    }
 
+    public void CreatePlayerUI()
+    {
         if (playerUiPrefab != null)
         {
-            Debug.Log("생성");
-             GameObject _uiObject = Instantiate(playerUiPrefab);
+            _uiObject = Instantiate(playerUiPrefab);
             _uiObject.SendMessage("SetTarget", this, SendMessageOptions.RequireReceiver);
         }
     }
@@ -86,7 +91,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
         }
         else
         {
-            this.Health = (float)stream.ReceiveNext();
+            Health = (float)stream.ReceiveNext();
         }
     }
+
 }

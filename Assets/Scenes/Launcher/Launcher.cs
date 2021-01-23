@@ -24,9 +24,6 @@ public class Launcher : MonoBehaviourPunCallbacks
     private string gameVersion = "1";
     private bool isConnecting;
     #endregion
-
-
-
     private void Awake()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
@@ -80,7 +77,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         if(PhotonNetwork.CurrentRoom.PlayerCount == 1)
         {
             Debug.Log("We load the Room for 1");
-            PhotonNetwork.LoadLevel("Game");
+            PhotonNetwork.LoadLevel("Lobby");
         }
     }
 

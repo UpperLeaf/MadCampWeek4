@@ -9,30 +9,11 @@ public class GameManager : MonoBehaviourPunCallbacks
     [SerializeField]
     private GameObject playerPrefab;
 
+
     #region Photon Callbacks
     public override void OnLeftRoom()
     {
         SceneManager.LoadScene(0);
-    }
-
-    public override void OnPlayerEnteredRoom(Player other)
-    {
-        Debug.LogFormat("OnPlayerEnterRoom() {0}", other.NickName);
-        if (PhotonNetwork.IsMasterClient)
-        {
-            Debug.LogFormat("OnPlayerEnterRoom Is Master Client {0}", PhotonNetwork.IsMasterClient);
-            LoadArena();
-        }
-    }
-
-    public override void OnPlayerLeftRoom(Player other)
-    {
-        Debug.LogFormat("OnPlayerLeftRoom() {0}", other.NickName);
-        if (PhotonNetwork.IsMasterClient)
-        {
-            Debug.LogFormat("OnPlayerLeftRoom Is Master Client {0}", PhotonNetwork.IsMasterClient);
-            //LoadArena();
-        }
     }
     #endregion
 
@@ -50,26 +31,23 @@ public class GameManager : MonoBehaviourPunCallbacks
                 GameObject _player = PhotonNetwork.Instantiate(playerPrefab.name, new Vector3(-5f, 5f, 0f), Quaternion.identity, 0);
             }
         }
+
+        foreach(PhotonView view in PhotonNetwork.PhotonViewCollection)
+        {
+            PlayerManager playerManager = view.gameObject.GetComponent<PlayerManager>();
+            if(playerManager != null)
+            {
+                playerManager.CreatePlayerUI();
+            }
+        }
     }
     #endregion
 
     #region Public Methods
     public void LeaveRoom()
     {
+        Destroy(GameObject.Find("Leave Button"));
         PhotonNetwork.LeaveRoom();
-    }
-    #endregion
-
-
-    #region Private Methods
-    private void LoadArena()
-    {
-        if (!PhotonNetwork.IsMasterClient)
-        {
-            Debug.Log("PhotonNetwork : Trying to Load a Level But we are not the Master Client");
-        }
-        Debug.LogFormat("Photon Network : Loading Level : {0}", PhotonNetwork.CurrentRoom.PlayerCount);
-        PhotonNetwork.LoadLevel("Game");
     }
     #endregion
 
