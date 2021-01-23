@@ -38,9 +38,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
         }
         _currentPlayerUI.GetComponent<TMP_Text>().text = "Current Player : " + PhotonNetwork.CurrentRoom.PlayerCount;
     }
-    public override void OnLobbyStatisticsUpdate(List<TypedLobbyInfo> lobbyStatistics)
+
+    private void Update()
     {
-        _currentPlayerUI.GetComponent<TMP_Text>().text = "Current Player : " + PhotonNetwork.CurrentRoom.PlayerCount; 
+        _currentPlayerUI.GetComponent<TMP_Text>().text = "Current Player : " + PhotonNetwork.CurrentRoom.PlayerCount;
     }
 
     public void RiflemanClick()
