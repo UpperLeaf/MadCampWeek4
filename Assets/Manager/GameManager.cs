@@ -42,6 +42,14 @@ public class GameManager : MonoBehaviourPunCallbacks
             if (!view.IsMine)
             {
                 Destroy(view.gameObject.GetComponent<Light2D>());
+                foreach(Transform transform in view.gameObject.transform)
+                {
+                    if (transform.name == "sight")
+                    {
+                        Destroy(transform.gameObject);
+                        break;
+                    }
+                }
             }
         }
     }

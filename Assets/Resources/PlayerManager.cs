@@ -64,6 +64,14 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
     {
         isGameStart = true;
         gameObject.GetComponent<Light2D>().enabled = true;
+        foreach(Transform transform in gameObject.transform)
+        {
+            if (transform.name == "sight")
+            {
+                transform.gameObject.GetComponent<Light2D>().enabled = true;
+                break;
+            }
+        }
         CreatePlayerUI();
     }
 

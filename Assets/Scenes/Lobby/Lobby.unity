@@ -677,7 +677,7 @@ PrefabInstance:
     - target: {fileID: -8150314776364599103, guid: 0b004555cc375234494b1048b3e38efc,
         type: 3}
       propertyPath: startPlayers
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8150314776364599103, guid: 0b004555cc375234494b1048b3e38efc,
         type: 3}
