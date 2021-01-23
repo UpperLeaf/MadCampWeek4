@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 312227030050725385}
-  - component: {fileID: 312227030050725381}
   - component: {fileID: 312227030050725384}
   - component: {fileID: 5593783811785028358}
   - component: {fileID: 6537329099492678166}
@@ -19,8 +18,9 @@ GameObject:
   - component: {fileID: 6805584416485647787}
   - component: {fileID: 8468890165274616128}
   - component: {fileID: 7340103870400773282}
+  - component: {fileID: 917793828}
   m_Layer: 0
-  m_Name: Player
+  m_Name: bombPlayerPrefab
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -40,21 +40,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &312227030050725381
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 312227030050725378}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 491ae311275ba0d499cdfaf8154297ed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _player: {fileID: 0}
-  _bullet: {fileID: 4275022112241208827, guid: a0385457dbe8b444ca6ac99532645561, type: 3}
-  AttackCooltime: 0.3
 --- !u!61 &312227030050725384
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -237,7 +222,7 @@ Animator:
   m_GameObject: {fileID: 312227030050725378}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: d773fdf68f9f84e48995d2357e47e688, type: 2}
+  m_Controller: {fileID: 9100000, guid: a290fe8e9c5fdfd469fecef73551dbf4, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -255,7 +240,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 312227030050725378}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 507e5741cec8a42dc964c8e0a4b55bd6, type: 3}
+  m_Script: {fileID: 11500000, guid: ae2c4ec301d2eec438eeaccd7c3af9eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   directionDampTime: 0.25
+--- !u!114 &917793828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 312227030050725378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1bd111c61f61ce40ab2d8198a545ae1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _player: {fileID: 0}
+  _bomb: {fileID: 4323721406397885411, guid: 655dd44e520e1e04a91e8f1634729e67, type: 3}
+  AttackCooltime: 0.3
