@@ -27,11 +27,9 @@ public class bulletScript : MonoBehaviourPunCallbacks
         }
         Destroy(gameObject);
     }
-
     IEnumerator Delete()
     {
         yield return new WaitForSeconds(deleteTime);
         Destroy(gameObject);
     }
-    
 }
