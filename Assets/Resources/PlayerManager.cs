@@ -18,6 +18,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
     [SerializeField]
     public float Health = 1f;
 
+    [SerializeField]
+    private int cameraSize = 7;
 
     private GameObject _uiObject;
 
@@ -43,6 +45,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
                 if (photonView.IsMine)
                 {
                     virtualCamera.Follow = gameObject.transform;
+                    virtualCamera.m_Lens.Orthographic = true;
+                    virtualCamera.m_Lens.OrthographicSize = 7;
                 }
             }
             else

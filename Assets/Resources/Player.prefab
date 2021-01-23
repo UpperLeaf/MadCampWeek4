@@ -73,6 +73,7 @@ MonoBehaviour:
   playerUiPrefab: {fileID: 135604008483660686, guid: bff0a6130f59e69478ba29512ff3f8dc,
     type: 3}
   Health: 1
+  cameraSize: 0
 --- !u!114 &-6310792866719810009
 MonoBehaviour:
   m_ObjectHideFlags: 0
