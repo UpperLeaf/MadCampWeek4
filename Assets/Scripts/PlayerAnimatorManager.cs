@@ -78,14 +78,13 @@ public class PlayerAnimatorManager : MonoBehaviourPun
 			Vector2 playerposition = transform.position;
 			Vector2 bulletvelocity = (mouse - playerposition).normalized * bulletspeed;
 			photonView.RPC("FireBullet", PhotonTargets.All, new object[] { bulletvelocity });
-			fireAnimator.SetTrigger("Attack");
-			FireBullet(bulletvelocity);
 		}
 	}
 
 	[PunRPC]
 	public void FireBullet(Vector2 bulletvelocity)
 	{
+		fireAnimator.SetTrigger("Attack");
 		fireable = false;
 		_bullet.transform.position = transform.position;
 		_bullet.GetComponent<bulletScript>()._player = _player;
