@@ -33,29 +33,16 @@ namespace Photon.Pun.Demo.PunBasics
 		{
 			if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
 				return;
-
 			if (!animator)
 				return;
-
-			AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-
 			Move();
-
-			if (Input.GetMouseButtonUp(0)|| Input.GetKeyUp(KeyCode.Space))
-            {
-				Attack();
-			}
-			
 		}
-
 		#endregion
-
-
+		
 		private void Move()
 		{
 			float h = Input.GetAxisRaw("Horizontal");
 			float v = Input.GetAxisRaw("Vertical");
-
 
 			if (h < 0)
 				dirc.x = 1;
@@ -65,11 +52,6 @@ namespace Photon.Pun.Demo.PunBasics
 			transform.localScale = dirc;
 
 			animator.SetFloat("walk", h * h + v * v);
-		}
-
-		private void Attack()
-		{
-			animator.SetTrigger("Attack");
 		}
 	}
 }

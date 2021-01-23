@@ -11,26 +11,26 @@ public class bombPlayerScript : MonoBehaviourPunCallbacks
 
     public GameObject _BigBomb;
 
-    private float bulletspeed = 12f;
-
-    private float speed = 3f;
+    private float speed = 300f;
 
     private bool fireable = true;
 
     private bool skillAvailable = true;
 
-    private bool isDead = false;
-
     public float AttackCooltime = 0.3f;
     public float SkillCoolTime = 1f;
 
-    
-    private Rigidbody2D body;
+    private float horizontal;
+    private float vertical;
+
+    private Vector3 velocity;
+
+    private Animator animator;
 
     // Start is called before the first frame update
     void Start()
     {
-        body = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
         _player = gameObject;
     }
 
@@ -56,57 +56,40 @@ public class bombPlayerScript : MonoBehaviourPunCallbacks
         if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
             return;
 
-        if (Input.GetKey(KeyCode.A))
-        {
-            transform.Translate(-speed * Time.deltaTime * transform.right);
-        }
+        horizontal = Input.GetAxisRaw("Horizontal");
+        vertical = Input.GetAxisRaw("Vertical");
 
-        if (Input.GetKey(KeyCode.D))
-        {
-            transform.Translate(speed * Time.deltaTime * transform.right);
-        }
+        velocity.x = speed * horizontal * Time.deltaTime;
+        velocity.y = speed * vertical * Time.deltaTime;
 
-        if (Input.GetKey(KeyCode.W))
-        {
-            transform.Translate(speed * Time.deltaTime * transform.up);
-        }
-
-        if (Input.GetKey(KeyCode.S))
-        {
-            transform.Translate(-speed * Time.deltaTime * transform.up);
-        }
+        transform.Translate(velocity * Time.deltaTime);
 
         if (Input.GetMouseButtonUp(0) && fireable)
         {
             Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 playerposition = transform.position;
-
-            Debug.Log("mouseposition  " + mouse);
-            Debug.Log("playerposition  " + playerposition);
-
-            ThrowBomb(mouse, playerposition);
-
-            //photonView.RPC("ThrowBomb", PhotonTargets.All, new object[] { mouse, playerposition });
+            photonView.RPC("ThrowBomb", PhotonTargets.All, new object[] { mouse, playerposition });
         }
 
         if (Input.GetKeyUp(KeyCode.Space) && skillAvailable)
         {
             Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 playerposition = transform.position;
-
-            Debug.Log("mouseposition  " + mouse);
-            Debug.Log("playerposition  " + playerposition);
-
-            ThrowBigBomb(mouse, playerposition);
+            photonView.RPC("ThrowBigBomb", PhotonTargets.All, new object[] { mouse, playerposition });
         }
     }
-
+    
+    [PunRPC]
+    private void Attack()
+    {
+        animator.SetTrigger("Attack");
+    }
 
     [PunRPC]
     public void ThrowBomb(Vector2 mouse, Vector2 playerposition)
     {
+        photonView.RPC("Attack", PhotonTargets.All);
         fireable = false;
-
         _bomb.GetComponent<bombObject>().Target = mouse;
         _bomb.GetComponent<bombObject>().startposition = playerposition;
         GameObject bomb = Instantiate(_bomb);
@@ -114,10 +97,11 @@ public class bombPlayerScript : MonoBehaviourPunCallbacks
         StartCoroutine("Reload");
     }
 
+    [PunRPC]
     public void ThrowBigBomb(Vector2 mouse, Vector2 playerposition)
     {
+        photonView.RPC("Attack", PhotonTargets.All);
         skillAvailable = false;
-
         _BigBomb.GetComponent<bigBombScript>().Target = mouse;
         _BigBomb.GetComponent<bigBombScript>().startposition = playerposition;
         

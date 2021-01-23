@@ -666,7 +666,8 @@ PrefabInstance:
         type: 3}
       propertyPath: bombMan
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 312227030050725378, guid: ed2e45f382e5f7045a780b156800ee19,
+        type: 3}
     - target: {fileID: -8150314776364599103, guid: 0b004555cc375234494b1048b3e38efc,
         type: 3}
       propertyPath: rifleMan

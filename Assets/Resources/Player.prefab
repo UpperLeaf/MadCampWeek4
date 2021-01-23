@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1165432251998972880}
   - component: {fileID: 1165432251998972892}
   - component: {fileID: -2749396873195649313}
-  - component: {fileID: 5674659290007842767}
   - component: {fileID: -6310792866719810009}
   - component: {fileID: -2083597286691111685}
   - component: {fileID: 9125488007456104266}
@@ -74,23 +73,6 @@ MonoBehaviour:
   playerUiPrefab: {fileID: 135604008483660686, guid: bff0a6130f59e69478ba29512ff3f8dc,
     type: 3}
   Health: 1
---- !u!114 &5674659290007842767
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1165432251998972891}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cccd2ffd11847dd4d979775b13a3f52f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  distance: 7
-  height: 3
-  heightSmoothLag: 0.3
-  centerOffset: {x: 0, y: 0, z: 0}
-  followOnStart: 0
 --- !u!114 &-6310792866719810009
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -307,7 +289,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_LightType: 3
   m_BlendStyleIndex: 0
-  m_FalloffIntensity: 0.704
+  m_FalloffIntensity: 0.7
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1
   m_LightVolumeOpacity: 0
