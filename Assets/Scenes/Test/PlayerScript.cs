@@ -7,7 +7,7 @@ public class PlayerScript : MonoBehaviourPunCallbacks
 {
     private float speed = 300f;
 
-    private float dashSpeed = 1500f;
+    private float dashSpeed = 900f;
 
     private bool isDead = false;
 
@@ -63,10 +63,16 @@ public class PlayerScript : MonoBehaviourPunCallbacks
         if (Input.GetKeyDown(KeyCode.Space) && isDashAble)
         {
             isDashAble = false;
-            animator.SetTrigger("Dash");
+            photonView.RPC("SetDashTrigger", PhotonTargets.All);
             StartCoroutine("DashEnd");
             StartCoroutine("DashCoolTime");
         }
+    }
+    
+    [PunRPC]
+    private void SetDashTrigger()
+    {
+        animator.SetTrigger("Dash");
     }
     IEnumerator DashEnd()
     {

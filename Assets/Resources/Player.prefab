@@ -19,6 +19,8 @@ GameObject:
   - component: {fileID: 1165432251998972881}
   - component: {fileID: 5335490507748659314}
   - component: {fileID: 7061283701390464153}
+  - component: {fileID: -6600941686506333567}
+  - component: {fileID: 9012720272254763863}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -54,6 +56,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 491ae311275ba0d499cdfaf8154297ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dashCooltime: 0
 --- !u!114 &-2749396873195649313
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -109,6 +112,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: -2749396873195649313}
   - {fileID: -2083597286691111685}
+  - {fileID: 9012720272254763863}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -125,7 +129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
+  m_SynchronizeRotation: 0
   m_SynchronizeScale: 0
   m_UseLocal: 1
 --- !u!114 &9125488007456104266
@@ -142,6 +146,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fireAnimator: {fileID: 546705857603307869}
   directionDampTime: 0.25
+  dashSpeed: 0
   AttackCooltime: 0.3
   _bullet: {fileID: 4275022112241208827, guid: a0385457dbe8b444ca6ac99532645561, type: 3}
 --- !u!50 &2127500321533199139
@@ -161,10 +166,10 @@ Rigidbody2D:
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
-  m_Interpolate: 0
+  m_Interpolate: 2
   m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!61 &1165432251998972881
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -227,8 +232,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1319479455
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_Sprite: {fileID: 8333481726314500824, guid: 123d54a09b5e49a7b77ca17b4009834c,
     type: 3}
@@ -261,6 +266,74 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &-6600941686506333567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1165432251998972891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_LightType: 3
+  m_BlendStyleIndex: 0
+  m_FalloffIntensity: 0.7
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: 1
+  m_LightVolumeOpacity: 0
+  m_ApplyToSortingLayers: 61575ab17762058a5172182a
+  m_LightCookieSprite: {fileID: 0}
+  m_UseNormalMap: 0
+  m_LightOrder: 0
+  m_AlphaBlendOnOverlap: 0
+  m_ShadowIntensity: 0
+  m_ShadowVolumeIntensity: 0
+  m_PointLightInnerAngle: 360
+  m_PointLightOuterAngle: 360
+  m_PointLightInnerRadius: 0
+  m_PointLightOuterRadius: 2
+  m_PointLightDistance: 3
+  m_PointLightQuality: 1
+  m_ShapeLightParametricSides: 5
+  m_ShapeLightParametricAngleOffset: 0
+  m_ShapeLightParametricRadius: 1
+  m_ShapeLightFalloffSize: 0.5
+  m_ShapeLightFalloffOffset: {x: 0, y: 0}
+  m_ShapePath:
+  - {x: -0.5, y: -0.5, z: 0}
+  - {x: 0.5, y: -0.5, z: 0}
+  - {x: 0.5, y: 0.5, z: 0}
+  - {x: -0.5, y: 0.5, z: 0}
+--- !u!114 &9012720272254763863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1165432251998972891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowLayerWeightsInspector: 1
+  ShowParameterInspector: 1
+  m_SynchronizeParameters:
+  - Type: 1
+    SynchronizeType: 1
+    Name: Walk
+  - Type: 9
+    SynchronizeType: 0
+    Name: Attack
+  - Type: 9
+    SynchronizeType: 0
+    Name: Dash
+  m_SynchronizeLayers:
+  - SynchronizeType: 0
+    LayerIndex: 0
 --- !u!1 &6171820121873592838
 GameObject:
   m_ObjectHideFlags: 0
@@ -330,8 +403,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1319479455
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_Sprite: {fileID: 2991562477199919699, guid: 4474d2218d1233d4d9d99a809b49554b,
     type: 3}
@@ -445,8 +518,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1319479455
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_Sprite: {fileID: 8333481726314500824, guid: 23d536d6083344698e17aa8fc049b99f,
     type: 3}
@@ -547,8 +620,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1319479455
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
