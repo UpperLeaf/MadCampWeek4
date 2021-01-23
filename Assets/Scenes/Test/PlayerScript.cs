@@ -5,91 +5,78 @@ using UnityEngine;
 
 public class PlayerScript : MonoBehaviourPunCallbacks
 {
-    public GameObject _player;
+    private float speed = 300f;
 
-    public GameObject _bullet;
-
-    private float bulletspeed = 12f;
-
-    private float speed = 3f;
-
-    private bool fireable = true;
+    private float dashSpeed = 1500f;
 
     private bool isDead = false;
 
-    public float AttackCooltime = 0.3f;
-
-    private GameObject bulletInstance;
-
     private Rigidbody2D body;
 
-    // Start is called before the first frame update
+    private Vector3 velocity;
+
+    private Animator animator;
+
+    private bool isDashAble;
+
+    [SerializeField]
+    private float dashCooltime;
+    
+    private float horizontal;
+    private float vertical;
+
     void Start()
     {
         body = GetComponent<Rigidbody2D>();
-        _player = gameObject;
+        animator = GetComponent<Animator>();
+
+        isDashAble = true;
+        dashCooltime = 3f;
     }
 
-    IEnumerator Reload()
-    {
-        Debug.Log("reloading");
-        yield return new WaitForSeconds(AttackCooltime);
-        fireable = true;
-        Debug.Log(fireable);
-
-    }
-
-
-
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
             return;
 
-        if (Input.GetKey(KeyCode.A))
-        {
-            transform.Translate(-speed * Time.deltaTime * transform.right);
-        }
+        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
 
-        if (Input.GetKey(KeyCode.D))
+        if (!stateInfo.IsName("Dash"))
         {
-            transform.Translate(speed * Time.deltaTime * transform.right);
-        }
+            horizontal = Input.GetAxisRaw("Horizontal");
+            vertical = Input.GetAxisRaw("Vertical");
 
-        if (Input.GetKey(KeyCode.W))
-        {
-            transform.Translate(speed * Time.deltaTime * transform.up);
+            velocity.x = speed * horizontal * Time.deltaTime;
+            velocity.y = speed * vertical * Time.deltaTime;
+            transform.Translate(velocity * Time.deltaTime);
+            Dash();
         }
-
-        if (Input.GetKey(KeyCode.S))
+        else
         {
-            transform.Translate(-speed * Time.deltaTime * transform.up);
-        }
-
-        if (Input.GetMouseButtonUp(0) && fireable)
-        {
-            
-            Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector2 playerposition = transform.position;
-            Vector2 bulletvelocity = (mouse - playerposition).normalized * bulletspeed;
-            photonView.RPC("FireBullet", PhotonTargets.All, new object[] {bulletvelocity });
+            velocity.x = dashSpeed * horizontal * Time.deltaTime;
+            velocity.y = dashSpeed * vertical * Time.deltaTime;
+            transform.Translate(velocity * Time.deltaTime);
         }
     }
-
-
-    [PunRPC]
-    public void FireBullet(Vector2 bulletvelocity)
+    private void Dash()
     {
-        fireable = false;
+        if (Input.GetKeyDown(KeyCode.Space) && isDashAble)
+        {
+            isDashAble = false;
+            animator.SetTrigger("Dash");
+            StartCoroutine("DashEnd");
+            StartCoroutine("DashCoolTime");
+        }
+    }
+    IEnumerator DashEnd()
+    {
+        yield return new WaitForSeconds(0.7f);
+        animator.SetTrigger("DashEnd");
+    }
 
-        
-
-        _bullet.transform.position = transform.position;
-        _bullet.GetComponent<bulletScript>()._player = _player;
-        
-        GameObject bullet = Instantiate(_bullet);
-        bullet.GetComponent<Rigidbody2D>().velocity = bulletvelocity;
-        StartCoroutine("Reload");
+    IEnumerator DashCoolTime()
+    {
+        yield return new WaitForSeconds(dashCooltime);
+        isDashAble = true;
     }
 }

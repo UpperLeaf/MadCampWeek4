@@ -112,10 +112,6 @@ namespace Photon.Pun.Demo.PunBasics
 
 		#region Public Methods
 
-		/// <summary>
-		/// Assigns a Player Target to Follow and represent.
-		/// </summary>
-		/// <param name="target">Target.</param>
 		public void SetTarget(PlayerManager _target){
 
 			if (_target == null) {
@@ -123,7 +119,6 @@ namespace Photon.Pun.Demo.PunBasics
 				return;
 			}
 
-			// Cache references for efficiency because we are going to reuse them.
 			this.target = _target;
             targetTransform = this.target.GetComponent<Transform>();
             targetRenderer = this.target.GetComponentInChildren<Renderer>();

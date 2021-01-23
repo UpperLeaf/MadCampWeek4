@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class PlayerUI : MonoBehaviour
 {
     [Tooltip("Pixel offset from the Player Target")]
-    private Vector3 screenOffset = new Vector3(0f, 40f, 0f);
+    private Vector3 screenOffset = new Vector3(0f, 120f, 0f);
 
     [Tooltip("UI Text to display Player's name")]
     [SerializeField]
@@ -17,8 +17,6 @@ public class PlayerUI : MonoBehaviour
     [SerializeField]
     private Slider playerHealthSlider;
 
-
-
     Transform targetTransform;
     Vector3 targetPosition;
 
@@ -26,15 +24,18 @@ public class PlayerUI : MonoBehaviour
 
     private void Awake()
     {
-        transform.SetParent(GameObject.Find("Canvas").GetComponent<Transform>(), false);
+        GameObject canvas = GameObject.Find("Canvas");
+        transform.SetParent(canvas.GetComponent<Transform>(), false);
+        
+        DontDestroyOnLoad(canvas);
+        DontDestroyOnLoad(gameObject);
     }
 
     public void SetTarget(PlayerManager _target)
     {
         if(_target == null)
-        {
             Debug.LogError("PlayerMakerManager target for PlayerUI");
-        }
+        
         target = _target;
         targetTransform = target.transform;
         if(playerNameText != null)
