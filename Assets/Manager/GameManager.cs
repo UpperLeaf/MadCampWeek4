@@ -1,5 +1,6 @@
 ﻿using Photon.Pun;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering.Universal;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviourPunCallbacks
@@ -37,6 +38,11 @@ public class GameManager : MonoBehaviourPunCallbacks
             if(playerManager != null)
             {
                 playerManager.CreatePlayerUI();
+            }
+
+            if (!view.IsMine)
+            {
+                Destroy(view.gameObject.GetComponent<Light2D>());
             }
         }
     }
