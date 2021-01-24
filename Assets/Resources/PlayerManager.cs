@@ -62,17 +62,20 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
 
     public void GameStart()
     {
-        isGameStart = true;
-        gameObject.GetComponent<Light2D>().enabled = true;
-        foreach(Transform transform in gameObject.transform)
+        if (photonView.IsMine)
         {
-            if (transform.name == "sight")
+            isGameStart = true;
+            gameObject.GetComponent<Light2D>().enabled = true;
+            foreach (Transform transform in gameObject.transform)
             {
-                transform.gameObject.GetComponent<Light2D>().enabled = true;
-                break;
+                if (transform.name == "sight")
+                {
+                    transform.gameObject.GetComponent<Light2D>().enabled = true;
+                    break;
+                }
             }
+            CreatePlayerUI();
         }
-        CreatePlayerUI();
     }
 
     private void CreatePlayerUI()
@@ -88,9 +91,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
     {
         if (!isGameStart)
             return;
-
         Health -= damage;
-
         if (Health <= 0)
             photonView.RPC("Dead", PhotonTargets.All);       
     }
