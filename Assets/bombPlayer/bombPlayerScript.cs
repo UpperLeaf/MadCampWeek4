@@ -13,12 +13,20 @@ public class bombPlayerScript : MonoBehaviourPunCallbacks
 
     private float speed = 300f;
 
+    [SerializeField]
     private bool fireable = true;
-
+    [SerializeField]
+    private bool reloading = false;
+    [SerializeField]
     private bool skillAvailable = true;
 
-    public float AttackCooltime = 0.3f;
+    public float AttackDelayTime = 0.5f;
+    public float ReloadTime = 2f;
     public float SkillCoolTime = 1f;
+    public int max_bomb = 5;
+
+    [SerializeField]
+    private int current_bomb;
 
     private float horizontal;
     private float vertical;
@@ -32,15 +40,23 @@ public class bombPlayerScript : MonoBehaviourPunCallbacks
     {
         animator = GetComponent<Animator>();
         _player = gameObject;
+        current_bomb = max_bomb;
+
+        
     }
 
     IEnumerator Reload()
     {
         Debug.Log("reloading");
-        yield return new WaitForSeconds(AttackCooltime);
-        fireable = true;
-        Debug.Log(fireable);
+        yield return new WaitForSeconds(ReloadTime);
+        reloading = false;
+        current_bomb++;
+    }
 
+    IEnumerator AttackDelay()
+    {
+        yield return new WaitForSeconds(AttackDelayTime);
+        fireable = true;
     }
 
     IEnumerator SkillCool()
@@ -64,11 +80,17 @@ public class bombPlayerScript : MonoBehaviourPunCallbacks
 
         transform.Translate(velocity * Time.deltaTime);
 
-        if (Input.GetMouseButtonUp(0) && fireable)
+        if (Input.GetMouseButtonUp(0) && current_bomb > 0 && fireable)
         {
             Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 playerposition = transform.position;
             photonView.RPC("ThrowBomb", PhotonTargets.All, new object[] { mouse, playerposition });
+        }
+
+        if (!reloading && current_bomb < max_bomb)
+        {
+            reloading = true;
+            StartCoroutine("Reload");
         }
 
         if (Input.GetKeyUp(KeyCode.Space) && skillAvailable)
@@ -90,11 +112,12 @@ public class bombPlayerScript : MonoBehaviourPunCallbacks
     {
         photonView.RPC("Attack", PhotonTargets.All);
         fireable = false;
+        current_bomb--;
         _bomb.GetComponent<bombObject>().Target = mouse;
         _bomb.GetComponent<bombObject>().startposition = playerposition;
         GameObject bomb = Instantiate(_bomb);
         
-        StartCoroutine("Reload");
+        StartCoroutine("AttackDelay");
     }
 
     [PunRPC]

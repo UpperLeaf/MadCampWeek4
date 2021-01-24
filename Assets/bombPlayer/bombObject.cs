@@ -23,6 +23,8 @@ public class bombObject : MonoBehaviour
 
     private bool blowup = false;
 
+    public float damage;
+
     
 
     // Start is called before the first frame update
@@ -90,7 +92,7 @@ public class bombObject : MonoBehaviour
             Debug.Log(_collider);
             if (_collider.CompareTag("Player"))
             {
-                _collider.gameObject.GetComponent<PlayerManager>().Damaged(0.1f);
+                _collider.gameObject.GetComponent<PlayerManager>().Damaged(damage);
             }
         }        
 
