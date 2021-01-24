@@ -75,6 +75,7 @@ MonoBehaviour:
     type: 3}
   Health: 1
   cameraSize: 0
+  bloodScreen: {fileID: 0}
 --- !u!114 &-6310792866719810009
 MonoBehaviour:
   m_ObjectHideFlags: 0

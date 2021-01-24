@@ -1,7 +1,9 @@
 ﻿using Cinemachine;
 using Photon.Pun;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering.Universal;
+using UnityEngine.UI;
 
 public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
 {
@@ -24,7 +26,11 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
 
     private GameObject _uiObject;
 
+    [SerializeField]
+    private GameObject bloodScreen;
+
     private bool isGameStart;
+
 
     private void Awake()
     {
@@ -66,6 +72,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
         {
             isGameStart = true;
             gameObject.GetComponent<Light2D>().enabled = true;
+            bloodScreen = GameObject.Find("BloodScreen");
             foreach (Transform transform in gameObject.transform)
             {
                 if (transform.name == "sight")
@@ -89,9 +96,11 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
 
     public void Damaged(float damage)
     {
-        if (!isGameStart)
+        if (!isGameStart || !photonView.IsMine)
             return;
         Health -= damage;
+        Debug.Log("Damaged!");
+        StartCoroutine("ShowBloodScreen");
         if (Health <= 0)
             photonView.RPC("Dead", PhotonTargets.All);       
     }
@@ -119,6 +128,14 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
         {
             Health = (float)stream.ReceiveNext();
         }
+    }
+
+    IEnumerator ShowBloodScreen()
+    {
+        Debug.Log("ShowBlood Screen" + bloodScreen);
+        bloodScreen.GetComponent<Image>().color = new Color(1, 0, 0, Random.Range(0.2f, 0.3f));
+        yield return new WaitForSeconds(0.1f);
+        bloodScreen.GetComponent<Image>().color = Color.clear;
     }
 
 }

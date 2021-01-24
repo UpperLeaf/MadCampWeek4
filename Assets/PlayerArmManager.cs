@@ -28,10 +28,9 @@ public class PlayerArmManager : MonoBehaviourPunCallbacks
     {
         if (!photonView.IsMine && PhotonNetwork.IsConnected == false)
             return;
-       
-        Move();   
-    }
 
+        Move();
+    }
     private void Move()
     {
         float h = Input.GetAxisRaw("Horizontal");
