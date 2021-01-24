@@ -79,6 +79,7 @@ public class SkillUI : MonoBehaviour
             coolTimeCounter.text = "" + currentCoolTime * 0.1f;
         }
 
+        coolTimeCounter.text = "";
         yield break;
     }
 
