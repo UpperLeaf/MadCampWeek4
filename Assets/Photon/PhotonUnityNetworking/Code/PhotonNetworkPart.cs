@@ -1076,7 +1076,6 @@ namespace Photon.Pun
             OpCleanRpcBuffer(view);
         }
 
-
         private static readonly Hashtable rpcFilterByViewId = new ExitGames.Client.Photon.Hashtable();
         private static readonly RaiseEventOptions OpCleanRpcBufferOptions = new RaiseEventOptions() { CachingOption = EventCaching.RemoveFromRoomCache };
 

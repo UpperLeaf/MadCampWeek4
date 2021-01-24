@@ -1,4 +1,5 @@
-﻿using Photon.Pun;
+﻿using Cinemachine;
+using Photon.Pun;
 using System.Collections;
 using UnityEngine;
 public class PlayerAnimatorManager : MonoBehaviourPun
@@ -30,6 +31,8 @@ public class PlayerAnimatorManager : MonoBehaviourPun
 	public GameObject _bullet;
 
 	private float bulletspeed = 12f;
+
+	private CinemachineBasicMultiChannelPerlin perlin;
 	#endregion
 
 	#region MonoBehaviour CallBacks
@@ -61,7 +64,6 @@ public class PlayerAnimatorManager : MonoBehaviourPun
 		float h = Input.GetAxisRaw("Horizontal");
 		float v = Input.GetAxisRaw("Vertical");
 
-
 		Vector2 direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
 
 		if (direction.x < 0)
@@ -83,9 +85,15 @@ public class PlayerAnimatorManager : MonoBehaviourPun
 		}
 	}
 
+	public void SetCinemachineBasicMultiChannelPerlin(CinemachineBasicMultiChannelPerlin perlin)
+    {
+		this.perlin = perlin;
+    }
+
 	[PunRPC]
 	public void FireBullet(Vector2 bulletvelocity)
 	{
+		ShakeCameraAttack(1f, 0.1f);
 		fireAnimator.SetTrigger("Attack");
 		fireable = false;
 		_bullet.transform.position = transform.position;
@@ -94,6 +102,18 @@ public class PlayerAnimatorManager : MonoBehaviourPun
 		bullet.GetComponent<Rigidbody2D>().velocity = bulletvelocity;
 		StartCoroutine("Reload");
 	}
+
+	private void ShakeCameraAttack(float intentsity, float time)
+    {
+		perlin.m_AmplitudeGain = intentsity;
+		StartCoroutine("ShakeTime", time);
+    }
+
+	IEnumerator ShakeTime(float time)
+    {
+		yield return new WaitForSeconds(time);
+		perlin.m_AmplitudeGain = 0;
+    }
 
 	IEnumerator Reload()
 	{

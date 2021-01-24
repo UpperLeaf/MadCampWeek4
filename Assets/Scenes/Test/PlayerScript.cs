@@ -7,7 +7,7 @@ public class PlayerScript : MonoBehaviourPunCallbacks
 {
     private float speed = 300f;
 
-    private float dashSpeed = 900f;
+    private float dashSpeed = 700f;
 
     private bool isDead = false;
 
@@ -76,7 +76,7 @@ public class PlayerScript : MonoBehaviourPunCallbacks
     }
     IEnumerator DashEnd()
     {
-        yield return new WaitForSeconds(0.7f);
+        yield return new WaitForSeconds(0.5f);
         animator.SetTrigger("DashEnd");
     }
 

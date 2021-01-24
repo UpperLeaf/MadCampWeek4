@@ -56,12 +56,19 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
                     virtualCamera.Follow = gameObject.transform;
                     virtualCamera.m_Lens.Orthographic = true;
                     virtualCamera.m_Lens.OrthographicSize = 7;
+                    CinemachineBasicMultiChannelPerlin perlin = 
+                        virtualCamera.AddCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+
+                    NoiseSettings shake = Resources.Load("6DShake") as NoiseSettings;
+                    perlin.m_NoiseProfile = shake;
+                    perlin.m_AmplitudeGain = 0;
+                    PlayerAnimatorManager animatorManager = GetComponent<PlayerAnimatorManager>();
+                    if (animatorManager != null)
+                    {
+                        animatorManager.SetCinemachineBasicMultiChannelPerlin(perlin);
+                    }
                     isGameStart = false;
                 }
-            }
-            else
-            {
-                Debug.LogError("CameraWork Component on PlayerPrefab");
             }
         }
     }
@@ -133,8 +140,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
     IEnumerator ShowBloodScreen()
     {
         Debug.Log("ShowBlood Screen" + bloodScreen);
-        bloodScreen.GetComponent<Image>().color = new Color(1, 0, 0, Random.Range(0.2f, 0.3f));
-        yield return new WaitForSeconds(0.1f);
+        bloodScreen.GetComponent<Image>().color = new Color(1, 0, 0, Random.Range(0.3f, 0.4f));
+        yield return new WaitForSeconds(0.2f);
         bloodScreen.GetComponent<Image>().color = Color.clear;
     }
 
