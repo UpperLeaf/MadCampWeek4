@@ -1,7 +1,4 @@
 ﻿using Photon.Pun;
-using Photon.Realtime;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -59,7 +56,7 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     {
         Debug.Log("Start Player : " + startPlayers);
         Debug.Log("Current Player : " + PhotonNetwork.CurrentRoom.PlayerCount);
-        if (PhotonNetwork.CurrentRoom.PlayerCount == startPlayers)
+        if (PhotonNetwork.CurrentRoom.PlayerCount >= startPlayers)
         {
             _gameStartButton.SetActive(false);
             PhotonNetwork.LoadLevel("Game");

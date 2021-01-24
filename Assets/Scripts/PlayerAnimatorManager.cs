@@ -61,9 +61,12 @@ public class PlayerAnimatorManager : MonoBehaviourPun
 		float h = Input.GetAxisRaw("Horizontal");
 		float v = Input.GetAxisRaw("Vertical");
 
-		if (h < 0)
+
+		Vector2 direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+
+		if (direction.x < 0)
 			dirc.x = 1;
-		else if (h > 0)
+		else if (direction.x > 0)
 			dirc.x = -1;
 		transform.localScale = dirc;
 		animator.SetFloat("Walk", h * h + v * v);
