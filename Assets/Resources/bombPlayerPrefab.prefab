@@ -466,8 +466,14 @@ MonoBehaviour:
   _bomb: {fileID: 4323721406397885411, guid: 655dd44e520e1e04a91e8f1634729e67, type: 3}
   _BigBomb: {fileID: 6825826255039234592, guid: 6ad64b336da37114784ac538cae18d98,
     type: 3}
-  AttackCooltime: 0.3
-  SkillCoolTime: 1
+  fireable: 1
+  reloading: 0
+  skillAvailable: 1
+  AttackDelayTime: 0.3
+  ReloadTime: 2
+  SkillCoolTime: 4
+  max_bomb: 5
+  current_bomb: 0
 --- !u!114 &348353560
 MonoBehaviour:
   m_ObjectHideFlags: 0
