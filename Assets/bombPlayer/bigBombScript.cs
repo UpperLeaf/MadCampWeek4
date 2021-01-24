@@ -83,8 +83,6 @@ public class bigBombScript : MonoBehaviour
         collider.radius = 0.7f;
         Collider2D[] overlappedColliders = Physics2D.OverlapCircleAll(transform.position, 6 * collider.radius);
 
-
-
         foreach (Collider2D _collider in overlappedColliders)
         {
             Debug.Log(_collider);
