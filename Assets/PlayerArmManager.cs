@@ -1,8 +1,9 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerArmManager : MonoBehaviour
+public class PlayerArmManager : MonoBehaviourPunCallbacks
 {
     [SerializeField]
     private GameObject gun;
@@ -23,8 +24,11 @@ public class PlayerArmManager : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
+        if (!photonView.IsMine && PhotonNetwork.IsConnected == false)
+            return;
+       
         Move();   
     }
 
