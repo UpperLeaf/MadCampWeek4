@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class bombPlayerScript : MonoBehaviourPunCallbacks
 {
@@ -99,6 +100,12 @@ public class bombPlayerScript : MonoBehaviourPunCallbacks
             Vector2 playerposition = transform.position;
             photonView.RPC("ThrowBigBomb", PhotonTargets.All, new object[] { mouse, playerposition });
         }
+
+        if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            Debug.Log("Dig");
+            Dig();
+        }
     }
     
     [PunRPC]
@@ -131,5 +138,24 @@ public class bombPlayerScript : MonoBehaviourPunCallbacks
         GameObject bomb = Instantiate(_BigBomb);
 
         StartCoroutine("SkillCool");
+    }
+
+    [PunRPC]
+    public void Dig()
+    {
+        Tilemap[] tilemaps = FindObjectsOfType<Tilemap>();
+
+        foreach(Tilemap tilemap in tilemaps)
+        {
+            Debug.Log(tilemap);
+            if (tilemap.CompareTag("wall"))
+            {
+                Debug.Log("in");
+                Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                tilemap.SetTile(tilemap.WorldToCell(mousePosition), null);
+                
+            }
+            
+        }
     }
 }
