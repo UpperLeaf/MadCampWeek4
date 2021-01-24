@@ -30,28 +30,8 @@ public class GameManager : MonoBehaviourPunCallbacks
                 GameObject _player = PhotonNetwork.Instantiate(playerPrefab.name, new Vector3(-5f, 5f, 0f), Quaternion.identity, 0);
             }
         }
-
-        foreach(PhotonView view in PhotonNetwork.PhotonViewCollection)
-        {
-            PlayerManager playerManager = view.gameObject.GetComponent<PlayerManager>();
-            if(playerManager != null)
-            {
-                playerManager.GameStart();
-            }
-
-            if (!view.IsMine)
-            {
-                Destroy(view.gameObject.GetComponent<Light2D>());
-                foreach(Transform transform in view.gameObject.transform)
-                {
-                    if (transform.name == "sight")
-                    {
-                        Destroy(transform.gameObject);
-                        break;
-                    }
-                }
-            }
-        }
+        PhotonNetwork.CurrentRoom.IsVisible = false;
+        PlayerManagerGameStart();
     }
     #endregion
 
@@ -63,4 +43,30 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
     #endregion
 
+    #region Private Methods
+    private void PlayerManagerGameStart()
+    {
+        foreach (PhotonView view in PhotonNetwork.PhotonViewCollection)
+        {
+            PlayerManager playerManager = view.gameObject.GetComponent<PlayerManager>();
+            if (playerManager != null)
+            {
+                playerManager.GameStart();
+            }
+
+            if (!view.IsMine)
+            {
+                Destroy(view.gameObject.GetComponent<Light2D>());
+                foreach (Transform transform in view.gameObject.transform)
+                {
+                    if (transform.name == "sight")
+                    {
+                        Destroy(transform.gameObject);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    #endregion
 }

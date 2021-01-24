@@ -91,21 +91,20 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
 
         Health -= damage;
 
-        if (Health <= 0 )
+        if (Health <= 0)
+            photonView.RPC("Dead", PhotonTargets.All);       
+    }
+
+    [PunRPC]
+    public void Dead()
+    {
+        gameObject.SetActive(false);
+        if (photonView.IsMine)
         {
-            gameObject.SetActive(false);
-
-            if (photonView.IsMine)
-            {
-                FindObjectOfType<Camera>().backgroundColor = Color.gray;
-
-                Renderer[] renderers = FindObjectsOfType<Renderer>();
-
-                foreach (Renderer renderer in renderers)
-                {
-                    renderer.material.SetColor("_Color", Color.gray);
-                }
-            }
+            FindObjectOfType<Camera>().backgroundColor = Color.gray;
+            Renderer[] renderers = FindObjectsOfType<Renderer>();
+            foreach (Renderer renderer in renderers)
+                renderer.material.SetColor("_Color", Color.gray);
         }
     }
 
