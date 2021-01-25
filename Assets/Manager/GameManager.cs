@@ -1,4 +1,6 @@
 ﻿using Photon.Pun;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering.Universal;
 using UnityEngine.SceneManagement;
@@ -8,6 +10,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     [Tooltip("The Prefab to use for representing the player")]
     [SerializeField]
     private GameObject playerPrefab;
+
+    private List<PlayerManager> playerManagers = new List<PlayerManager>();
 
     #region Photon Callbacks
     public override void OnLeftRoom()
@@ -30,6 +34,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
         PhotonNetwork.CurrentRoom.IsVisible = false;
         PlayerManagerGameStart();
+        StartCoroutine("CheckGameWin");
     }
 
     #endregion
@@ -37,7 +42,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     #region Public Methods
     public void LeaveRoom()
     {
-        Destroy(GameObject.Find("Leave Button"));
         PhotonNetwork.LeaveRoom();
     }
     #endregion
@@ -51,6 +55,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             if (playerManager != null)
             {
                 playerManager.GameStart();
+                playerManagers.Add(playerManager);
             }
 
             if (!view.IsMine)
@@ -68,4 +73,27 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
     #endregion
+    IEnumerator CheckGameWin()
+    {
+        bool isWin = false;
+        while (!isWin)
+        {
+            isWin = true;
+            foreach(PlayerManager playerManager in playerManagers)
+            {
+                if(!playerManager.photonView.IsMine && !playerManager.IsDied())
+                {
+                    isWin = false;
+                }
+            }
+            yield return new WaitForSeconds(1);
+        }
+        GameWin();
+    }
+
+    public void GameWin()
+    {
+        GameObject winMenu = GameObject.Find("WinnerMenu");
+        winMenu.SetActive(true);
+    }
 }

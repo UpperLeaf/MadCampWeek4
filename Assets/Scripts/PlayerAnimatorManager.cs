@@ -92,7 +92,7 @@ public class PlayerAnimatorManager : MonoBehaviourPun
     }
 
 	[PunRPC]
-	public void FireBullet(Vector2 bulletvelocity)
+	 public void FireBullet(Vector2 bulletvelocity)
 	{
 		fireAnimator.SetTrigger("Attack");
 		fireable = false;

@@ -15,14 +15,10 @@ public class CanvasManager : MonoBehaviourPunCallbacks
             stopGameMenu.SetActive(!stopGameMenu.activeInHierarchy);
         }
     }
-
-
     public void LeaveRoom()
     {
-        Destroy(this.gameObject);
         PhotonNetwork.LeaveRoom();
     }
-
     public void ResumeGame()
     {
         stopGameMenu.SetActive(false);

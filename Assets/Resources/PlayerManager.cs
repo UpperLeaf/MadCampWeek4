@@ -33,22 +33,20 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
 
     private bool isGameStart;
 
+    private bool isDied;
 
     private void Awake()
     {
         if (photonView.IsMine)
-        {
             PlayerManager.LocalPlayerInstance = gameObject;
-        }
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
     }
-
     private void Start()
     {
         if (photonView.IsMine)
         {
             _camera = Instantiate(CinemachineCameraPrefab);
-            DontDestroyOnLoad(_camera);
+            //DontDestroyOnLoad(_camera);
 
             CinemachineVirtualCamera virtualCamera = _camera.GetComponent<CinemachineVirtualCamera>();
             if (virtualCamera != null)
@@ -82,6 +80,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
 
     public void GameStart()
     {
+        isDied = false;
         if (photonView.IsMine)
         {
             isGameStart = true;
@@ -107,7 +106,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
             _uiObject.SendMessage("SetTarget", this, SendMessageOptions.RequireReceiver);
         }
     }
-
+    
     public void Damaged(float damage)
     {
         if (!isGameStart || !photonView.IsMine)
@@ -122,6 +121,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
     [PunRPC]
     public void Dead()
     {
+        isDied = true;
         gameObject.SetActive(false);
         if (photonView.IsMine)
         {
@@ -150,6 +150,11 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
         bloodScreen.GetComponent<Image>().color = new Color(1, 0, 0, Random.Range(0.3f, 0.4f));
         yield return new WaitForSeconds(0.2f);
         bloodScreen.GetComponent<Image>().color = Color.clear;
+    }
+
+    public bool IsDied()
+    {
+        return isDied;
     }
 
 }
