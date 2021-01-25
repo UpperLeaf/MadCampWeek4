@@ -43,7 +43,7 @@ public class PlayerAnimatorManager : MonoBehaviourPun
 		dirc = new Vector3(1, 1, 1);
 	}
 
-    private void FixedUpdate()
+    private void Update()
     {
 		if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
 			return;

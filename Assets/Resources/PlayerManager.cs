@@ -154,6 +154,10 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
             foreach (Renderer renderer in renderers)
                 renderer.material.SetColor("_Color", Color.gray);
         }
+        else
+        {
+            GameManager.Instance.CheckGameOver();
+        }
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
