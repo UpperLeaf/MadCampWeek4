@@ -17,7 +17,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     #endregion
 
     #region MonoBehaviour Callbacks
-
     private void Start()
     {
         if (playerPrefab == null)
@@ -32,6 +31,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         PhotonNetwork.CurrentRoom.IsVisible = false;
         PlayerManagerGameStart();
     }
+
     #endregion
 
     #region Public Methods
