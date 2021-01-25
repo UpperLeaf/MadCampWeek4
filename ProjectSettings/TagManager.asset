@@ -19,9 +19,9 @@ TagManager:
   - 
   - Wall
   - Attack
-  - 
-  - 
-  - 
+  - Player
+  - MainCamera
+  - MiniMapCamera
   - 
   - 
   - 
