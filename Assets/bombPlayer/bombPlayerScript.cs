@@ -38,12 +38,15 @@ public class bombPlayerScript : MonoBehaviourPunCallbacks
     private Animator weaponAnimator;
     private Animator armAnimator;
 
+    
+
     // Start is called before the first frame update
     void Start()
     {
         animator = GetComponent<Animator>();
         _player = gameObject;
         current_bomb = max_bomb;
+               
 
         Animator[] animators = GetComponentsInChildren<Animator>();
         foreach (Animator animator in animators)
@@ -114,13 +117,7 @@ public class bombPlayerScript : MonoBehaviourPunCallbacks
             photonView.RPC("ThrowBigBomb", PhotonTargets.All, new object[] { mouse, playerposition });
         }
 
-        if (Input.GetKeyUp(KeyCode.LeftShift))
-        {
-            Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector2 playerposition = transform.position;
-            Debug.Log("Dig");
-            photonView.RPC("Dig", PhotonTargets.All, new object[] { mouse, playerposition });
-        }
+        
     }
     
     [PunRPC]
@@ -131,13 +128,7 @@ public class bombPlayerScript : MonoBehaviourPunCallbacks
         armAnimator.SetTrigger("Attack");
     }
 
-    [PunRPC]
-    private void DigAnim()
-    {
-        animator.SetTrigger("Dig");
-        weaponAnimator.SetTrigger("Dig");
-        armAnimator.SetTrigger("Dig");
-    }
+    
 
     [PunRPC]
     public void ThrowBomb(Vector2 mouse, Vector2 playerposition)
@@ -165,23 +156,5 @@ public class bombPlayerScript : MonoBehaviourPunCallbacks
         StartCoroutine("SkillCool");
     }
 
-    [PunRPC]
-    public void Dig(Vector2 mouse, Vector2 playerposition)
-    {
-        photonView.RPC("Dig", PhotonTargets.All);
-        Vector2 dir = (mouse - playerposition).normalized;
-
-        Tilemap[] tilemaps = FindObjectsOfType<Tilemap>();
-
-        foreach(Tilemap tilemap in tilemaps)
-        {
-            Debug.Log(tilemap);
-            if (tilemap.CompareTag("wall"))
-            {
-                Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                tilemap.SetTile(tilemap.WorldToCell(playerposition+dir), null);
-                
-            }            
-        }
-    }
+    
 }

@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     [Tooltip("The Prefab to use for representing the player")]
     [SerializeField]
     private GameObject playerPrefab;
+    private GameObject map;
 
     #region Photon Callbacks
     public override void OnLeftRoom()
@@ -40,9 +41,16 @@ public class GameManager : MonoBehaviourPunCallbacks
         Destroy(GameObject.Find("Leave Button"));
         PhotonNetwork.LeaveRoom();
     }
+
     #endregion
 
     #region Private Methods
+
+    private void init_Map()
+    {
+        map = GameObject.Find("Map");
+        DontDestroyOnLoad(map);
+    }
     private void PlayerManagerGameStart()
     {
         foreach (PhotonView view in PhotonNetwork.PhotonViewCollection)
