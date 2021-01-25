@@ -44,12 +44,14 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public void RiflemanClick()
     {
         PhotonNetwork.Instantiate(rifleMan.name, Vector3.zero, Quaternion.identity, 0);
+        PlayerManager.LocalPlayerInstance = rifleMan;
         TurnoffCharacterSelectUI();
     }
 
     public void BombmanClick()
     {
         PhotonNetwork.Instantiate(bombMan.name, Vector3.zero, Quaternion.identity, 0);
+        PlayerManager.LocalPlayerInstance = bombMan;
         TurnoffCharacterSelectUI();
     }
 

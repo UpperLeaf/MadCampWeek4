@@ -3,6 +3,7 @@ using Photon.Pun;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering.Universal;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
@@ -35,19 +36,12 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
 
     private bool isDied;
 
-    private void Awake()
-    {
-        if (photonView.IsMine)
-            PlayerManager.LocalPlayerInstance = gameObject;
-        //DontDestroyOnLoad(gameObject);
-    }
+    
     private void Start()
     {
         if (photonView.IsMine)
         {
             _camera = Instantiate(CinemachineCameraPrefab);
-            //DontDestroyOnLoad(_camera);
-
             CinemachineVirtualCamera virtualCamera = _camera.GetComponent<CinemachineVirtualCamera>();
             if (virtualCamera != null)
             {
@@ -71,6 +65,12 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
                 }
             }
         }
+
+        if (SceneManager.GetActiveScene().name.Equals("Game"))
+        {
+            GameManager.playerManagers.Add(this);
+            GameStart();
+        }
     }
 
     public void OnDestroy()
@@ -80,10 +80,11 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
 
     public void GameStart()
     {
+        isGameStart = true;
         isDied = false;
+
         if (photonView.IsMine)
         {
-            isGameStart = true;
             gameObject.GetComponent<Light2D>().enabled = true;
             bloodScreen = GameObject.Find("BloodScreen");
             foreach (Transform transform in gameObject.transform)

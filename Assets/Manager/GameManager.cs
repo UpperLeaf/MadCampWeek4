@@ -10,8 +10,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     [Tooltip("The Prefab to use for representing the player")]
     [SerializeField]
     private GameObject playerPrefab;
-
-    private List<PlayerManager> playerManagers = new List<PlayerManager>();
+    
+    public static List<PlayerManager> playerManagers = new List<PlayerManager>();
 
     #region Photon Callbacks
     public override void OnLeftRoom()
@@ -23,18 +23,9 @@ public class GameManager : MonoBehaviourPunCallbacks
     #region MonoBehaviour Callbacks
     private void Start()
     {
-        if (playerPrefab == null)
-            Debug.LogError("Missing Prefab");
-        else
-        {
-            if (PlayerManager.LocalPlayerInstance == null)
-            {
-                GameObject _player = PhotonNetwork.Instantiate(playerPrefab.name, new Vector3(-5f, 5f, 0f), Quaternion.identity, 0);
-            }
-        }
+        PhotonNetwork.Instantiate(PlayerManager.LocalPlayerInstance.name, new Vector3(-17f, 7f, 0f), Quaternion.identity, 0);
         PhotonNetwork.CurrentRoom.IsVisible = false;
         PlayerManagerGameStart();
-        StartCoroutine("CheckGameWin");
     }
 
     #endregion
@@ -93,7 +84,8 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public void GameWin()
     {
-        GameObject winMenu = GameObject.Find("WinnerMenu");
-        winMenu.SetActive(true);
+        //GameObject winMenu = GameObject.Find("WinnerMenu");
+        //winMenu.SetActive(true);
     }
+    
 }
