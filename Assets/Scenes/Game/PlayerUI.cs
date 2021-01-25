@@ -26,8 +26,6 @@ public class PlayerUI : MonoBehaviour
     {
         GameObject canvas = GameObject.Find("Canvas");
         transform.SetParent(canvas.GetComponent<Transform>(), false);
-        //DontDestroyOnLoad(canvas);
-        //DontDestroyOnLoad(gameObject);
     }
 
     public void SetTarget(PlayerManager _target)

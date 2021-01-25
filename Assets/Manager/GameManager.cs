@@ -1,4 +1,5 @@
 ﻿using Photon.Pun;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -52,20 +53,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
     #endregion
     
-    IEnumerator CheckGameWin()
-    {
-        bool isWin = false;
-        while (!isWin)
-        {
-            if(playerManagers.Count <= 1)
-            {
-                isWin = true;
-            }
-            yield return new WaitForSeconds(1);
-        }
-        GameWin();
-    }
-
     public void GameWin()
     {
         winPanel.SetActive(true);
@@ -74,5 +61,13 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void GameLose()
     {
         losePanel.SetActive(true);   
+    }
+
+    public void CheckGameOver()
+    {
+        if(playerManagers.Count <= 1)
+        {
+            GameWin();
+        }
     }
 }
