@@ -81,6 +81,7 @@ public class PlayerAnimatorManager : MonoBehaviourPun
 			Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			Vector2 playerposition = transform.position;
 			Vector2 bulletvelocity = (mouse - playerposition).normalized * bulletspeed;
+			ShakeCameraAttack(1f, 0.1f);
 			photonView.RPC("FireBullet", PhotonTargets.All, new object[] { bulletvelocity });
 		}
 	}
@@ -93,7 +94,6 @@ public class PlayerAnimatorManager : MonoBehaviourPun
 	[PunRPC]
 	public void FireBullet(Vector2 bulletvelocity)
 	{
-		ShakeCameraAttack(1f, 0.1f);
 		fireAnimator.SetTrigger("Attack");
 		fireable = false;
 		_bullet.transform.position = transform.position;
