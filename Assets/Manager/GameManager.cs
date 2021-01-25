@@ -10,7 +10,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     [Tooltip("The Prefab to use for representing the player")]
     [SerializeField]
     private GameObject playerPrefab;
-    
 
     public static List<PlayerManager> playerManagers = new List<PlayerManager>();
 
@@ -22,6 +21,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     #endregion
 
     #region MonoBehaviour Callbacks
+
+    
     private void Start()
     {
         PhotonNetwork.Instantiate(PlayerManager.LocalPlayerInstance.name, new Vector3(-17f, 7f, 0f), Quaternion.identity, 0);

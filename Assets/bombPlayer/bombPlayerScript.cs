@@ -35,6 +35,10 @@ public class bombPlayerScript : MonoBehaviourPunCallbacks
     private Vector3 velocity;
 
     private Animator animator;
+    private Animator weaponAnimator;
+    private Animator armAnimator;
+
+    
 
     // Start is called before the first frame update
     void Start()
@@ -42,8 +46,20 @@ public class bombPlayerScript : MonoBehaviourPunCallbacks
         animator = GetComponent<Animator>();
         _player = gameObject;
         current_bomb = max_bomb;
+               
 
-        
+        Animator[] animators = GetComponentsInChildren<Animator>();
+        foreach (Animator animator in animators)
+        {
+            if (animator.gameObject.name == "arm")
+            {
+                armAnimator = animator;
+            }
+            else if (animator.gameObject.name == "bomb")
+            {
+                weaponAnimator = animator;
+            }
+        }
     }
 
     IEnumerator Reload()
@@ -101,18 +117,18 @@ public class bombPlayerScript : MonoBehaviourPunCallbacks
             photonView.RPC("ThrowBigBomb", PhotonTargets.All, new object[] { mouse, playerposition });
         }
 
-        if (Input.GetKeyUp(KeyCode.LeftShift))
-        {
-            Debug.Log("Dig");
-            Dig();
-        }
+        
     }
     
     [PunRPC]
     private void Attack()
     {
         animator.SetTrigger("Attack");
+        weaponAnimator.SetTrigger("Attack");
+        armAnimator.SetTrigger("Attack");
     }
+
+    
 
     [PunRPC]
     public void ThrowBomb(Vector2 mouse, Vector2 playerposition)
@@ -140,22 +156,5 @@ public class bombPlayerScript : MonoBehaviourPunCallbacks
         StartCoroutine("SkillCool");
     }
 
-    [PunRPC]
-    public void Dig()
-    {
-        Tilemap[] tilemaps = FindObjectsOfType<Tilemap>();
-
-        foreach(Tilemap tilemap in tilemaps)
-        {
-            Debug.Log(tilemap);
-            if (tilemap.CompareTag("wall"))
-            {
-                Debug.Log("in");
-                Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                tilemap.SetTile(tilemap.WorldToCell(mousePosition), null);
-                
-            }
-            
-        }
-    }
+    
 }
