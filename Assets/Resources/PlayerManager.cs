@@ -133,10 +133,12 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
         if (!isGameStart || !photonView.IsMine)
             return;
         Health -= damage;
-        Debug.Log("Damaged!");
         StartCoroutine("ShowBloodScreen");
-        if (Health <= 0)
-            photonView.RPC("Dead", PhotonTargets.All);       
+        
+        if (Health <= 0) {
+            photonView.RPC("Dead", PhotonTargets.All);
+            GameManager.Instance.GameLose();
+        }
     }
 
     [PunRPC]
@@ -144,6 +146,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
     {
         isDied = true;
         gameObject.SetActive(false);
+        GameManager.playerManagers.Remove(this);
         if (photonView.IsMine)
         {
             FindObjectOfType<Camera>().backgroundColor = Color.gray;
