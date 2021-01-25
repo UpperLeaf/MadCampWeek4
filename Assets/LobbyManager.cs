@@ -1,6 +1,7 @@
 ﻿using Photon.Pun;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
@@ -54,8 +55,6 @@ public class LobbyManager : MonoBehaviourPunCallbacks
 
     public void GameStart()
     {
-        Debug.Log("Start Player : " + startPlayers);
-        Debug.Log("Current Player : " + PhotonNetwork.CurrentRoom.PlayerCount);
         if (PhotonNetwork.CurrentRoom.PlayerCount >= startPlayers)
         {
             _gameStartButton.SetActive(false);
@@ -66,5 +65,10 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     private void TurnoffCharacterSelectUI()
     {
         _characterSelectUI.SetActive(false);
+    }
+
+    public override void OnLeftRoom()
+    {
+        SceneManager.LoadScene(0);
     }
 }
