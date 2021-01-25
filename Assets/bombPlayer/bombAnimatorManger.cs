@@ -33,10 +33,7 @@ namespace Photon.Pun.Demo.PunBasics
 
 			Move();
 
-			if (Input.GetMouseButtonUp(0) || Input.GetKeyUp(KeyCode.Space))
-			{
-				Attack();
-			}
+			
 		}
 
 		#endregion
@@ -58,9 +55,6 @@ namespace Photon.Pun.Demo.PunBasics
             animator.SetFloat("walk", h * h + v * v);
 		}
 
-		private void Attack()
-		{
-			animator.SetTrigger("Attack");
-		}
+		
 	}
 }

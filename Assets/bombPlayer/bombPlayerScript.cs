@@ -35,6 +35,8 @@ public class bombPlayerScript : MonoBehaviourPunCallbacks
     private Vector3 velocity;
 
     private Animator animator;
+    private Animator weaponAnimator;
+    private Animator armAnimator;
 
     // Start is called before the first frame update
     void Start()
@@ -43,7 +45,18 @@ public class bombPlayerScript : MonoBehaviourPunCallbacks
         _player = gameObject;
         current_bomb = max_bomb;
 
-        
+        Animator[] animators = GetComponentsInChildren<Animator>();
+        foreach (Animator animator in animators)
+        {
+            if (animator.gameObject.name == "arm")
+            {
+                armAnimator = animator;
+            }
+            else if (animator.gameObject.name == "bomb")
+            {
+                weaponAnimator = animator;
+            }
+        }
     }
 
     IEnumerator Reload()
@@ -103,8 +116,10 @@ public class bombPlayerScript : MonoBehaviourPunCallbacks
 
         if (Input.GetKeyUp(KeyCode.LeftShift))
         {
+            Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 playerposition = transform.position;
             Debug.Log("Dig");
-            Dig();
+            photonView.RPC("Dig", PhotonTargets.All, new object[] { mouse, playerposition });
         }
     }
     
@@ -112,6 +127,16 @@ public class bombPlayerScript : MonoBehaviourPunCallbacks
     private void Attack()
     {
         animator.SetTrigger("Attack");
+        weaponAnimator.SetTrigger("Attack");
+        armAnimator.SetTrigger("Attack");
+    }
+
+    [PunRPC]
+    private void DigAnim()
+    {
+        animator.SetTrigger("Dig");
+        weaponAnimator.SetTrigger("Dig");
+        armAnimator.SetTrigger("Dig");
     }
 
     [PunRPC]
@@ -141,8 +166,11 @@ public class bombPlayerScript : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    public void Dig()
+    public void Dig(Vector2 mouse, Vector2 playerposition)
     {
+        photonView.RPC("Dig", PhotonTargets.All);
+        Vector2 dir = (mouse - playerposition).normalized;
+
         Tilemap[] tilemaps = FindObjectsOfType<Tilemap>();
 
         foreach(Tilemap tilemap in tilemaps)
@@ -150,12 +178,10 @@ public class bombPlayerScript : MonoBehaviourPunCallbacks
             Debug.Log(tilemap);
             if (tilemap.CompareTag("wall"))
             {
-                Debug.Log("in");
                 Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                tilemap.SetTile(tilemap.WorldToCell(mousePosition), null);
+                tilemap.SetTile(tilemap.WorldToCell(playerposition+dir), null);
                 
-            }
-            
+            }            
         }
     }
 }
