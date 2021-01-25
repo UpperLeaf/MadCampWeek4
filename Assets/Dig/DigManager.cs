@@ -9,24 +9,21 @@ public class DigManager : MonoBehaviourPunCallbacks
     [SerializeField]
     private Tilemap wall;
 
+    public Tile hit0;
+    public Tile hit1;
+    public Tile hit2;
+
     private Animator animator;
     private Animator weaponAnimator;
     private Animator armAnimator;
+
+    [SerializeField]
+    private int num_rocks = 0;
+
     // Start is called before the first frame update
     void Start()
     {
-        Tilemap[] tilemaps = FindObjectsOfType<Tilemap>();
-
-        foreach (Tilemap tilemap in tilemaps)
-        {
-            Debug.Log(tilemap.tag);
-            if (tilemap.CompareTag("wall"))
-            {
-                wall = tilemap;
-            }
-        }
-
-
+            
         animator = GetComponent<Animator>();
 
         Animator[] animators = GetComponentsInChildren<Animator>();
@@ -51,6 +48,7 @@ public class DigManager : MonoBehaviourPunCallbacks
             Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 playerposition = transform.position;
             Debug.Log("Dig");
+
             photonView.RPC("Dig", PhotonTargets.All, new object[] { mouse, playerposition });
         }
     }
@@ -68,6 +66,8 @@ public class DigManager : MonoBehaviourPunCallbacks
     {
         photonView.RPC("DigAnim", PhotonTargets.All);
         Vector2 dir = mouse - playerposition;
+
+        wall = GameObject.Find("Wall").GetComponent<Tilemap>();
 
 
         float angle = Vector2.SignedAngle(Vector2.right, dir);
@@ -87,9 +87,22 @@ public class DigManager : MonoBehaviourPunCallbacks
             offset.y = -1;
         }
 
+        Vector3Int coord = wall.WorldToCell(mouse);
+        TileBase tile = wall.GetTile<Tile>(coord);
         
-
-        wall.SetTile(wall.WorldToCell(playerposition) + offset, null);
+        if (tile == hit0)
+        {
+            wall.SetTile(coord, hit1);
+        }
+        else if (tile == hit1)
+        {
+            wall.SetTile(coord, hit2);
+        }
+        else if (tile == hit2)
+        {
+            wall.SetTile(coord, null);
+        }
+        
 
     }
 }

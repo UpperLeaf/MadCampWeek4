@@ -13,11 +13,14 @@ public class GameManager : MonoBehaviourPunCallbacks
     #region Photon Callbacks
     public override void OnLeftRoom()
     {
+        
         SceneManager.LoadScene(0);
     }
     #endregion
 
     #region MonoBehaviour Callbacks
+
+    
     private void Start()
     {
         if (playerPrefab == null)
@@ -38,19 +41,14 @@ public class GameManager : MonoBehaviourPunCallbacks
     #region Public Methods
     public void LeaveRoom()
     {
-        Destroy(GameObject.Find("Leave Button"));
-        PhotonNetwork.LeaveRoom();
+        
     }
 
     #endregion
 
     #region Private Methods
 
-    private void init_Map()
-    {
-        map = GameObject.Find("Map");
-        DontDestroyOnLoad(map);
-    }
+    
     private void PlayerManagerGameStart()
     {
         foreach (PhotonView view in PhotonNetwork.PhotonViewCollection)
