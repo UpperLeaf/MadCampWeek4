@@ -13,6 +13,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
     [SerializeField]
     private GameObject CinemachineCameraPrefab;
 
+    private GameObject _camera;
+
     [Tooltip("The Player's UI GameObject Prefab")]
     [SerializeField]
     private GameObject playerUiPrefab;
@@ -45,10 +47,10 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
     {
         if (photonView.IsMine)
         {
-            GameObject camera = Instantiate(CinemachineCameraPrefab);
-            DontDestroyOnLoad(camera);
+            _camera = Instantiate(CinemachineCameraPrefab);
+            DontDestroyOnLoad(_camera);
 
-            CinemachineVirtualCamera virtualCamera = camera.GetComponent<CinemachineVirtualCamera>();
+            CinemachineVirtualCamera virtualCamera = _camera.GetComponent<CinemachineVirtualCamera>();
             if (virtualCamera != null)
             {
                 if (photonView.IsMine)
@@ -71,6 +73,11 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
                 }
             }
         }
+    }
+
+    public void OnDestroy()
+    {
+        Destroy(_camera);
     }
 
     public void GameStart()
