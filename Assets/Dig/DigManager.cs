@@ -71,36 +71,43 @@ public class DigManager : MonoBehaviourPunCallbacks
 
 
         float angle = Vector2.SignedAngle(Vector2.right, dir);
+        Debug.Log(angle);
         Vector3Int offset = Vector3Int.zero;
 
-        if (-45f <angle || angle <= 45f)
+        if (-45f <angle && angle <= 45f)
         {
+            Debug.Log(1);
             offset.x = 1;
-        }else if(45f < angle || angle <= 135f)
+        }else if(45f < angle && angle <= 135f)
         {
+            Debug.Log(2);
             offset.y = 1;
-        }else if (135f < angle || angle <= -135f)
+        }else if (135f < angle && angle <= -135f)
         {
+            Debug.Log(3);
             offset.x = -1;
-        }else if (-135f < angle || angle <= -45f)
+        }else if (-135f < angle && angle <= -45f)
         {
+            Debug.Log(4);
             offset.y = -1;
         }
 
-        Vector3Int coord = wall.WorldToCell(mouse);
-        TileBase tile = wall.GetTile<Tile>(coord);
+        Vector3Int coord = wall.WorldToCell(playerposition);
+        Debug.Log(coord);
+        TileBase tile = wall.GetTile<Tile>(coord+offset);
         
         if (tile == hit0)
         {
-            wall.SetTile(coord, hit1);
+            Debug.Log(coord + offset);
+            wall.SetTile(coord+offset, hit1);
         }
         else if (tile == hit1)
         {
-            wall.SetTile(coord, hit2);
+            wall.SetTile(coord + offset, hit2);
         }
         else if (tile == hit2)
         {
-            wall.SetTile(coord, null);
+            wall.SetTile(coord + offset, null);
         }
         
 

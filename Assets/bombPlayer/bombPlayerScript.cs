@@ -120,7 +120,7 @@ public class bombPlayerScript : MonoBehaviourPunCallbacks
         
     }
     
-    [PunRPC]
+    
     private void Attack()
     {
         animator.SetTrigger("Attack");
@@ -133,7 +133,7 @@ public class bombPlayerScript : MonoBehaviourPunCallbacks
     [PunRPC]
     public void ThrowBomb(Vector2 mouse, Vector2 playerposition)
     {
-        photonView.RPC("Attack", PhotonTargets.All);
+        Attack();
         fireable = false;
         current_bomb--;
         _bomb.GetComponent<bombObject>().Target = mouse;
@@ -146,7 +146,7 @@ public class bombPlayerScript : MonoBehaviourPunCallbacks
     [PunRPC]
     public void ThrowBigBomb(Vector2 mouse, Vector2 playerposition)
     {
-        photonView.RPC("Attack", PhotonTargets.All);
+        Attack();
         skillAvailable = false;
         _BigBomb.GetComponent<bigBombScript>().Target = mouse;
         _BigBomb.GetComponent<bigBombScript>().startposition = playerposition;
