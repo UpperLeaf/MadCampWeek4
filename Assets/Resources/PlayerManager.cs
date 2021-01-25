@@ -85,17 +85,37 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
 
         if (photonView.IsMine)
         {
-            gameObject.GetComponent<Light2D>().enabled = true;
             bloodScreen = GameObject.Find("BloodScreen");
-            foreach (Transform transform in gameObject.transform)
-            {
-                if (transform.name == "sight")
-                {
-                    transform.gameObject.GetComponent<Light2D>().enabled = true;
-                    break;
-                }
-            }
+            EnableLight();
             CreatePlayerUI();
+        }
+        else
+            DisableLight();
+    }
+
+    private void EnableLight()
+    {
+        gameObject.GetComponent<Light2D>().enabled = true;
+        foreach (Transform transform in gameObject.transform)
+        {
+            if (transform.name == "sight")
+            {
+                transform.gameObject.GetComponent<Light2D>().enabled = true;
+                break;
+            }
+        }
+    }
+
+    private void DisableLight()
+    {
+        Destroy(GetComponent<Light2D>());
+        foreach (Transform transform in transform)
+        {
+            if (transform.name == "sight")
+            {
+                Destroy(transform.gameObject);
+                break;
+            }
         }
     }
 

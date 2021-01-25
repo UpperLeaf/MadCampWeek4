@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     [SerializeField]
     private GameObject playerPrefab;
     
+
     public static List<PlayerManager> playerManagers = new List<PlayerManager>();
 
     #region Photon Callbacks
