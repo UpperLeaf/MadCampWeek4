@@ -75,6 +75,8 @@ public class BombPlayerScript : AbstractPlayerScript
     {
         if (Input.GetMouseButtonUp(0) && current_bomb > 0 && isAttackable)
         {
+            if (skillUIController != null)
+                skillUIController.UseSkill(SkillUIController.SkillType.Attack, attackDelayTime);    
             Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 playerposition = transform.position;
             photonView.RPC("ThrowBomb", PhotonTargets.All, new object[] { mouse, playerposition });
@@ -108,6 +110,8 @@ public class BombPlayerScript : AbstractPlayerScript
     {
         if (Input.GetKeyUp(KeyCode.Space) && skillAvailable)
         {
+            if (skillUIController != null)
+                skillUIController.UseSkill(SkillUIController.SkillType.Skill, skillCoolTime);
             Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 playerposition = transform.position;
             photonView.RPC("ThrowBigBomb", PhotonTargets.All, new object[] { mouse, playerposition });

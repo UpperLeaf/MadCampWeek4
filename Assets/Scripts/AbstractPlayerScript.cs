@@ -32,7 +32,6 @@ public abstract class AbstractPlayerScript : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     protected virtual void Start()
     {
-        Debug.Log("Init Animator");
         animator = GetComponent<Animator>();
     }
 
