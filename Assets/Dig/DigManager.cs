@@ -22,21 +22,30 @@ public class DigManager : MonoBehaviourPunCallbacks
 
     private AbstarctPlayerAnimatorManager animatorManager;
 
+    public Vector3 tilemapCoordOffset;
+    [SerializeField]
+    private bool buildmode = false;
+
+    
     [SerializeField]
     private int num_rocks = 0;
 
     private Vector3Int coord;
     private Vector3Int offset = Vector3Int.zero;
     private Tile tile;
-
+    [SerializeField]
     private bool DigOrBuildBool;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        //wallspriterTransform = GameObject.Find("WallSpriteRenderer").transform;
+        wallspriterTransform = GameObject.Find("WallSpriteRenderer").transform;
+        wallspriterTransform.GetComponent<SpriteRenderer>().enabled = false;
         animator = GetComponent<Animator>();
         animatorManager = GetComponent<AbstarctPlayerAnimatorManager>();
+
+        tilemapCoordOffset = new Vector3(1, 1, 0);
 
         Animator[] animators = GetComponentsInChildren<Animator>();
         foreach (Animator animator in animators)
@@ -64,19 +73,34 @@ public class DigManager : MonoBehaviourPunCallbacks
             photonView.RPC("DigOrBuild", PhotonTargets.All, new object[] { mouse, playerposition });
         }
 
-        if (Input.GetKeyUp(KeyCode.F) && animator.GetCurrentAnimatorStateInfo(0).IsName("idle") && num_rocks > 0)
-        {
-            Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector2 playerposition = transform.position;
 
-            DigOrBuildBool = false;
-            photonView.RPC("DigOrBuild", PhotonTargets.All, new object[] { mouse, playerposition });
+        if (Input.GetKeyUp(KeyCode.F) &&  num_rocks > 0)
+        {
+            if (!buildmode)
+            {
+                Debug.Log("hi~");
+                wallspriterTransform.GetComponent<SpriteRenderer>().enabled = true;
+                buildmode = true;
+                StartCoroutine("showExpectedWall");
+            }
+            else if (animator.GetCurrentAnimatorStateInfo(0).IsName("idle"))
+            {
+                Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                Vector2 playerposition = transform.position;
+                Debug.Log("1");
+                wallspriterTransform.GetComponent<SpriteRenderer>().enabled = false;
+                Debug.Log("2");
+                buildmode = false;
+                Debug.Log("3");
+                DigOrBuildBool = false;
+                Debug.Log("4");
+                photonView.RPC("DigOrBuild", PhotonTargets.All, new object[] { mouse, playerposition });
+            }            
         }
 
-        if (Input.GetKeyUp(KeyCode.Q))
-        {
-            StartCoroutine("showExpectedWall");
-        }
+        
+
+        
     }
 
 
@@ -89,7 +113,7 @@ public class DigManager : MonoBehaviourPunCallbacks
 
     IEnumerator showExpectedWall()
     {
-        while (true)
+        while (buildmode)
         {
             Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 playerposition = transform.position;
@@ -100,6 +124,7 @@ public class DigManager : MonoBehaviourPunCallbacks
 
             if (-45f < angle && angle <= 45f)
             {
+                
                 offset.x = 1;
                 offset.y = 0;
             }
@@ -118,13 +143,15 @@ public class DigManager : MonoBehaviourPunCallbacks
                 offset.x = 0;
                 offset.y = -1;
             }
-            wallspriterTransform.position = wall.CellToWorld(wall.WorldToCell(coord + offset));
+
+            Vector3Int coordinate = wall.WorldToCell(playerposition);
+            Debug.Log(coordinate);
+
+            wallspriterTransform.position = wall.CellToWorld(coordinate+offset)+tilemapCoordOffset;
 
             yield return new WaitForSeconds(0.1f);
         }
     }
-
-    
 
     [PunRPC]
     public void DigOrBuild(Vector2 mouse, Vector2 playerposition)
