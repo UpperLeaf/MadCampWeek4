@@ -537,7 +537,7 @@ MonoBehaviour:
   hit0: {fileID: 11400000, guid: 6389fca4c2855bb4ba9a9f1def035823, type: 2}
   hit1: {fileID: 11400000, guid: 69d1e77ec0b4a30408f115b81fb88720, type: 2}
   hit2: {fileID: 11400000, guid: 5970bbb6b2623c845a0b54b6e5500040, type: 2}
-  wallspriterTransform: {fileID: 0}
+  wallspriterTransform: {fileID: 1014532562466178479}
   tilemapCoordOffset: {x: 0, y: 0, z: 0}
   buildmode: 0
   num_rocks: 0
@@ -554,6 +554,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3c2d169b149d174abb9bb016d915515, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  armAnimator: {fileID: 1613916515}
+  weaponAnimator: {fileID: 1109223541}
 --- !u!114 &8944989762220895071
 MonoBehaviour:
   m_ObjectHideFlags: 0

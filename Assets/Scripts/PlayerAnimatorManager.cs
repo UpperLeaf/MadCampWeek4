@@ -4,13 +4,16 @@ using System.Collections;
 using UnityEngine;
 public class PlayerAnimatorManager : AbstarctPlayerAnimatorManager
 {
-	#region MonoBehaviour CallBacks
-	protected override void Start()
+	[SerializeField]
+	private PlayerArmManager armManager;
+
+    #region MonoBehaviour CallBacks
+    protected override void Start()
 	{
 		base.Start();
 	}
 
-    protected override void Update()
+	protected override void Update()
     {
 		if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
 			return;
@@ -20,6 +23,14 @@ public class PlayerAnimatorManager : AbstarctPlayerAnimatorManager
 		if (!stateInfo.IsName("Dash"))
 			base.Update();
 	}
+	public override void DigStart()
+	{
+		armManager.DigStart();
+	}
+
+	public override void DigEnd()
+    {
+		armManager.DigEnd();
+    }
     #endregion
-  
 }

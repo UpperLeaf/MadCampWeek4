@@ -8,7 +8,6 @@ public abstract class AbstarctPlayerAnimatorManager : MonoBehaviourPunCallbacks
     protected Animator animator;
 
     private Vector3 playerScaleDirc;
-
     protected virtual void Start()
     {
         animator = GetComponent<Animator>();
@@ -35,4 +34,5 @@ public abstract class AbstarctPlayerAnimatorManager : MonoBehaviourPunCallbacks
         animator.SetFloat("Walk", h * h + v * v);
     }
     public abstract void DigStart();
+    public abstract void DigEnd();
 }

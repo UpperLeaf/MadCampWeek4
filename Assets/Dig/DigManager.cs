@@ -14,8 +14,6 @@ public class DigManager : MonoBehaviourPunCallbacks
     public Tile hit2;
 
     private Animator animator;
-    private Animator weaponAnimator;
-    private Animator armAnimator;
 
     [SerializeField]
     private Transform wallspriterTransform;
@@ -40,25 +38,12 @@ public class DigManager : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        wallspriterTransform = GameObject.Find("WallSpriteRenderer").transform;
         wallspriterTransform.GetComponent<SpriteRenderer>().enabled = false;
+
         animator = GetComponent<Animator>();
         animatorManager = GetComponent<AbstarctPlayerAnimatorManager>();
 
         tilemapCoordOffset = new Vector3(1, 1, 0);
-
-        Animator[] animators = GetComponentsInChildren<Animator>();
-        foreach (Animator animator in animators)
-        {
-            if (animator.gameObject.name == "arm")
-            {
-                armAnimator = animator;
-            }
-            else if (animator.gameObject.name == "bomb")
-            {
-                weaponAnimator = animator;
-            }
-        }
     }
 
     // Update is called once per frame
@@ -68,7 +53,9 @@ public class DigManager : MonoBehaviourPunCallbacks
         {
             Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 playerposition = transform.position;
-
+            
+            animatorManager.DigStart();
+            
             DigOrBuildBool = true;
             photonView.RPC("DigOrBuild", PhotonTargets.All, new object[] { mouse, playerposition });
         }
@@ -84,6 +71,8 @@ public class DigManager : MonoBehaviourPunCallbacks
             }
             else if (animator.GetCurrentAnimatorStateInfo(0).IsName("idle"))
             {
+                animatorManager.DigStart();
+
                 Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 Vector2 playerposition = transform.position;
                 wallspriterTransform.GetComponent<SpriteRenderer>().enabled = false;
@@ -92,18 +81,11 @@ public class DigManager : MonoBehaviourPunCallbacks
                 photonView.RPC("DigOrBuild", PhotonTargets.All, new object[] { mouse, playerposition });
             }            
         }
-
-        
-
-        
     }
-
 
     private void DigAnim()
     {
         animator.SetTrigger("Dig");
-        weaponAnimator.SetTrigger("Dig");
-        armAnimator.SetTrigger("Dig");
     }
 
     IEnumerator showExpectedWall()
@@ -156,9 +138,7 @@ public class DigManager : MonoBehaviourPunCallbacks
 
         wall = GameObject.Find("Wall").GetComponent<Tilemap>();
 
-
         float angle = Vector2.SignedAngle(Vector2.right, dir);
-               
 
         if (-45f <angle && angle <= 45f)
         {
@@ -187,6 +167,8 @@ public class DigManager : MonoBehaviourPunCallbacks
 
     public void DigDone()
     {
+        animatorManager.DigEnd();
+
         if (DigOrBuildBool)
         {
             if (tile == hit0)
