@@ -179,6 +179,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37ea21352d2b4b24d9f58bbb0df18d9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shakeDistance: {fileID: 2218043810224770885}
   startposition: {x: 0, y: 0}
   Target: {x: 0, y: 0}
   damage: 0.3

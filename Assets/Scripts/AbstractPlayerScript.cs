@@ -1,5 +1,6 @@
 ﻿using Cinemachine;
 using Photon.Pun;
+using System.Collections;
 using UnityEngine;
 
 public abstract class AbstractPlayerScript : MonoBehaviourPunCallbacks
@@ -22,6 +23,17 @@ public abstract class AbstractPlayerScript : MonoBehaviourPunCallbacks
     public void SetCinemachineBasicMultiChannelPerlin(CinemachineBasicMultiChannelPerlin perlin)
     {
         this.perlin = perlin;
+    }
+    public void ShakeCameraAttack(float intentsity, float time)
+    {
+        perlin.m_AmplitudeGain = intentsity;
+        StartCoroutine("ShakeTime", time);
+    }
+
+    IEnumerator ShakeTime(float time)
+    {
+        yield return new WaitForSeconds(time);
+        perlin.m_AmplitudeGain = 0;
     }
 
     public void SetSkillUiController(SkillUIController uIController)
