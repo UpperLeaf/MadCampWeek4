@@ -74,7 +74,6 @@ public class DigManager : MonoBehaviourPunCallbacks
         {
             if (!buildmode)
             {
-                Debug.Log("hi~");
                 wallspriterTransform.GetComponent<SpriteRenderer>().enabled = true;
                 buildmode = true;
                 StartCoroutine("showExpectedWall");
@@ -83,13 +82,9 @@ public class DigManager : MonoBehaviourPunCallbacks
             {
                 Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 Vector2 playerposition = transform.position;
-                Debug.Log("1");
                 wallspriterTransform.GetComponent<SpriteRenderer>().enabled = false;
-                Debug.Log("2");
                 buildmode = false;
-                Debug.Log("3");
                 DigOrBuildBool = false;
-                Debug.Log("4");
                 photonView.RPC("DigOrBuild", PhotonTargets.All, new object[] { mouse, playerposition });
             }            
         }
