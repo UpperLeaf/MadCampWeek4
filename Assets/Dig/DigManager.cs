@@ -32,7 +32,7 @@ public class DigManager : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        wallspriterTransform = GameObject.Find("WallSpriteRenderer").transform;
+        //wallspriterTransform = GameObject.Find("WallSpriteRenderer").transform;
         animator = GetComponent<Animator>();
 
         Animator[] animators = GetComponentsInChildren<Animator>();

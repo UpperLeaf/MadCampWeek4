@@ -52,7 +52,7 @@ namespace Photon.Pun.Demo.PunBasics
 
             //transform.localScale = dirc;
 
-            animator.SetFloat("walk", h * h + v * v);
+            animator.SetFloat("Walk", h * h + v * v);
 		}
 
 		
