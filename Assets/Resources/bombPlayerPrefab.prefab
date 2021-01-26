@@ -250,7 +250,7 @@ GameObject:
   - component: {fileID: -3934901215801903201}
   - component: {fileID: 8645997474182754121}
   - component: {fileID: 6154713001431595314}
-  - component: {fileID: 589245066599793282}
+  - component: {fileID: -6006959781375922050}
   m_Layer: 0
   m_Name: bombPlayerPrefab
   m_TagString: Player
@@ -548,7 +548,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3c2d169b149d174abb9bb016d915515, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &589245066599793282
+--- !u!114 &-6006959781375922050
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
