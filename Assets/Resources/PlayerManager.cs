@@ -32,16 +32,12 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
     [SerializeField]
     private GameObject bloodScreen;
 
-    private GameObject skillUI;
-
-    private PlayerAnimatorManager animatorManager;
+    private AbstarctPlayerAnimatorManager animatorManager;
     private AbstractPlayerScript playerScript;
 
     private bool isGameStart;
 
     private bool isDied;
-
-    
     private void Start()
     {
         if (photonView.IsMine)
@@ -64,6 +60,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
 
                     playerScript = GetComponent<AbstractPlayerScript>();
                     playerScript.SetCinemachineBasicMultiChannelPerlin(perlin);
+
+                    animatorManager = GetComponent<AbstarctPlayerAnimatorManager>();
 
                     isGameStart = false;
                 }
@@ -90,9 +88,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
         if (photonView.IsMine)
         {
             bloodScreen = GameObject.Find("BloodScreen");
-            skillUI = GameObject.Find("SkillUI");
-
-            //TODO Skill UI를 각 PlayerAnimator Manager과, Player Script에게 전달한다.
+            SkillUIController controller = GameObject.Find("SkillUI").GetComponent<SkillUIController>();
+            playerScript.SetSkillUiController(controller);
 
             EnableLight();
             CreatePlayerUI();

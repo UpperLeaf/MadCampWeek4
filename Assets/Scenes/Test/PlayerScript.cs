@@ -59,11 +59,14 @@ public class PlayerScript : AbstractPlayerScript
     {
         if (Input.GetMouseButtonUp(0) && isAttackAble)
         {
-            Debug.Log("1234");
             Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 playerposition = transform.position;
             Vector2 bulletvelocity = (mouse - playerposition).normalized * bulletSpeed;
+
             ShakeCameraAttack(1f, 0.1f);
+            if (skillUIController != null)
+                skillUIController.UseSkill(SkillUIController.SkillType.Attack, attackCoolTime);
+
             photonView.RPC("FireBullet", PhotonTargets.All, new object[] { bulletvelocity });
         }
     }
@@ -88,6 +91,10 @@ public class PlayerScript : AbstractPlayerScript
         if (Input.GetKeyDown(KeyCode.Space) && isDashAble)
         {
             isDashAble = false;
+
+            if (skillUIController != null)
+                skillUIController.UseSkill(SkillUIController.SkillType.Skill, dashCoolTime);
+            
             photonView.RPC("SetDashTrigger", PhotonTargets.All);
             StartCoroutine("DashEnd");
             StartCoroutine("DashCoolTime");

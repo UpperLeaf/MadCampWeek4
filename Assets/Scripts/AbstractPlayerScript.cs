@@ -6,6 +6,8 @@ public abstract class AbstractPlayerScript : MonoBehaviourPunCallbacks
 {
     protected CinemachineBasicMultiChannelPerlin perlin;
 
+    protected SkillUIController skillUIController;
+
     protected Animator animator;
     
     protected Vector3 velocity;
@@ -20,6 +22,11 @@ public abstract class AbstractPlayerScript : MonoBehaviourPunCallbacks
     public void SetCinemachineBasicMultiChannelPerlin(CinemachineBasicMultiChannelPerlin perlin)
     {
         this.perlin = perlin;
+    }
+
+    public void SetSkillUiController(SkillUIController uIController)
+    {
+        skillUIController = uIController;
     }
 
     // Start is called before the first frame update

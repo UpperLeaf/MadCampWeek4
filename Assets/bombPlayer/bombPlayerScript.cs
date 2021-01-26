@@ -73,10 +73,8 @@ public class BombPlayerScript : AbstractPlayerScript
     }
     protected override void Attack()
     {
-        Debug.Log("1234");
         if (Input.GetMouseButtonUp(0) && current_bomb > 0 && isAttackable)
         {
-            Debug.Log("12345");
             Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 playerposition = transform.position;
             photonView.RPC("ThrowBomb", PhotonTargets.All, new object[] { mouse, playerposition });

@@ -7,7 +7,6 @@ public class CanvasManager : MonoBehaviourPunCallbacks
 {
     [SerializeField]
     private GameObject stopGameMenu;
-
     private void Update()
     {
         if(Input.GetKeyDown(KeyCode.Escape))

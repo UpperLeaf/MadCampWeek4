@@ -35,7 +35,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     #endregion
 
     #region MonoBehaviour Callbacks
-
     
     private void Start()
     {

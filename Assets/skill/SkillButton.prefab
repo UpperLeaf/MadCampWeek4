@@ -353,4 +353,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillFilter: {fileID: 1120071980390417705}
   coolTimeCounter: {fileID: 1120071981575696550}
-  coolTime: 3
