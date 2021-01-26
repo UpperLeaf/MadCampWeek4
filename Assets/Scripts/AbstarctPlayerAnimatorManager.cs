@@ -15,7 +15,6 @@ public class AbstarctPlayerAnimatorManager : MonoBehaviourPunCallbacks
         playerScaleDirc = Vector3.one;
     }
 
-
     protected virtual void Update()
     {
         Move();
