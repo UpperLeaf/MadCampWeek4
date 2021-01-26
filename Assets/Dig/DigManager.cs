@@ -16,8 +16,10 @@ public class DigManager : MonoBehaviourPunCallbacks
     private Animator animator;
     private Animator weaponAnimator;
     private Animator armAnimator;
+    [SerializeField]
+    private Transform wallspriterTransform;
 
-    
+
     [SerializeField]
     private int num_rocks = 0;
 
@@ -30,7 +32,7 @@ public class DigManager : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-            
+        wallspriterTransform = GameObject.Find("WallSpriteRenderer").transform;
         animator = GetComponent<Animator>();
 
         Animator[] animators = GetComponentsInChildren<Animator>();
@@ -59,7 +61,7 @@ public class DigManager : MonoBehaviourPunCallbacks
             photonView.RPC("DigOrBuild", PhotonTargets.All, new object[] { mouse, playerposition });
         }
 
-        if (Input.GetKeyUp(KeyCode.F) && animator.GetCurrentAnimatorStateInfo(0).IsName("idle") && num_rocks>0)
+        if (Input.GetKeyUp(KeyCode.F) && animator.GetCurrentAnimatorStateInfo(0).IsName("idle") && num_rocks > 0)
         {
             Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 playerposition = transform.position;
@@ -67,14 +69,56 @@ public class DigManager : MonoBehaviourPunCallbacks
             DigOrBuildBool = false;
             photonView.RPC("DigOrBuild", PhotonTargets.All, new object[] { mouse, playerposition });
         }
+
+        if (Input.GetKeyUp(KeyCode.Q))
+        {
+            StartCoroutine("showExpectedWall");
+        }
     }
 
-    
+
     private void DigAnim()
     {
         animator.SetTrigger("Dig");
         weaponAnimator.SetTrigger("Dig");
         armAnimator.SetTrigger("Dig");
+    }
+
+    IEnumerator showExpectedWall()
+    {
+        while (true)
+        {
+            Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 playerposition = transform.position;
+
+            Vector2 dir = mouse - playerposition;
+
+            float angle = Vector2.SignedAngle(Vector2.right, dir);
+
+            if (-45f < angle && angle <= 45f)
+            {
+                offset.x = 1;
+                offset.y = 0;
+            }
+            else if (45f < angle && angle <= 135f)
+            {
+                offset.x = 0;
+                offset.y = 1;
+            }
+            else if (135f < angle || angle <= -135f)
+            {
+                offset.x = -1;
+                offset.y = 0;
+            }
+            else if (-135f < angle && angle <= -45f)
+            {
+                offset.x = 0;
+                offset.y = -1;
+            }
+            wallspriterTransform.position = wall.CellToWorld(wall.WorldToCell(coord + offset));
+
+            yield return new WaitForSeconds(0.1f);
+        }
     }
 
     
