@@ -20,7 +20,7 @@ GameObject:
   - component: {fileID: 7061283701390464153}
   - component: {fileID: 9012720272254763863}
   - component: {fileID: 2895045936070390891}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -331,7 +331,7 @@ GameObject:
   - component: {fileID: 8593882594973996427}
   - component: {fileID: 491647067842508911}
   - component: {fileID: 2027331432}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: arm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -445,7 +445,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4876207332102909067}
   - component: {fileID: 3419936546768576018}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -529,7 +529,7 @@ GameObject:
   - component: {fileID: 2308282088744570569}
   - component: {fileID: 546705857603307869}
   - component: {fileID: 552675415}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: fire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -685,6 +685,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: sight
+      objectReference: {fileID: 0}
+    - target: {fileID: 8143006962599887912, guid: e2ee038561b621c4a94263888c0540c2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 8731942882053483038, guid: e2ee038561b621c4a94263888c0540c2,
         type: 3}
