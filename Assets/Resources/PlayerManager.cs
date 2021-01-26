@@ -32,6 +32,11 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
     [SerializeField]
     private GameObject bloodScreen;
 
+    private GameObject skillUI;
+
+    private PlayerAnimatorManager animatorManager;
+    private AbstractPlayerScript playerScript;
+
     private bool isGameStart;
 
     private bool isDied;
@@ -56,11 +61,10 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
                     NoiseSettings shake = Resources.Load("6DShake") as NoiseSettings;
                     perlin.m_NoiseProfile = shake;
                     perlin.m_AmplitudeGain = 0;
-                    PlayerAnimatorManager animatorManager = GetComponent<PlayerAnimatorManager>();
-                    if (animatorManager != null)
-                    {
-                        animatorManager.SetCinemachineBasicMultiChannelPerlin(perlin);
-                    }
+
+                    playerScript = GetComponent<AbstractPlayerScript>();
+                    playerScript.SetCinemachineBasicMultiChannelPerlin(perlin);
+
                     isGameStart = false;
                 }
             }
@@ -86,6 +90,10 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
         if (photonView.IsMine)
         {
             bloodScreen = GameObject.Find("BloodScreen");
+            skillUI = GameObject.Find("SkillUI");
+
+            //TODO Skill UI를 각 PlayerAnimator Manager과, Player Script에게 전달한다.
+
             EnableLight();
             CreatePlayerUI();
         }
@@ -163,13 +171,9 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
-        {
             stream.SendNext(this.Health);
-        }
         else
-        {
             Health = (float)stream.ReceiveNext();
-        }
     }
 
     IEnumerator ShowBloodScreen()

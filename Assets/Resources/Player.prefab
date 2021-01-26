@@ -56,7 +56,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 491ae311275ba0d499cdfaf8154297ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dashCooltime: 0
+  speed: 300
+  bullet: {fileID: 4275022112241208827, guid: a0385457dbe8b444ca6ac99532645561, type: 3}
+  fireAnimator: {fileID: 546705857603307869}
+  dashCoolTime: 0
+  attackCoolTime: 0
 --- !u!114 &-2749396873195649313
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -129,11 +133,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7121f23d5d5ac34384371e51f6d2100, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireAnimator: {fileID: 546705857603307869}
-  directionDampTime: 0.25
-  dashSpeed: 0
-  AttackCooltime: 0.3
-  _bullet: {fileID: 4275022112241208827, guid: a0385457dbe8b444ca6ac99532645561, type: 3}
 --- !u!50 &2127500321533199139
 Rigidbody2D:
   serializedVersion: 4
