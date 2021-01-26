@@ -17,8 +17,15 @@ public class DigManager : MonoBehaviourPunCallbacks
     private Animator weaponAnimator;
     private Animator armAnimator;
 
+    
     [SerializeField]
     private int num_rocks = 0;
+
+    private Vector3Int coord;
+    private Vector3Int offset = Vector3Int.zero;
+    private Tile tile;
+
+    private bool DigOrBuildBool;
 
     // Start is called before the first frame update
     void Start()
@@ -43,17 +50,26 @@ public class DigManager : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.LeftShift))
+        if (Input.GetKeyUp(KeyCode.LeftShift) && animator.GetCurrentAnimatorStateInfo(0).IsName("idle"))
         {
             Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 playerposition = transform.position;
-            Debug.Log("Dig");
 
-            photonView.RPC("Dig", PhotonTargets.All, new object[] { mouse, playerposition });
+            DigOrBuildBool = true;
+            photonView.RPC("DigOrBuild", PhotonTargets.All, new object[] { mouse, playerposition });
+        }
+
+        if (Input.GetKeyUp(KeyCode.F) && animator.GetCurrentAnimatorStateInfo(0).IsName("idle") && num_rocks>0)
+        {
+            Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 playerposition = transform.position;
+
+            DigOrBuildBool = false;
+            photonView.RPC("DigOrBuild", PhotonTargets.All, new object[] { mouse, playerposition });
         }
     }
 
-    [PunRPC]
+    
     private void DigAnim()
     {
         animator.SetTrigger("Dig");
@@ -61,55 +77,80 @@ public class DigManager : MonoBehaviourPunCallbacks
         armAnimator.SetTrigger("Dig");
     }
 
+    
+
     [PunRPC]
-    public void Dig(Vector2 mouse, Vector2 playerposition)
+    public void DigOrBuild(Vector2 mouse, Vector2 playerposition)
     {
-        photonView.RPC("DigAnim", PhotonTargets.All);
+        DigAnim();
         Vector2 dir = mouse - playerposition;
 
         wall = GameObject.Find("Wall").GetComponent<Tilemap>();
 
 
         float angle = Vector2.SignedAngle(Vector2.right, dir);
-        Debug.Log(angle);
-        Vector3Int offset = Vector3Int.zero;
+               
 
         if (-45f <angle && angle <= 45f)
         {
-            Debug.Log(1);
             offset.x = 1;
-        }else if(45f < angle && angle <= 135f)
+            offset.y = 0;
+        }
+        else if(45f < angle && angle <= 135f)
         {
-            Debug.Log(2);
+            offset.x = 0;
             offset.y = 1;
-        }else if (135f < angle && angle <= -135f)
+        }else if (135f < angle || angle <= -135f)
         {
-            Debug.Log(3);
             offset.x = -1;
-        }else if (-135f < angle && angle <= -45f)
+            offset.y = 0;
+        }
+        else if (-135f < angle && angle <= -45f)
         {
-            Debug.Log(4);
+            offset.x = 0;
             offset.y = -1;
         }
 
-        Vector3Int coord = wall.WorldToCell(playerposition);
-        Debug.Log(coord);
-        TileBase tile = wall.GetTile<Tile>(coord+offset);
-        
-        if (tile == hit0)
-        {
-            Debug.Log(coord + offset);
-            wall.SetTile(coord+offset, hit1);
-        }
-        else if (tile == hit1)
-        {
-            wall.SetTile(coord + offset, hit2);
-        }
-        else if (tile == hit2)
-        {
-            wall.SetTile(coord + offset, null);
-        }
-        
+        coord = wall.WorldToCell(playerposition);
+        tile = wall.GetTile<Tile>(coord+offset);
 
     }
+
+    public void DigDone()
+    {
+        if (DigOrBuildBool)
+        {
+            if (tile == hit0)
+            {
+                wall.SetTile(coord + offset, hit1);
+            }
+            else if (tile == hit1)
+            {
+                wall.SetTile(coord + offset, hit2);
+            }
+            else if (tile == hit2)
+            {
+                wall.SetTile(coord + offset, null);
+
+                if (Random.Range(0f, 1f) > 0.1)
+                {
+                    num_rocks++;
+                }
+            }
+        }
+        else
+        {
+            if (tile == null)
+            {
+                wall.SetTile(coord + offset, hit0);
+                num_rocks--;
+            }
+        }
+        
+    }
+    
+
+
+
+
 }
