@@ -37,6 +37,8 @@ public class BombPlayerScript : AbstractPlayerScript
     private Animator weaponAnimator;
     private Animator armAnimator;
 
+    
+
     // Start is called before the first frame update
     protected override void Start()
     {
@@ -57,6 +59,7 @@ public class BombPlayerScript : AbstractPlayerScript
                 weaponAnimator = animator;
             }
         }
+
     }
 
     protected override void Update()
