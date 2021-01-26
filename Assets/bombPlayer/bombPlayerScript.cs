@@ -6,26 +6,33 @@ using UnityEngine.Tilemaps;
 
 public class BombPlayerScript : AbstractPlayerScript
 {
-    public GameObject _player;
-
-    public GameObject _bomb;
-
-    public GameObject _BigBomb;
+    [SerializeField]
+    private GameObject _bomb;
 
     [SerializeField]
-    private bool fireable = true;
-    [SerializeField]
-    private bool reloading = false;
+    private GameObject _BigBomb;
+    
     [SerializeField]
     private bool skillAvailable = true;
 
-    public float AttackDelayTime = 0.5f;
-    public float ReloadTime = 2f;
-    public float SkillCoolTime = 1f;
-    public int max_bomb = 5;
+    [SerializeField]
+    private float attackDelayTime = 0.5f;
+
+    [SerializeField]
+    private float reloadTime = 2f;
+
+    [SerializeField]
+    private float skillCoolTime= 1f;
+
+    [SerializeField]
+    private int max_bomb = 5;
 
     [SerializeField]
     private int current_bomb;
+    
+    private bool isAttackable;
+
+    private bool reloading = false;
 
     private Animator weaponAnimator;
     private Animator armAnimator;
@@ -34,7 +41,7 @@ public class BombPlayerScript : AbstractPlayerScript
     protected override void Start()
     {
         base.Start();
-        _player = gameObject;
+        isAttackable = true;
         current_bomb = max_bomb;
                
         Animator[] animators = GetComponentsInChildren<Animator>();
@@ -52,48 +59,55 @@ public class BombPlayerScript : AbstractPlayerScript
         }
     }
 
-    IEnumerator Reload()
-    {
-        Debug.Log("reloading");
-        yield return new WaitForSeconds(ReloadTime);
-        reloading = false;
-        current_bomb++;
-    }
-
-    IEnumerator AttackDelay()
-    {
-        yield return new WaitForSeconds(AttackDelayTime);
-        fireable = true;
-    }
-
-    IEnumerator SkillCool()
-    {
-        Debug.Log("SkillCool");
-        yield return new WaitForSeconds(SkillCoolTime);
-        skillAvailable = true;
-        
-    }
-
     protected override void Update()
     {
         if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
             return;
-
         base.Update();
-
-        if (Input.GetMouseButtonUp(0) && current_bomb > 0 && fireable)
-        {
-            Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector2 playerposition = transform.position;
-            photonView.RPC("ThrowBomb", PhotonTargets.All, new object[] { mouse, playerposition });
-        }
-
         if (!reloading && current_bomb < max_bomb)
         {
             reloading = true;
             StartCoroutine("Reload");
         }
+        Skill();
+    }
+    protected override void Attack()
+    {
+        Debug.Log("1234");
+        if (Input.GetMouseButtonUp(0) && current_bomb > 0 && isAttackable)
+        {
+            Debug.Log("12345");
+            Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 playerposition = transform.position;
+            photonView.RPC("ThrowBomb", PhotonTargets.All, new object[] { mouse, playerposition });
+        }
+    }
 
+    [PunRPC]
+    public void ThrowBomb(Vector2 mouse, Vector2 playerposition)
+    {
+        AttackTrigger();
+        isAttackable = false;
+        current_bomb--;
+        _bomb.GetComponent<bombObject>().Target = mouse;
+        _bomb.GetComponent<bombObject>().startposition = playerposition;
+        Instantiate(_bomb);
+        StartCoroutine("AttackDelay");
+    }
+
+    [PunRPC]
+    public void ThrowBigBomb(Vector2 mouse, Vector2 playerposition)
+    {
+        AttackTrigger();
+        skillAvailable = false;
+        _BigBomb.GetComponent<bigBombScript>().Target = mouse;
+        _BigBomb.GetComponent<bigBombScript>().startposition = playerposition;
+        Instantiate(_BigBomb);
+        StartCoroutine("SkillCool");
+    }
+
+    private void Skill()
+    {
         if (Input.GetKeyUp(KeyCode.Space) && skillAvailable)
         {
             Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -101,42 +115,32 @@ public class BombPlayerScript : AbstractPlayerScript
             photonView.RPC("ThrowBigBomb", PhotonTargets.All, new object[] { mouse, playerposition });
         }
     }
-    
-    //private void Attack()
-    //{
-    //    animator.SetTrigger("Attack");
-    //    weaponAnimator.SetTrigger("Attack");
-    //    armAnimator.SetTrigger("Attack");
-    //}
-
-    [PunRPC]
-    public void ThrowBomb(Vector2 mouse, Vector2 playerposition)
+    private void AttackTrigger()
     {
-        Attack();
-        fireable = false;
-        current_bomb--;
-        _bomb.GetComponent<bombObject>().Target = mouse;
-        _bomb.GetComponent<bombObject>().startposition = playerposition;
-        GameObject bomb = Instantiate(_bomb);
-        
-        StartCoroutine("AttackDelay");
+        animator.SetTrigger("Attack");
+        weaponAnimator.SetTrigger("Attack");
+        armAnimator.SetTrigger("Attack");
     }
 
-    [PunRPC]
-    public void ThrowBigBomb(Vector2 mouse, Vector2 playerposition)
+    IEnumerator Reload()
     {
-        Attack();
-        skillAvailable = false;
-        _BigBomb.GetComponent<bigBombScript>().Target = mouse;
-        _BigBomb.GetComponent<bigBombScript>().startposition = playerposition;
-        
-        GameObject bomb = Instantiate(_BigBomb);
-
-        StartCoroutine("SkillCool");
+        Debug.Log("reloading");
+        yield return new WaitForSeconds(reloadTime);
+        reloading = false;
+        current_bomb++;
     }
 
-    protected override void Attack()
+    IEnumerator AttackDelay()
     {
-        throw new System.NotImplementedException();
+        yield return new WaitForSeconds(attackDelayTime);
+        isAttackable = true;
+    }
+
+    IEnumerator SkillCool()
+    {
+        Debug.Log("SkillCool");
+        yield return new WaitForSeconds(skillCoolTime);
+        skillAvailable = true;
+
     }
 }
