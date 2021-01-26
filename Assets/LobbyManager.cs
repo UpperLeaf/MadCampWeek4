@@ -1,6 +1,8 @@
 ﻿using Photon.Pun;
+using Photon.Realtime;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LobbyManager : MonoBehaviourPunCallbacks
 {
@@ -43,19 +45,19 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     public void RiflemanClick()
     {
         PhotonNetwork.Instantiate(rifleMan.name, Vector3.zero, Quaternion.identity, 0);
+        PlayerManager.LocalPlayerInstance = rifleMan;
         TurnoffCharacterSelectUI();
     }
 
     public void BombmanClick()
     {
         PhotonNetwork.Instantiate(bombMan.name, Vector3.zero, Quaternion.identity, 0);
+        PlayerManager.LocalPlayerInstance = bombMan;
         TurnoffCharacterSelectUI();
     }
 
     public void GameStart()
     {
-        Debug.Log("Start Player : " + startPlayers);
-        Debug.Log("Current Player : " + PhotonNetwork.CurrentRoom.PlayerCount);
         if (PhotonNetwork.CurrentRoom.PlayerCount >= startPlayers)
         {
             _gameStartButton.SetActive(false);
@@ -66,5 +68,20 @@ public class LobbyManager : MonoBehaviourPunCallbacks
     private void TurnoffCharacterSelectUI()
     {
         _characterSelectUI.SetActive(false);
+    }
+
+    public override void OnLeftRoom()
+    {
+        SceneManager.LoadScene(0);
+    }
+
+
+    public override void OnMasterClientSwitched(Player newMasterClient)
+    {
+        base.OnMasterClientSwitched(newMasterClient);
+        if (PhotonNetwork.LocalPlayer.Equals(newMasterClient))
+        {
+            _gameStartButton.SetActive(true);
+        }
     }
 }

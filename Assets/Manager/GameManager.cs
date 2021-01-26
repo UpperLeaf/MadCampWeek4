@@ -1,4 +1,7 @@
 ﻿using Photon.Pun;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Experimental.Rendering.Universal;
 using UnityEngine.SceneManagement;
@@ -9,6 +12,21 @@ public class GameManager : MonoBehaviourPunCallbacks
     [SerializeField]
     private GameObject playerPrefab;
 
+    [SerializeField]
+    private GameObject winPanel;
+
+    [SerializeField]
+    private GameObject losePanel;
+
+    public static List<PlayerManager> playerManagers = new List<PlayerManager>();
+
+    public static GameManager Instance;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     #region Photon Callbacks
     public override void OnLeftRoom()
     {
@@ -17,55 +35,38 @@ public class GameManager : MonoBehaviourPunCallbacks
     #endregion
 
     #region MonoBehaviour Callbacks
-
+    
     private void Start()
     {
-        if (playerPrefab == null)
-            Debug.LogError("Missing Prefab");
-        else
-        {
-            if (PlayerManager.LocalPlayerInstance == null)
-            {
-                GameObject _player = PhotonNetwork.Instantiate(playerPrefab.name, new Vector3(-5f, 5f, 0f), Quaternion.identity, 0);
-            }
-        }
+        PhotonNetwork.Instantiate(PlayerManager.LocalPlayerInstance.name, new Vector3(-17f, 7f, 0f), Quaternion.identity, 0);
         PhotonNetwork.CurrentRoom.IsVisible = false;
-        PlayerManagerGameStart();
+        StartCoroutine("CheckGameWin");
     }
+
     #endregion
 
     #region Public Methods
     public void LeaveRoom()
     {
-        Destroy(GameObject.Find("Leave Button"));
         PhotonNetwork.LeaveRoom();
     }
     #endregion
-
-    #region Private Methods
-    private void PlayerManagerGameStart()
+    
+    public void GameWin()
     {
-        foreach (PhotonView view in PhotonNetwork.PhotonViewCollection)
-        {
-            PlayerManager playerManager = view.gameObject.GetComponent<PlayerManager>();
-            if (playerManager != null)
-            {
-                playerManager.GameStart();
-            }
+        winPanel.SetActive(true);
+    }
 
-            if (!view.IsMine)
-            {
-                Destroy(view.gameObject.GetComponent<Light2D>());
-                foreach (Transform transform in view.gameObject.transform)
-                {
-                    if (transform.name == "sight")
-                    {
-                        Destroy(transform.gameObject);
-                        break;
-                    }
-                }
-            }
+    public void GameLose()
+    {
+        losePanel.SetActive(true);   
+    }
+
+    public void CheckGameOver()
+    {
+        if(playerManagers.Count <= 1)
+        {
+            GameWin();
         }
     }
-    #endregion
 }

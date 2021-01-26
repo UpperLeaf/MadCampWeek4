@@ -4,158 +4,145 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class bombPlayerScript : MonoBehaviourPunCallbacks
+public class BombPlayerScript : AbstractPlayerScript
 {
-    public GameObject _player;
-
-    public GameObject _bomb;
-
-    public GameObject _BigBomb;
-
-    private float speed = 300f;
+    [SerializeField]
+    private GameObject _bomb;
 
     [SerializeField]
-    private bool fireable = true;
-    [SerializeField]
-    private bool reloading = false;
+    private GameObject _BigBomb;
+    
     [SerializeField]
     private bool skillAvailable = true;
 
-    public float AttackDelayTime = 0.5f;
-    public float ReloadTime = 2f;
-    public float SkillCoolTime = 1f;
-    public int max_bomb = 5;
+    [SerializeField]
+    private float attackDelayTime = 0.5f;
+
+    [SerializeField]
+    private float reloadTime = 2f;
+
+    [SerializeField]
+    private float skillCoolTime= 1f;
+
+    [SerializeField]
+    private int max_bomb = 5;
 
     [SerializeField]
     private int current_bomb;
+    
+    private bool isAttackable;
 
-    private float horizontal;
-    private float vertical;
+    private bool reloading = false;
 
-    private Vector3 velocity;
-
-    private Animator animator;
+    private Animator weaponAnimator;
+    private Animator armAnimator;
 
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
-        animator = GetComponent<Animator>();
-        _player = gameObject;
+        base.Start();
+        isAttackable = true;
         current_bomb = max_bomb;
-
+               
+        Animator[] animators = GetComponentsInChildren<Animator>();
         
+        foreach (Animator animator in animators)
+        {
+            if (animator.gameObject.name == "arm")
+            {
+                armAnimator = animator;
+            }
+            else if (animator.gameObject.name == "bomb")
+            {
+                weaponAnimator = animator;
+            }
+        }
     }
 
-    IEnumerator Reload()
-    {
-        Debug.Log("reloading");
-        yield return new WaitForSeconds(ReloadTime);
-        reloading = false;
-        current_bomb++;
-    }
-
-    IEnumerator AttackDelay()
-    {
-        yield return new WaitForSeconds(AttackDelayTime);
-        fireable = true;
-    }
-
-    IEnumerator SkillCool()
-    {
-        Debug.Log("SkillCool");
-        yield return new WaitForSeconds(SkillCoolTime);
-        skillAvailable = true;
-        
-    }
-
-    void Update()
+    protected override void Update()
     {
         if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
             return;
-
-        horizontal = Input.GetAxisRaw("Horizontal");
-        vertical = Input.GetAxisRaw("Vertical");
-
-        velocity.x = speed * horizontal * Time.deltaTime;
-        velocity.y = speed * vertical * Time.deltaTime;
-
-        transform.Translate(velocity * Time.deltaTime);
-
-        if (Input.GetMouseButtonUp(0) && current_bomb > 0 && fireable)
-        {
-            Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector2 playerposition = transform.position;
-            photonView.RPC("ThrowBomb", PhotonTargets.All, new object[] { mouse, playerposition });
-        }
-
+        base.Update();
         if (!reloading && current_bomb < max_bomb)
         {
             reloading = true;
             StartCoroutine("Reload");
         }
-
-        if (Input.GetKeyUp(KeyCode.Space) && skillAvailable)
+        Skill();
+    }
+    protected override void Attack()
+    {
+        if (Input.GetMouseButtonUp(0) && current_bomb > 0 && isAttackable)
         {
+            if (skillUIController != null)
+                skillUIController.UseSkill(SkillUIController.SkillType.Attack, attackDelayTime);    
             Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 playerposition = transform.position;
-            photonView.RPC("ThrowBigBomb", PhotonTargets.All, new object[] { mouse, playerposition });
+            photonView.RPC("ThrowBomb", PhotonTargets.All, new object[] { mouse, playerposition });
         }
-
-        if (Input.GetKeyUp(KeyCode.LeftShift))
-        {
-            Debug.Log("Dig");
-            Dig();
-        }
-    }
-    
-    [PunRPC]
-    private void Attack()
-    {
-        animator.SetTrigger("Attack");
     }
 
     [PunRPC]
     public void ThrowBomb(Vector2 mouse, Vector2 playerposition)
     {
-        photonView.RPC("Attack", PhotonTargets.All);
-        fireable = false;
+        AttackTrigger();
+        isAttackable = false;
         current_bomb--;
         _bomb.GetComponent<bombObject>().Target = mouse;
         _bomb.GetComponent<bombObject>().startposition = playerposition;
-        GameObject bomb = Instantiate(_bomb);
-        
+        Instantiate(_bomb);
         StartCoroutine("AttackDelay");
     }
 
     [PunRPC]
     public void ThrowBigBomb(Vector2 mouse, Vector2 playerposition)
     {
-        photonView.RPC("Attack", PhotonTargets.All);
+        AttackTrigger();
         skillAvailable = false;
         _BigBomb.GetComponent<bigBombScript>().Target = mouse;
         _BigBomb.GetComponent<bigBombScript>().startposition = playerposition;
-        
-        GameObject bomb = Instantiate(_BigBomb);
-
+        Instantiate(_BigBomb);
         StartCoroutine("SkillCool");
     }
 
-    [PunRPC]
-    public void Dig()
+    private void Skill()
     {
-        Tilemap[] tilemaps = FindObjectsOfType<Tilemap>();
-
-        foreach(Tilemap tilemap in tilemaps)
+        if (Input.GetKeyUp(KeyCode.Space) && skillAvailable)
         {
-            Debug.Log(tilemap);
-            if (tilemap.CompareTag("wall"))
-            {
-                Debug.Log("in");
-                Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                tilemap.SetTile(tilemap.WorldToCell(mousePosition), null);
-                
-            }
-            
+            if (skillUIController != null)
+                skillUIController.UseSkill(SkillUIController.SkillType.Skill, skillCoolTime);
+            Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 playerposition = transform.position;
+            photonView.RPC("ThrowBigBomb", PhotonTargets.All, new object[] { mouse, playerposition });
         }
+    }
+    private void AttackTrigger()
+    {
+        animator.SetTrigger("Attack");
+        weaponAnimator.SetTrigger("Attack");
+        armAnimator.SetTrigger("Attack");
+    }
+
+    IEnumerator Reload()
+    {
+        Debug.Log("reloading");
+        yield return new WaitForSeconds(reloadTime);
+        reloading = false;
+        current_bomb++;
+    }
+
+    IEnumerator AttackDelay()
+    {
+        yield return new WaitForSeconds(attackDelayTime);
+        isAttackable = true;
+    }
+
+    IEnumerator SkillCool()
+    {
+        Debug.Log("SkillCool");
+        yield return new WaitForSeconds(skillCoolTime);
+        skillAvailable = true;
+
     }
 }
