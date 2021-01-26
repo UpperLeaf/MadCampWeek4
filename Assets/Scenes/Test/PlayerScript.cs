@@ -3,38 +3,40 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerScript : MonoBehaviourPunCallbacks
+public class PlayerScript : AbstractPlayerScript
 {
-    private float speed = 300f;
+    [SerializeField]
+    private GameObject bullet;
+
+    [SerializeField]
+    private Animator fireAnimator;
 
     private float dashSpeed = 700f;
 
-    private bool isDead = false;
-
-    private Rigidbody2D body;
-
-    private Vector3 velocity;
-
-    private Animator animator;
+    private float bulletSpeed = 12f;
 
     private bool isDashAble;
 
+    private bool isAttackAble;
+
     [SerializeField]
-    private float dashCooltime;
+    private float dashCoolTime;
+
+    [SerializeField]
+    private float attackCoolTime;
     
-    private float horizontal;
-    private float vertical;
+    private SkillUI dashUI;
 
-    void Start()
+    protected override void Start()
     {
-        body = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
-
+        base.Start();
+        isAttackAble = true;
         isDashAble = true;
-        dashCooltime = 3f;
+        dashCoolTime = 3f;
+        attackCoolTime = 0.2f;
     }
 
-    private void Update()
+    protected override void Update()
     {
         if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
             return;
@@ -43,12 +45,7 @@ public class PlayerScript : MonoBehaviourPunCallbacks
 
         if (!stateInfo.IsName("Dash"))
         {
-            horizontal = Input.GetAxisRaw("Horizontal");
-            vertical = Input.GetAxisRaw("Vertical");
-
-            velocity.x = speed * horizontal * Time.deltaTime;
-            velocity.y = speed * vertical * Time.deltaTime;
-            transform.Translate(velocity * Time.deltaTime);
+            base.Update();
             Dash();
         }
         else
@@ -58,6 +55,34 @@ public class PlayerScript : MonoBehaviourPunCallbacks
             transform.Translate(velocity * Time.deltaTime);
         }
     }
+    protected override void Attack()
+    {
+        if (Input.GetMouseButtonUp(0) && isAttackAble)
+        {
+            Debug.Log("1234");
+            Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2 playerposition = transform.position;
+            Vector2 bulletvelocity = (mouse - playerposition).normalized * bulletSpeed;
+            ShakeCameraAttack(1f, 0.1f);
+            photonView.RPC("FireBullet", PhotonTargets.All, new object[] { bulletvelocity });
+        }
+    }
+
+    [PunRPC]
+    public void FireBullet(Vector2 bulletvelocity)
+    {
+        isAttackAble = false;
+
+        fireAnimator.SetTrigger("Attack");
+        
+        bullet.transform.position = transform.position;
+        bullet.GetComponent<bulletScript>()._player = gameObject;
+        
+        GameObject _bullet = Instantiate(bullet);
+        _bullet.GetComponent<Rigidbody2D>().velocity = bulletvelocity;
+        StartCoroutine("Reload");
+    }
+
     private void Dash()
     {
         if (Input.GetKeyDown(KeyCode.Space) && isDashAble)
@@ -68,12 +93,30 @@ public class PlayerScript : MonoBehaviourPunCallbacks
             StartCoroutine("DashCoolTime");
         }
     }
+
+    public void SetDashUI(SkillUI skill)
+    {
+        dashUI = skill;
+    }
     
     [PunRPC]
     private void SetDashTrigger()
     {
         animator.SetTrigger("Dash");
     }
+
+    private void ShakeCameraAttack(float intentsity, float time)
+    {
+        perlin.m_AmplitudeGain = intentsity;
+        StartCoroutine("ShakeTime", time);
+    }
+
+    IEnumerator ShakeTime(float time)
+    {
+        yield return new WaitForSeconds(time);
+        perlin.m_AmplitudeGain = 0;
+    }
+
     IEnumerator DashEnd()
     {
         yield return new WaitForSeconds(0.5f);
@@ -82,7 +125,12 @@ public class PlayerScript : MonoBehaviourPunCallbacks
 
     IEnumerator DashCoolTime()
     {
-        yield return new WaitForSeconds(dashCooltime);
+        yield return new WaitForSeconds(dashCoolTime);
         isDashAble = true;
+    }
+    IEnumerator Reload()
+    {
+        yield return new WaitForSeconds(attackCoolTime);
+        isAttackAble = true;
     }
 }

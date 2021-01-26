@@ -4,15 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class bombPlayerScript : MonoBehaviourPunCallbacks
+public class BombPlayerScript : AbstractPlayerScript
 {
     public GameObject _player;
 
     public GameObject _bomb;
 
     public GameObject _BigBomb;
-
-    private float speed = 300f;
 
     [SerializeField]
     private bool fireable = true;
@@ -29,26 +27,18 @@ public class bombPlayerScript : MonoBehaviourPunCallbacks
     [SerializeField]
     private int current_bomb;
 
-    private float horizontal;
-    private float vertical;
-
-    private Vector3 velocity;
-
-    private Animator animator;
     private Animator weaponAnimator;
     private Animator armAnimator;
 
-    
-
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
-        animator = GetComponent<Animator>();
+        base.Start();
         _player = gameObject;
         current_bomb = max_bomb;
                
-
         Animator[] animators = GetComponentsInChildren<Animator>();
+        
         foreach (Animator animator in animators)
         {
             if (animator.gameObject.name == "arm")
@@ -84,18 +74,12 @@ public class bombPlayerScript : MonoBehaviourPunCallbacks
         
     }
 
-    void Update()
+    protected override void Update()
     {
         if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
             return;
 
-        horizontal = Input.GetAxisRaw("Horizontal");
-        vertical = Input.GetAxisRaw("Vertical");
-
-        velocity.x = speed * horizontal * Time.deltaTime;
-        velocity.y = speed * vertical * Time.deltaTime;
-
-        transform.Translate(velocity * Time.deltaTime);
+        base.Update();
 
         if (Input.GetMouseButtonUp(0) && current_bomb > 0 && fireable)
         {
@@ -116,19 +100,14 @@ public class bombPlayerScript : MonoBehaviourPunCallbacks
             Vector2 playerposition = transform.position;
             photonView.RPC("ThrowBigBomb", PhotonTargets.All, new object[] { mouse, playerposition });
         }
-
-        
     }
     
-    
-    private void Attack()
-    {
-        animator.SetTrigger("Attack");
-        weaponAnimator.SetTrigger("Attack");
-        armAnimator.SetTrigger("Attack");
-    }
-
-    
+    //private void Attack()
+    //{
+    //    animator.SetTrigger("Attack");
+    //    weaponAnimator.SetTrigger("Attack");
+    //    armAnimator.SetTrigger("Attack");
+    //}
 
     [PunRPC]
     public void ThrowBomb(Vector2 mouse, Vector2 playerposition)
@@ -156,5 +135,8 @@ public class bombPlayerScript : MonoBehaviourPunCallbacks
         StartCoroutine("SkillCool");
     }
 
-    
+    protected override void Attack()
+    {
+        throw new System.NotImplementedException();
+    }
 }
