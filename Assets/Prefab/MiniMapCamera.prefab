@@ -10,9 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8286914806303441758}
   - component: {fileID: 8286914806303441757}
-  - component: {fileID: 8286914806303441756}
   - component: {fileID: 8286914806303441755}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: MiniMapCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -60,11 +59,11 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 200
+  orthographic size: 35
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 5943
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: eab1c8ebcb156174eb7f09e584de7b51, type: 2}
   m_TargetDisplay: 0
@@ -76,14 +75,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!81 &8286914806303441756
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8286914806303441754}
-  m_Enabled: 1
 --- !u!114 &8286914806303441755
 MonoBehaviour:
   m_ObjectHideFlags: 0

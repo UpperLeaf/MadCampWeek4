@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class bigBombScript : MonoBehaviour
 {
+    [SerializeField]
+    private CircleCollider2D shakeDistance;
+
     private Vector3 onAirVelocity = new Vector3(0, 0, 0);
 
     private float bombSpeed = 5f;
@@ -15,6 +18,7 @@ public class bigBombScript : MonoBehaviour
     private float Distance;
 
     public Vector2 startposition;
+
     public Vector2 Target;
 
     private Vector3 displacementdir;
@@ -44,10 +48,6 @@ public class bigBombScript : MonoBehaviour
             acceleration = -60f;
             onAirVelocity.y = -acceleration * Distance / (2 * bombSpeed);
         }
-
-
-
-
     }
 
     // Update is called once per frame
@@ -56,21 +56,14 @@ public class bigBombScript : MonoBehaviour
 
         if (Vector2.Distance(Target, transform.position) > 0.3f)
         {
-
-
             transform.position += bombSpeed * Time.deltaTime * displacementdir + onAirVelocity * Time.deltaTime;
             onAirVelocity.y += acceleration * Time.deltaTime;
-
         }
         else
         {
             GetComponent<Animator>().SetTrigger("blowUp");
         }
-
-
-
     }
-
     private void Destroy()
     {
         Destroy(gameObject);
@@ -78,20 +71,27 @@ public class bigBombScript : MonoBehaviour
 
     private void blowUp()
     {
-        Debug.Log("blowup");
         CircleCollider2D collider = GetComponent<CircleCollider2D>();
         collider.radius = 0.7f;
         Collider2D[] overlappedColliders = Physics2D.OverlapCircleAll(transform.position, 6 * collider.radius);
 
         foreach (Collider2D _collider in overlappedColliders)
         {
-            Debug.Log(_collider);
             if (_collider.CompareTag("Player"))
             {
                 _collider.gameObject.GetComponent<PlayerManager>().Damaged(damage);
             }
         }
 
+        Collider2D[] shakeDistancePlayerColliders = Physics2D.OverlapCircleAll(transform.position, 6 * shakeDistance.radius);
+
+        foreach (Collider2D _collider in shakeDistancePlayerColliders)
+        {
+            if (_collider.CompareTag("Player"))
+            {
+                _collider.GetComponent<AbstractPlayerScript>().ShakeCameraAttack(5f, 0.4f);
+            }
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

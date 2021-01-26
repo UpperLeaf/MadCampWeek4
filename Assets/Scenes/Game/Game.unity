@@ -722,6 +722,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1646169881578132109, guid: ba33c0b31c6ec92448a6e115af5bccb7,
+        type: 3}
+      propertyPath: m_Name
+      value: Spawn2
+      objectReference: {fileID: 0}
     - target: {fileID: 2944329245175262711, guid: ba33c0b31c6ec92448a6e115af5bccb7,
         type: 3}
       propertyPath: m_TagString
@@ -747,6 +752,21 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: -1319479455
       objectReference: {fileID: 0}
+    - target: {fileID: 3475561227938729493, guid: ba33c0b31c6ec92448a6e115af5bccb7,
+        type: 3}
+      propertyPath: m_Name
+      value: Spawn3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3768721860574835430, guid: ba33c0b31c6ec92448a6e115af5bccb7,
+        type: 3}
+      propertyPath: m_Name
+      value: Spawn0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5112336479788683197, guid: ba33c0b31c6ec92448a6e115af5bccb7,
+        type: 3}
+      propertyPath: m_Name
+      value: Spawn1
+      objectReference: {fileID: 0}
     - target: {fileID: 6571107734282850016, guid: ba33c0b31c6ec92448a6e115af5bccb7,
         type: 3}
       propertyPath: m_Name
@@ -754,6 +774,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ba33c0b31c6ec92448a6e115af5bccb7, type: 3}
+--- !u!1 &801437857 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6571107734282850016, guid: ba33c0b31c6ec92448a6e115af5bccb7,
+    type: 3}
+  m_PrefabInstance: {fileID: 801437856}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &814587681
 GameObject:
   m_ObjectHideFlags: 0
@@ -1217,20 +1243,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MiniMapCamera
       objectReference: {fileID: 0}
-    - target: {fileID: 8286914806303441754, guid: 8fe077d417d002b44944d631cb9edfdb,
-        type: 3}
-      propertyPath: m_Layer
-      value: 12
-      objectReference: {fileID: 0}
     - target: {fileID: 8286914806303441757, guid: 8fe077d417d002b44944d631cb9edfdb,
         type: 3}
       propertyPath: orthographic size
-      value: 35
-      objectReference: {fileID: 0}
-    - target: {fileID: 8286914806303441757, guid: 8fe077d417d002b44944d631cb9edfdb,
-        type: 3}
-      propertyPath: m_CullingMask.m_Bits
-      value: 5943
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 8286914806303441758, guid: 8fe077d417d002b44944d631cb9edfdb,
         type: 3}
@@ -1239,18 +1255,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8286914806303441758, guid: 8fe077d417d002b44944d631cb9edfdb,
         type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8286914806303441758, guid: 8fe077d417d002b44944d631cb9edfdb,
-        type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.9
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 8286914806303441758, guid: 8fe077d417d002b44944d631cb9edfdb,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -4.7
+      value: -48
       objectReference: {fileID: 0}
     - target: {fileID: 8286914806303441758, guid: 8fe077d417d002b44944d631cb9edfdb,
         type: 3}
@@ -1875,6 +1886,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
+    - target: {fileID: 6784066430125414127, guid: dfee84128296ef74d873356aaec4595b,
+        type: 3}
+      propertyPath: map
+      value: 
+      objectReference: {fileID: 801437857}
     - target: {fileID: 6784066430125414127, guid: dfee84128296ef74d873356aaec4595b,
         type: 3}
       propertyPath: winPanel

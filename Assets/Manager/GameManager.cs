@@ -1,4 +1,5 @@
 ﻿using Photon.Pun;
+using Photon.Realtime;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,6 +18,9 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     [SerializeField]
     private GameObject losePanel;
+
+    [SerializeField]
+    private GameObject map;
 
     public static List<PlayerManager> playerManagers = new List<PlayerManager>();
 
@@ -38,9 +42,17 @@ public class GameManager : MonoBehaviourPunCallbacks
     
     private void Start()
     {
-        PhotonNetwork.Instantiate(PlayerManager.LocalPlayerInstance.name, new Vector3(-17f, 7f, 0f), Quaternion.identity, 0);
-        PhotonNetwork.CurrentRoom.IsVisible = false;
-        StartCoroutine("CheckGameWin");
+        Player[] players = PhotonNetwork.PlayerList;
+        Array.Sort(players, (player1, player2) => (player1.ActorNumber > player2.ActorNumber) ? -1 : 1);
+
+        if (PhotonNetwork.IsMasterClient)
+            PhotonNetwork.CurrentRoom.IsVisible = false;
+
+        for (int i = 0; i < players.Length; i++)
+        {
+            if(players[i].Equals(PhotonNetwork.LocalPlayer))
+                PhotonNetwork.Instantiate(PlayerManager.LocalPlayerInstance.name, GameObject.Find("Spawn" + i).transform.position, Quaternion.identity, 0);
+        }
     }
 
     #endregion

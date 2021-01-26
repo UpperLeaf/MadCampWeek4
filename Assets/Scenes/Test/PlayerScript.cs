@@ -112,18 +112,6 @@ public class PlayerScript : AbstractPlayerScript
         animator.SetTrigger("Dash");
     }
 
-    private void ShakeCameraAttack(float intentsity, float time)
-    {
-        perlin.m_AmplitudeGain = intentsity;
-        StartCoroutine("ShakeTime", time);
-    }
-
-    IEnumerator ShakeTime(float time)
-    {
-        yield return new WaitForSeconds(time);
-        perlin.m_AmplitudeGain = 0;
-    }
-
     IEnumerator DashEnd()
     {
         yield return new WaitForSeconds(0.5f);
