@@ -16,9 +16,11 @@ public class DigManager : MonoBehaviourPunCallbacks
     private Animator animator;
     private Animator weaponAnimator;
     private Animator armAnimator;
+
     [SerializeField]
     private Transform wallspriterTransform;
 
+    private AbstarctPlayerAnimatorManager animatorManager;
 
     [SerializeField]
     private int num_rocks = 0;
@@ -34,6 +36,7 @@ public class DigManager : MonoBehaviourPunCallbacks
     {
         //wallspriterTransform = GameObject.Find("WallSpriteRenderer").transform;
         animator = GetComponent<Animator>();
+        animatorManager = GetComponent<AbstarctPlayerAnimatorManager>();
 
         Animator[] animators = GetComponentsInChildren<Animator>();
         foreach (Animator animator in animators)

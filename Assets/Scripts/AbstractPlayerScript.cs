@@ -50,7 +50,11 @@ public abstract class AbstractPlayerScript : MonoBehaviourPunCallbacks
     protected virtual void Update()
     {
         Move();
-        Attack();
+        AnimatorStateInfo animatorStateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        if (!animatorStateInfo.IsName("Dig"))
+        {
+            Attack();
+        }
     }
 
     protected abstract void Attack();
@@ -64,6 +68,5 @@ public abstract class AbstractPlayerScript : MonoBehaviourPunCallbacks
 
         transform.Translate(velocity * Time.deltaTime);
     }
-
 }
 

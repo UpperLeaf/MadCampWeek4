@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AbstarctPlayerAnimatorManager : MonoBehaviourPunCallbacks
+public abstract class AbstarctPlayerAnimatorManager : MonoBehaviourPunCallbacks
 {
     protected Animator animator;
 
@@ -34,4 +34,5 @@ public class AbstarctPlayerAnimatorManager : MonoBehaviourPunCallbacks
         transform.localScale = playerScaleDirc;
         animator.SetFloat("Walk", h * h + v * v);
     }
+    public abstract void DigStart();
 }
