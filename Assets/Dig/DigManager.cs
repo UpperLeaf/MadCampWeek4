@@ -9,6 +9,8 @@ public class DigManager : MonoBehaviourPunCallbacks
     [SerializeField]
     private Tilemap wall;
 
+    private Tilemap minimapwall;
+
     public Tile hit0;
     public Tile hit1;
     public Tile hit2;
@@ -146,6 +148,7 @@ public class DigManager : MonoBehaviourPunCallbacks
         Vector2 dir = mouse - playerposition;
 
         wall = GameObject.Find("Wall").GetComponent<Tilemap>();
+        minimapwall = GameObject.Find("minimapWall").GetComponent<Tilemap>();
 
         float angle = Vector2.SignedAngle(Vector2.right, dir);
 
@@ -191,6 +194,7 @@ public class DigManager : MonoBehaviourPunCallbacks
             else if (tile == hit2)
             {
                 wall.SetTile(coord + offset, null);
+                minimapwall.SetTile(coord+offset, null);
 
                 
                 num_rocks++;
@@ -204,6 +208,7 @@ public class DigManager : MonoBehaviourPunCallbacks
             if (tile == null)
             {
                 wall.SetTile(coord + offset, hit0);
+                minimapwall.SetTile(coord + offset, hit0);
                 num_rocks--;
                 if (abstractPlayerScript != null)
                     abstractPlayerScript.UpdateAmmo(SkillUIController.SkillType.MakeWall, num_rocks);
