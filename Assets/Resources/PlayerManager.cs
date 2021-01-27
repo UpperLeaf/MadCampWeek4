@@ -113,7 +113,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
 
     private void EnableLight()
     {
-        gameObject.GetComponent<Light2D>().enabled = true;
+        GetComponent<Light2D>().enabled = true;
         foreach (Transform transform in gameObject.transform)
         {
             if (transform.name == "sight")
@@ -126,7 +126,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
 
     private void DisableLight()
     {
-        Destroy(GetComponent<Light2D>());
+        GetComponent<Light2D>().enabled = false;
         foreach (Transform transform in transform)
         {
             if (transform.name == "sight")

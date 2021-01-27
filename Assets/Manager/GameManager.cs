@@ -53,9 +53,11 @@ public class GameManager : MonoBehaviourPunCallbacks
             if(players[i].Equals(PhotonNetwork.LocalPlayer))
                 PhotonNetwork.Instantiate(PlayerManager.LocalPlayerInstance.name, GameObject.Find("Spawn" + i).transform.position, Quaternion.identity, 0);
         }
-    }
 
+        StartCoroutine("TimerToShowPlayer");
+    }
     #endregion
+
 
     #region Public Methods
     public void LeaveRoom()
@@ -81,4 +83,35 @@ public class GameManager : MonoBehaviourPunCallbacks
             GameWin();
         }
     }
+
+
+    IEnumerator TimerToShowPlayer()
+    {
+        while (true)
+        {
+            ShowPlayer();
+            yield return new WaitForSeconds(10);
+        }
+    }
+
+
+    private void ShowPlayer()
+    {
+        playerManagers.ForEach(playerManager =>
+        {
+            playerManager.gameObject.GetComponent<Light2D>().enabled = true;
+        });
+
+        Invoke("HidePlayer", 2f);
+    }
+
+    private void HidePlayer()
+    {
+        playerManagers.ForEach(playerManager =>
+        {
+            if(!playerManager.GetComponent<PhotonView>().IsMine)
+                playerManager.gameObject.GetComponent<Light2D>().enabled = false;
+        });
+    }
+    
 }
