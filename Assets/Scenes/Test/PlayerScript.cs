@@ -50,6 +50,7 @@ public class PlayerScript : AbstractPlayerScript
         uIController.DisableAmmoText(SkillUIController.SkillType.Attack);
         uIController.SetImage(SkillUIController.SkillType.Attack, attackImage);
         uIController.SetImage(SkillUIController.SkillType.Skill, skillImage);
+        uIController.rifleInit();
         
         base.SetSkillUiController(uIController);
     }

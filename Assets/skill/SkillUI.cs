@@ -12,6 +12,8 @@ public class SkillUI : MonoBehaviour
     public TMP_Text ammoText;
     private float coolTime;
 
+    
+
     void Start()
     {
         skillFilter.fillAmount = 0;
@@ -39,6 +41,13 @@ public class SkillUI : MonoBehaviour
     public void SetImage(Sprite sprite)
     {
         icon.sprite =sprite;
+    }
+
+    public void iconInit(Vector3 position, Vector2 size, float rotation)
+    {
+        icon.rectTransform.localPosition = position;
+        icon.rectTransform.localEulerAngles = new Vector3(0,0,rotation);
+        icon.rectTransform.sizeDelta = size;
     }
 
     IEnumerator CoolTime()
