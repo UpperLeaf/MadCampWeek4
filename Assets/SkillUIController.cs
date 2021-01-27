@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SkillUIController : MonoBehaviour
 {
@@ -23,6 +24,12 @@ public class SkillUIController : MonoBehaviour
     {
         int target = (int)type;
         skillUi[target].DisableAmmo();
+    }
+
+    public void SetImage(SkillType type, Sprite sprite)
+    {
+        int target = (int)type;
+        skillUi[target].SetImage(sprite);
     }
 
     public enum SkillType

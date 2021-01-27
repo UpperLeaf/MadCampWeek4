@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerScript : AbstractPlayerScript
 {
@@ -27,6 +28,12 @@ public class PlayerScript : AbstractPlayerScript
     
     private SkillUI dashUI;
 
+    [SerializeField]
+    private Sprite attackImage;
+
+    [SerializeField]
+    private Sprite skillImage;
+
     protected override void Start()
     {
         base.Start();
@@ -41,6 +48,9 @@ public class PlayerScript : AbstractPlayerScript
     {
         
         uIController.DisableAmmoText(SkillUIController.SkillType.Attack);
+        uIController.SetImage(SkillUIController.SkillType.Attack, attackImage);
+        uIController.SetImage(SkillUIController.SkillType.Skill, skillImage);
+        
         base.SetSkillUiController(uIController);
     }
 

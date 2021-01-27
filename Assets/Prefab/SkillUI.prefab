@@ -87,7 +87,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 241604191044114711}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -220,7 +220,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 241604190824350800}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -353,7 +353,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 241604191112693180}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -600,6 +600,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5883870398095659418}
     m_Modifications:
+    - target: {fileID: 1120071980390417706, guid: 575f0eb413620954eaa02165e3c457b9,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1120071981596827696, guid: 575f0eb413620954eaa02165e3c457b9,
         type: 3}
       propertyPath: ammoText
@@ -742,6 +747,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5883870398095659418}
     m_Modifications:
+    - target: {fileID: 1120071980390417706, guid: 575f0eb413620954eaa02165e3c457b9,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1120071981596827696, guid: 575f0eb413620954eaa02165e3c457b9,
         type: 3}
       propertyPath: ammoText
@@ -857,6 +867,27 @@ PrefabInstance:
       propertyPath: m_Name
       value: makewall
       objectReference: {fileID: 0}
+    - target: {fileID: 2206354962774096069, guid: 575f0eb413620954eaa02165e3c457b9,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 4594052159879894319, guid: 626be61ea46848f48841509c5271e64f,
+        type: 3}
+    - target: {fileID: 5395080189055019594, guid: 575f0eb413620954eaa02165e3c457b9,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 5395080189055019594, guid: 575f0eb413620954eaa02165e3c457b9,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 5395080189055019594, guid: 575f0eb413620954eaa02165e3c457b9,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 575f0eb413620954eaa02165e3c457b9, type: 3}
 --- !u!224 &241604190824350800 stripped
@@ -884,6 +915,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5883870398095659418}
     m_Modifications:
+    - target: {fileID: 1120071980390417706, guid: 575f0eb413620954eaa02165e3c457b9,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1120071981596827696, guid: 575f0eb413620954eaa02165e3c457b9,
         type: 3}
       propertyPath: ammoText

@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class SkillUI : MonoBehaviour
 {
     public Image skillFilter;
+    [SerializeField]
+    private Image icon; 
     public TMP_Text coolTimeCounter;
     public TMP_Text ammoText;
     private float coolTime;
@@ -13,6 +15,7 @@ public class SkillUI : MonoBehaviour
     void Start()
     {
         skillFilter.fillAmount = 0;
+        
         coolTimeCounter = GetComponent<TMP_Text>();
     }
 
@@ -31,6 +34,11 @@ public class SkillUI : MonoBehaviour
     public void DisableAmmo()
     {
         ammoText.text = "";
+    }
+
+    public void SetImage(Sprite sprite)
+    {
+        icon.sprite =sprite;
     }
 
     IEnumerator CoolTime()
