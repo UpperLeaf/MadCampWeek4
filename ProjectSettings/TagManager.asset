@@ -8,6 +8,9 @@ TagManager:
   - bullet
   - Bullet
   - wall
+  - Red
+  - Green
+  - Blue
   layers:
   - Default
   - TransparentFX
@@ -23,7 +26,7 @@ TagManager:
   - MainCamera
   - MiniMapCamera
   - MapBorder
-  - 
+  - BattleField
   - 
   - 
   - 

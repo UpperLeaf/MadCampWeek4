@@ -32,7 +32,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
     [SerializeField]
     private GameObject bloodScreen;
 
-    private AbstarctPlayerAnimatorManager animatorManager;
     private AbstractPlayerScript playerScript;
 
     private bool isGameStart;
@@ -44,7 +43,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
         {
             _camera = Instantiate(CinemachineCameraPrefab);
             CinemachineVirtualCamera virtualCamera = _camera.GetComponent<CinemachineVirtualCamera>();
-            
+
             if (virtualCamera != null)
             {
                 if (photonView.IsMine)
@@ -58,7 +57,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
                     confiner.m_BoundingShape2D = map.GetComponent<MapManager>().GetMapCollider();
                     virtualCamera.AddExtension(confiner);
 
-                    CinemachineBasicMultiChannelPerlin perlin = 
+                    CinemachineBasicMultiChannelPerlin perlin =
                         virtualCamera.AddCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
 
                     NoiseSettings shake = Resources.Load("6DShake") as NoiseSettings;
@@ -67,8 +66,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
 
                     playerScript = GetComponent<AbstractPlayerScript>();
                     playerScript.SetCinemachineBasicMultiChannelPerlin(perlin);
-
-                    animatorManager = GetComponent<AbstarctPlayerAnimatorManager>();
 
                     isGameStart = false;
                 }
@@ -81,13 +78,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
             GameStart();
         }
     }
-
-
-    private void AddCinemachineConfine(CinemachineVirtualCamera camera)
-    {
-        
-    }
-
     public void OnDestroy()
     {
         Destroy(_camera);
@@ -123,7 +113,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
             }
         }
     }
-
     private void DisableLight()
     {
         GetComponent<Light2D>().enabled = false;
@@ -145,7 +134,6 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
             _uiObject.SendMessage("SetTarget", this, SendMessageOptions.RequireReceiver);
         }
     }
-    
     public void Damaged(float damage)
     {
         if (!isGameStart || !photonView.IsMine)
