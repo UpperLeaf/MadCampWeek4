@@ -50,7 +50,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
                 {
                     virtualCamera.Follow = gameObject.transform;
                     virtualCamera.m_Lens.Orthographic = true;
-                    virtualCamera.m_Lens.OrthographicSize = 7;
+                    virtualCamera.m_Lens.OrthographicSize = 9;
                     CinemachineBasicMultiChannelPerlin perlin = 
                         virtualCamera.AddCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
 

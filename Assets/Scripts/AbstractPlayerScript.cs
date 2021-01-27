@@ -26,8 +26,11 @@ public abstract class AbstractPlayerScript : MonoBehaviourPunCallbacks
     }
     public void ShakeCameraAttack(float intentsity, float time)
     {
-        perlin.m_AmplitudeGain = intentsity;
-        StartCoroutine("ShakeTime", time);
+        if (photonView.IsMine)
+        {
+            perlin.m_AmplitudeGain = intentsity;
+            StartCoroutine("ShakeTime", time);
+        }
     }
 
     IEnumerator ShakeTime(float time)
