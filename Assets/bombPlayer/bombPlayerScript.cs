@@ -73,6 +73,7 @@ public class BombPlayerScript : AbstractPlayerScript
 
         uIController.SetImage(SkillUIController.SkillType.Attack, attackImage);
         uIController.SetImage(SkillUIController.SkillType.Skill, skillImage);
+        uIController.bombInit();
 
         base.SetSkillUiController(uIController);
     }
