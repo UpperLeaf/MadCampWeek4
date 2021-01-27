@@ -7,6 +7,7 @@ public class SkillUI : MonoBehaviour
 {
     public Image skillFilter;
     public TMP_Text coolTimeCounter;
+    public TMP_Text ammoText;
     private float coolTime;
 
     void Start()
@@ -20,6 +21,16 @@ public class SkillUI : MonoBehaviour
         skillFilter.fillAmount = 1;
         this.coolTime = coolTime;
         StartCoroutine("CoolTime");
+    }
+
+    public void updateAmmo(int ammo)
+    {
+        ammoText.text = ammo.ToString();
+    }
+
+    public void DisableAmmo()
+    {
+        ammoText.text = "";
     }
 
     IEnumerator CoolTime()

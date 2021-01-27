@@ -34,7 +34,17 @@ public class PlayerScript : AbstractPlayerScript
         isDashAble = true;
         dashCoolTime = 3f;
         attackCoolTime = 0.2f;
+
     }
+
+    public override void SetSkillUiController(SkillUIController uIController)
+    {
+        
+        uIController.DisableAmmoText(SkillUIController.SkillType.Attack);
+        base.SetSkillUiController(uIController);
+    }
+
+    
 
     protected override void Update()
     {

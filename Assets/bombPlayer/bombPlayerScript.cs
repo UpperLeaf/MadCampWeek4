@@ -92,6 +92,7 @@ public class BombPlayerScript : AbstractPlayerScript
         AttackTrigger();
         isAttackable = false;
         current_bomb--;
+        UpdateAmmo(SkillUIController.SkillType.Attack, current_bomb);
         _bomb.GetComponent<bombObject>().Target = mouse;
         _bomb.GetComponent<bombObject>().startposition = playerposition;
         Instantiate(_bomb);
@@ -133,6 +134,7 @@ public class BombPlayerScript : AbstractPlayerScript
         yield return new WaitForSeconds(reloadTime);
         reloading = false;
         current_bomb++;
+        UpdateAmmo(SkillUIController.SkillType.Attack, current_bomb);
     }
 
     IEnumerator AttackDelay()
