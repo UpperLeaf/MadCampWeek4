@@ -49,6 +49,9 @@ public class DigManager : MonoBehaviourPunCallbacks
     // Update is called once per frame
     void Update()
     {
+        if (photonView.IsMine == false && PhotonNetwork.IsConnected == true)
+            return;
+
         if (Input.GetKeyUp(KeyCode.LeftShift) && animator.GetCurrentAnimatorStateInfo(0).IsName("idle"))
         {
             Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
