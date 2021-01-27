@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 
 public class DigManager : MonoBehaviourPunCallbacks
@@ -22,13 +23,13 @@ public class DigManager : MonoBehaviourPunCallbacks
 
     private AbstarctPlayerAnimatorManager animatorManager;
 
-    
+
 
     public Vector3 tilemapCoordOffset;
     [SerializeField]
     private bool buildmode = false;
 
-    
+
     [SerializeField]
     private int num_rocks = 0;
 
@@ -45,16 +46,23 @@ public class DigManager : MonoBehaviourPunCallbacks
     void Start()
     {
         abstractPlayerScript = GetComponent<AbstractPlayerScript>();
-        
+
         wallspriterTransform.GetComponent<SpriteRenderer>().enabled = false;
 
         animator = GetComponent<Animator>();
         animatorManager = GetComponent<AbstarctPlayerAnimatorManager>();
 
-        wall = GameObject.Find("Wall").GetComponent<Tilemap>();
-        minimapwall = GameObject.Find("minimapWall").GetComponent<Tilemap>();
-
+        GameScene();
         tilemapCoordOffset = new Vector3(1, 1, 0);
+    }
+
+    public void GameScene()
+    {
+        if (SceneManager.GetActiveScene().ToString().Equals("Game"))
+        {
+            wall = GameObject.Find("Wall").GetComponent<Tilemap>();
+            minimapwall = GameObject.Find("minimapWall").GetComponent<Tilemap>();
+        }
     }
 
     // Update is called once per frame
@@ -73,7 +81,6 @@ public class DigManager : MonoBehaviourPunCallbacks
             DigOrBuildBool = true;
             photonView.RPC("DigOrBuild", PhotonTargets.All, new object[] { mouse, playerposition });
         }
-
 
         if (Input.GetKeyUp(KeyCode.F) &&  num_rocks > 0)
         {

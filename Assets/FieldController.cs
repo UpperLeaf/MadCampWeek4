@@ -20,12 +20,12 @@ public class FieldController : MonoBehaviour
     }
     IEnumerator FieldResize()
     {
-        while (localScale.x > 5)
+        while (localScale.x > 0.2f)
         {
-            float size = localScale.x - 0.005f;
+            float size = localScale.x - 0.0005f;
             localScale = new Vector3(size, size, 1);
             transform.localScale = localScale;
-            yield return new WaitForSeconds(0.01f);
+            yield return new WaitForSeconds(0.02f);
         }
     }
 
