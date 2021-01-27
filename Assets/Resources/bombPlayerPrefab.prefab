@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1109223541}
   - component: {fileID: 1109223540}
   - component: {fileID: 1109223542}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: bomb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -127,7 +127,7 @@ GameObject:
   - component: {fileID: 1613916516}
   - component: {fileID: 1613916515}
   - component: {fileID: 1613916517}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: arm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -250,8 +250,8 @@ GameObject:
   - component: {fileID: -3934901215801903201}
   - component: {fileID: 8645997474182754121}
   - component: {fileID: 6154713001431595314}
-  - component: {fileID: 8944989762220895071}
-  m_Layer: 0
+  - component: {fileID: 8303745911993595811}
+  m_Layer: 10
   m_Name: bombPlayerPrefab
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -557,7 +557,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   armAnimator: {fileID: 1613916515}
   weaponAnimator: {fileID: 1109223541}
---- !u!114 &8944989762220895071
+--- !u!114 &8303745911993595811
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -593,7 +593,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2714175259381504105}
   - component: {fileID: 2108878930359216512}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: MiniMapPlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -732,6 +732,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: sight
       objectReference: {fileID: 0}
+    - target: {fileID: 8143006962599887912, guid: e2ee038561b621c4a94263888c0540c2,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e2ee038561b621c4a94263888c0540c2, type: 3}
 --- !u!4 &8995061016404082443 stripped
@@ -751,6 +756,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: WallSpriteRenderer
+      objectReference: {fileID: 0}
+    - target: {fileID: 5617972765868971861, guid: f85bfaf354df1884ab9d1219619efd5e,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8769428600101086392, guid: f85bfaf354df1884ab9d1219619efd5e,
         type: 3}

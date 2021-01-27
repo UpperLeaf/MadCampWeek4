@@ -44,6 +44,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
         {
             _camera = Instantiate(CinemachineCameraPrefab);
             CinemachineVirtualCamera virtualCamera = _camera.GetComponent<CinemachineVirtualCamera>();
+            
             if (virtualCamera != null)
             {
                 if (photonView.IsMine)
@@ -51,6 +52,12 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
                     virtualCamera.Follow = gameObject.transform;
                     virtualCamera.m_Lens.Orthographic = true;
                     virtualCamera.m_Lens.OrthographicSize = 9;
+
+                    CinemachineConfiner confiner = virtualCamera.GetComponent<CinemachineConfiner>();
+                    GameObject map = GameObject.Find("Map");
+                    confiner.m_BoundingShape2D = map.GetComponent<MapManager>().GetMapCollider();
+                    virtualCamera.AddExtension(confiner);
+
                     CinemachineBasicMultiChannelPerlin perlin = 
                         virtualCamera.AddCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
 
@@ -73,6 +80,12 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
             GameManager.playerManagers.Add(this);
             GameStart();
         }
+    }
+
+
+    private void AddCinemachineConfine(CinemachineVirtualCamera camera)
+    {
+        
     }
 
     public void OnDestroy()
@@ -100,7 +113,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
 
     private void EnableLight()
     {
-        gameObject.GetComponent<Light2D>().enabled = true;
+        GetComponent<Light2D>().enabled = true;
         foreach (Transform transform in gameObject.transform)
         {
             if (transform.name == "sight")
@@ -113,7 +126,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
 
     private void DisableLight()
     {
-        Destroy(GetComponent<Light2D>());
+        GetComponent<Light2D>().enabled = false;
         foreach (Transform transform in transform)
         {
             if (transform.name == "sight")
