@@ -25,6 +25,7 @@ public class bulletScript : MonoBehaviourPunCallbacks
             collision.GetComponent<IPlayer>().Damaged(0.1f);
 
         }
+        
         Destroy(gameObject);
     }
     IEnumerator Delete()

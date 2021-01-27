@@ -401,11 +401,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: SkillUI
       objectReference: {fileID: 0}
-    - target: {fileID: 3756402505430345794, guid: 939a5813adb3c5742bac03c9d452bb9e,
-        type: 3}
-      propertyPath: m_text
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 5883870398095659418, guid: 939a5813adb3c5742bac03c9d452bb9e,
         type: 3}
       propertyPath: m_Pivot.x
@@ -891,7 +886,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 3895
+    m_Bits: 12087
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -1113,6 +1108,11 @@ PrefabInstance:
         type: 3}
       propertyPath: orthographic size
       value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 8286914806303441757, guid: 8fe077d417d002b44944d631cb9edfdb,
+        type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 14135
       objectReference: {fileID: 0}
     - target: {fileID: 8286914806303441758, guid: 8fe077d417d002b44944d631cb9edfdb,
         type: 3}
