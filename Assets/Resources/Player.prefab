@@ -147,6 +147,10 @@ MonoBehaviour:
   fireAnimator: {fileID: 546705857603307869}
   dashCoolTime: 0
   attackCoolTime: 0
+  attackImage: {fileID: 8333481726314500824, guid: 23d536d6083344698e17aa8fc049b99f,
+    type: 3}
+  skillImage: {fileID: -6092536456907055262, guid: acb8cab598694f619dd44693cb68fb4e,
+    type: 3}
 --- !u!114 &-2749396873195649313
 MonoBehaviour:
   m_ObjectHideFlags: 0

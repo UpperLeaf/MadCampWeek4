@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8308329000131724936}
   - component: {fileID: 1098156028}
   - component: {fileID: 3574140514703250950}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: HealingZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -20,6 +20,8 @@ public class DigManager : MonoBehaviourPunCallbacks
 
     private AbstarctPlayerAnimatorManager animatorManager;
 
+    
+
     public Vector3 tilemapCoordOffset;
     [SerializeField]
     private bool buildmode = false;
@@ -34,10 +36,14 @@ public class DigManager : MonoBehaviourPunCallbacks
     [SerializeField]
     private bool DigOrBuildBool;
 
+    AbstractPlayerScript abstractPlayerScript;
+
 
     // Start is called before the first frame update
     void Start()
     {
+        abstractPlayerScript = GetComponent<AbstractPlayerScript>();
+        
         wallspriterTransform.GetComponent<SpriteRenderer>().enabled = false;
 
         animator = GetComponent<Animator>();
@@ -186,10 +192,11 @@ public class DigManager : MonoBehaviourPunCallbacks
             {
                 wall.SetTile(coord + offset, null);
 
-                if (Random.Range(0f, 1f) > 0.1)
-                {
-                    num_rocks++;
-                }
+                
+                num_rocks++;
+                if (abstractPlayerScript != null)
+                    abstractPlayerScript.UpdateAmmo(SkillUIController.SkillType.MakeWall, num_rocks);
+            
             }
         }
         else
@@ -198,6 +205,8 @@ public class DigManager : MonoBehaviourPunCallbacks
             {
                 wall.SetTile(coord + offset, hit0);
                 num_rocks--;
+                if (abstractPlayerScript != null)
+                    abstractPlayerScript.UpdateAmmo(SkillUIController.SkillType.MakeWall, num_rocks);
             }
         }
         

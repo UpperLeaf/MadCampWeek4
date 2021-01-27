@@ -37,7 +37,13 @@ public class BombPlayerScript : AbstractPlayerScript
     private Animator weaponAnimator;
     private Animator armAnimator;
 
-    
+    [SerializeField]
+    private Sprite attackImage;
+
+    [SerializeField]
+    private Sprite skillImage;
+
+
 
     // Start is called before the first frame update
     protected override void Start()
@@ -60,6 +66,15 @@ public class BombPlayerScript : AbstractPlayerScript
             }
         }
 
+    }
+
+    public override void SetSkillUiController(SkillUIController uIController)
+    {
+
+        uIController.SetImage(SkillUIController.SkillType.Attack, attackImage);
+        uIController.SetImage(SkillUIController.SkillType.Skill, skillImage);
+
+        base.SetSkillUiController(uIController);
     }
 
     protected override void Update()
@@ -92,6 +107,7 @@ public class BombPlayerScript : AbstractPlayerScript
         AttackTrigger();
         isAttackable = false;
         current_bomb--;
+        UpdateAmmo(SkillUIController.SkillType.Attack, current_bomb);
         _bomb.GetComponent<bombObject>().Target = mouse;
         _bomb.GetComponent<bombObject>().startposition = playerposition;
         Instantiate(_bomb);
@@ -133,6 +149,7 @@ public class BombPlayerScript : AbstractPlayerScript
         yield return new WaitForSeconds(reloadTime);
         reloading = false;
         current_bomb++;
+        UpdateAmmo(SkillUIController.SkillType.Attack, current_bomb);
     }
 
     IEnumerator AttackDelay()

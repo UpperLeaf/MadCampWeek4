@@ -579,6 +579,10 @@ MonoBehaviour:
   skillCoolTime: 1
   max_bomb: 5
   current_bomb: 0
+  attackImage: {fileID: 728885175555013623, guid: 09c6bf1cbce9be746b148f6019fd6750,
+    type: 3}
+  skillImage: {fileID: 728885175555013623, guid: 09c6bf1cbce9be746b148f6019fd6750,
+    type: 3}
 --- !u!1 &2292491597217093574
 GameObject:
   m_ObjectHideFlags: 0

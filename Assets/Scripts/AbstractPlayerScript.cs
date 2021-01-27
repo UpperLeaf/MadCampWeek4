@@ -39,9 +39,14 @@ public abstract class AbstractPlayerScript : MonoBehaviourPunCallbacks
         perlin.m_AmplitudeGain = 0;
     }
 
-    public void SetSkillUiController(SkillUIController uIController)
+    public virtual void SetSkillUiController(SkillUIController uIController)
     {
         skillUIController = uIController;
+    }
+
+    public void UpdateAmmo(SkillUIController.SkillType type, int ammo)
+    {
+        skillUIController.updateAmmo(type, ammo);
     }
 
     // Start is called before the first frame update
@@ -70,6 +75,11 @@ public abstract class AbstractPlayerScript : MonoBehaviourPunCallbacks
         velocity.y = speed * vertical * Time.deltaTime;
 
         transform.Translate(velocity * Time.deltaTime);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log(collision.gameObject);
     }
 }
 
