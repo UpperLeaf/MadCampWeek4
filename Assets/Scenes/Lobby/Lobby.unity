@@ -726,7 +726,7 @@ PrefabInstance:
     - target: {fileID: 5487661813838759367, guid: 7ef82f85e83c9064c93d18a2aad5b3b3,
         type: 3}
       propertyPath: m_Name
-      value: LobbyMap
+      value: Map
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7ef82f85e83c9064c93d18a2aad5b3b3, type: 3}

@@ -44,6 +44,7 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
         {
             _camera = Instantiate(CinemachineCameraPrefab);
             CinemachineVirtualCamera virtualCamera = _camera.GetComponent<CinemachineVirtualCamera>();
+            
             if (virtualCamera != null)
             {
                 if (photonView.IsMine)
@@ -51,6 +52,12 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
                     virtualCamera.Follow = gameObject.transform;
                     virtualCamera.m_Lens.Orthographic = true;
                     virtualCamera.m_Lens.OrthographicSize = 9;
+
+                    CinemachineConfiner confiner = virtualCamera.GetComponent<CinemachineConfiner>();
+                    GameObject map = GameObject.Find("Map");
+                    confiner.m_BoundingShape2D = map.GetComponent<MapManager>().GetMapCollider();
+                    virtualCamera.AddExtension(confiner);
+
                     CinemachineBasicMultiChannelPerlin perlin = 
                         virtualCamera.AddCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
 
@@ -73,6 +80,12 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
             GameManager.playerManagers.Add(this);
             GameStart();
         }
+    }
+
+
+    private void AddCinemachineConfine(CinemachineVirtualCamera camera)
+    {
+        
     }
 
     public void OnDestroy()
