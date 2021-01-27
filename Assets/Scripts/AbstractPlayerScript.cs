@@ -46,7 +46,8 @@ public abstract class AbstractPlayerScript : MonoBehaviourPunCallbacks
 
     public void UpdateAmmo(SkillUIController.SkillType type, int ammo)
     {
-        skillUIController.updateAmmo(type, ammo);
+        if(skillUIController != null)
+            skillUIController.updateAmmo(type, ammo);
     }
 
     // Start is called before the first frame update
