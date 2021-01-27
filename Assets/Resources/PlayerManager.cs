@@ -146,6 +146,24 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
         }
     }
 
+    public void heal(float healamount)
+    {
+        if (!isGameStart || !photonView.IsMine)
+            return;
+
+        if (Health >= 1f)
+        {
+            Health = 1f;
+        }
+        else
+        {
+            Health += healamount;
+        }
+               
+                
+    }
+
+
     [PunRPC]
     public void Dead()
     {
