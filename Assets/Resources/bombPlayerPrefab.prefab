@@ -251,7 +251,6 @@ GameObject:
   - component: {fileID: 8645997474182754121}
   - component: {fileID: 6154713001431595314}
   - component: {fileID: 8303745911993595811}
-  - component: {fileID: 2490349617932796921}
   m_Layer: 10
   m_Name: bombPlayerPrefab
   m_TagString: Player
@@ -578,32 +577,6 @@ MonoBehaviour:
   attackDelayTime: 0.5
   reloadTime: 2
   skillCoolTime: 1
-  max_bomb: 5
-  current_bomb: 0
-  attackImage: {fileID: 728885175555013623, guid: 09c6bf1cbce9be746b148f6019fd6750,
-    type: 3}
-  skillImage: {fileID: 728885175555013623, guid: 09c6bf1cbce9be746b148f6019fd6750,
-    type: 3}
---- !u!114 &2490349617932796921
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 312227030050725378}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1bd111c61f61ce40ab2d8198a545ae1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 300
-  _bomb: {fileID: 4323721406397885411, guid: 655dd44e520e1e04a91e8f1634729e67, type: 3}
-  _BigBomb: {fileID: 6825826255039234592, guid: 6ad64b336da37114784ac538cae18d98,
-    type: 3}
-  skillAvailable: 1
-  attackDelayTime: 0.5
-  reloadTime: 2
-  skillCoolTime: 3
   max_bomb: 5
   current_bomb: 0
   attackImage: {fileID: 728885175555013623, guid: 09c6bf1cbce9be746b148f6019fd6750,
