@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 3819272090731002647}
   - component: {fileID: 3819272090747337743}
   - component: {fileID: 3819272090752005721}
+  - component: {fileID: 3819272091257349685}
+  - component: {fileID: 3819272091257349684}
   m_Layer: 14
   m_Name: BattleField
   m_TagString: Blue
@@ -111,3 +113,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4fb2aaece071b34c8d9764427be8034, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BattleFieldNotifier: {fileID: 0}
+--- !u!114 &3819272091257349685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3819272090752116337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  observableSearch: 2
+  Synchronization: 3
+  OwnershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 3819272091257349684}
+  viewIdField: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &3819272091257349684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3819272090752116337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+  m_UseLocal: 1

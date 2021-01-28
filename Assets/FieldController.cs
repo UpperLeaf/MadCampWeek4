@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Photon.Pun;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FieldController : MonoBehaviour
+public class FieldController : MonoBehaviourPunCallbacks
 {
     private CircleCollider2D fieldCollider;
 
@@ -24,9 +25,10 @@ public class FieldController : MonoBehaviour
         fieldCollider = GetComponent<CircleCollider2D>();
         colliderOffset = fieldCollider.offset;
         localScale = transform.localScale;
-        StartCoroutine("FieldResize");
-        StartCoroutine("DamageToPlayer");
 
+        if (PhotonNetwork.IsMasterClient)
+            StartCoroutine("FieldResize");
+        StartCoroutine("DamageToPlayer");
     }
 
     private void Update()
@@ -42,10 +44,6 @@ public class FieldController : MonoBehaviour
             float theta = UnityEngine.Random.Range(-180f, 180f);
 
             Vector3 offset = new Vector3(r * Mathf.Cos(theta) * fieldCollider.radius, r * Mathf.Sin(theta) * fieldCollider.radius, 0);
-            Debug.Log(r);
-            Debug.Log(theta);
-            Debug.Log(offset);
-
 
             BattleFieldNotifier.transform.position = transform.position + offset;
             BattleFieldNotifier.transform.localScale = new Vector3(StageScale[currentBattlefieldStage + 1], StageScale[currentBattlefieldStage + 1], 0);
@@ -57,7 +55,6 @@ public class FieldController : MonoBehaviour
                 transform.localScale = localScale;
                 yield return new WaitForSeconds(0.02f);
             }
-
             currentBattlefieldStage++;
         }       
         
@@ -82,7 +79,6 @@ public class FieldController : MonoBehaviour
                 return true;
             }).ForEach((manager) =>
             {
-                Debug.Log("Manager : " + manager);
                 manager.GetComponent<PlayerManager>().Damaged(0.01f);
             });
 
