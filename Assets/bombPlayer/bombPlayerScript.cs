@@ -99,6 +99,7 @@ public class BombPlayerScript : AbstractPlayerScript
             Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 playerposition = transform.position;
             photonView.RPC("ThrowBomb", PhotonTargets.All, new object[] { mouse, playerposition });
+            StartCoroutine("AttackDelay");
         }
     }
 
@@ -112,7 +113,7 @@ public class BombPlayerScript : AbstractPlayerScript
         _bomb.GetComponent<bombObject>().Target = mouse;
         _bomb.GetComponent<bombObject>().startposition = playerposition;
         Instantiate(_bomb);
-        StartCoroutine("AttackDelay");
+        StartCoroutine("SkillCool");
     }
 
     [PunRPC]
@@ -123,7 +124,6 @@ public class BombPlayerScript : AbstractPlayerScript
         _BigBomb.GetComponent<bigBombScript>().Target = mouse;
         _BigBomb.GetComponent<bigBombScript>().startposition = playerposition;
         Instantiate(_BigBomb);
-        StartCoroutine("SkillCool");
     }
 
     private void Skill()
@@ -135,8 +135,10 @@ public class BombPlayerScript : AbstractPlayerScript
             Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 playerposition = transform.position;
             photonView.RPC("ThrowBigBomb", PhotonTargets.All, new object[] { mouse, playerposition });
+            StartCoroutine("SkillCool");
         }
     }
+
     private void AttackTrigger()
     {
         animator.SetTrigger("Attack");

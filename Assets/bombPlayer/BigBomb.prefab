@@ -181,8 +181,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shakeDistance: {fileID: 2218043810224770885}
-  startposition: {x: 0, y: 0}
-  Target: {x: 0, y: 0}
+  startposition: {x: 15.161011, y: -17.607359}
+  Target: {x: 16.223665, y: -19.327145}
   damage: 0.3
   bombAttackClip: {fileID: 8300000, guid: 1168c1f4e63a2da44bdb5e207094d50c, type: 3}
 --- !u!82 &7434221867186437225
@@ -196,7 +196,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
