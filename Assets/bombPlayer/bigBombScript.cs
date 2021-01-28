@@ -21,7 +21,7 @@ public class bigBombScript : MonoBehaviour
 
     public Vector2 Target;
 
-    private Vector3 displacementdir;
+    private Vector3 displacement;
 
     private bool blowup = false;
 
@@ -42,7 +42,7 @@ public class bigBombScript : MonoBehaviour
 
         //for far target
         acceleration = -8 * bombheight * bombSpeed * bombSpeed / (Distance * Distance);
-        displacementdir = new Vector3((Target - startposition).normalized.x, (Target - startposition).normalized.y, 0);
+        displacement = new Vector3((Target - startposition).normalized.x, (Target - startposition).normalized.y, 0);
         onAirVelocity.y = 4 * bombSpeed * bombheight / Distance;
 
         audioSource = GetComponent<AudioSource>();
@@ -61,7 +61,7 @@ public class bigBombScript : MonoBehaviour
     {
         if (Vector2.Distance(Target, transform.position) > 0.3f)
         {
-            transform.position += bombSpeed * Time.deltaTime * displacementdir + onAirVelocity * Time.deltaTime;
+            transform.position += bombSpeed * Time.deltaTime * displacement + onAirVelocity * Time.deltaTime;
             onAirVelocity.y += acceleration * Time.deltaTime;
         }
         else

@@ -1906,6 +1906,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3819272091257349684, guid: eb401de78cb5a8a4c8c7717e1c71ebba,
         type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3819272091257349684, guid: eb401de78cb5a8a4c8c7717e1c71ebba,
+        type: 3}
       propertyPath: m_SynchronizeScale
       value: 1
       objectReference: {fileID: 0}

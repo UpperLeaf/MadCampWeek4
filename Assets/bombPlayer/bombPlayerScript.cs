@@ -120,7 +120,6 @@ public class BombPlayerScript : AbstractPlayerScript
     public void ThrowBigBomb(Vector2 mouse, Vector2 playerposition)
     {
         AttackTrigger();
-        skillAvailable = false;
         _BigBomb.GetComponent<bigBombScript>().Target = mouse;
         _BigBomb.GetComponent<bigBombScript>().startposition = playerposition;
         Instantiate(_BigBomb);
@@ -130,6 +129,7 @@ public class BombPlayerScript : AbstractPlayerScript
     {
         if (Input.GetKeyUp(KeyCode.Space) && skillAvailable)
         {
+            skillAvailable = false;
             if (skillUIController != null)
                 skillUIController.UseSkill(SkillUIController.SkillType.Skill, skillCoolTime);
             Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -148,7 +148,6 @@ public class BombPlayerScript : AbstractPlayerScript
 
     IEnumerator Reload()
     {
-        Debug.Log("reloading");
         yield return new WaitForSeconds(reloadTime);
         reloading = false;
         current_bomb++;
@@ -163,9 +162,7 @@ public class BombPlayerScript : AbstractPlayerScript
 
     IEnumerator SkillCool()
     {
-        Debug.Log("SkillCool");
         yield return new WaitForSeconds(skillCoolTime);
         skillAvailable = true;
-
     }
 }

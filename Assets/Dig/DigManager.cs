@@ -57,12 +57,9 @@ public class DigManager : MonoBehaviourPunCallbacks
 
         animator = GetComponent<Animator>();
         animatorManager = GetComponent<AbstarctPlayerAnimatorManager>();
-
-              
-
+        
         GameScene();
         tilemapCoordOffset = new Vector3(1, 1, 0);
-
 
         audioSource = GetComponent<AudioSource>();
     }

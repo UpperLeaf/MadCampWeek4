@@ -12,7 +12,8 @@ public class PlayerScript : AbstractPlayerScript
     [SerializeField]
     private Animator fireAnimator;
 
-    private float dashSpeed = 700f;
+    [SerializeField]
+    private float dashSpeed = 10f;
 
     private float bulletSpeed = 12f;
 
@@ -57,7 +58,6 @@ public class PlayerScript : AbstractPlayerScript
         base.SetSkillUiController(uIController);
     }
 
-    
 
     protected override void Update()
     {
@@ -73,8 +73,14 @@ public class PlayerScript : AbstractPlayerScript
         }
         else
         {
-            velocity.x = dashSpeed * horizontal * Time.deltaTime;
-            velocity.y = dashSpeed * vertical * Time.deltaTime;
+            velocity.x = horizontal;
+            velocity.y = vertical;
+            
+            velocity.Normalize();
+
+            velocity.x *= dashSpeed;
+            velocity.y *= dashSpeed;
+
             transform.Translate(velocity * Time.deltaTime);
         }
     }

@@ -143,9 +143,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 491ae311275ba0d499cdfaf8154297ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 300
+  speed: 5
   bullet: {fileID: 4275022112241208827, guid: a0385457dbe8b444ca6ac99532645561, type: 3}
   fireAnimator: {fileID: 546705857603307869}
+  dashSpeed: 10
   dashCoolTime: 0
   attackCoolTime: 0
   attackImage: {fileID: 8333481726314500824, guid: 23d536d6083344698e17aa8fc049b99f,

@@ -11,7 +11,7 @@ public abstract class AbstractPlayerScript : MonoBehaviourPunCallbacks
 
     protected Animator animator;
     
-    protected Vector3 velocity;
+    protected Vector2 velocity;
     
     protected float horizontal;
 
@@ -20,7 +20,7 @@ public abstract class AbstractPlayerScript : MonoBehaviourPunCallbacks
     protected AudioSource audioSource;
 
     [SerializeField]
-    private float speed = 300f;
+    private float speed = 150f;
     
     public void SetCinemachineBasicMultiChannelPerlin(CinemachineBasicMultiChannelPerlin perlin)
     {
@@ -76,15 +76,15 @@ public abstract class AbstractPlayerScript : MonoBehaviourPunCallbacks
         horizontal = Input.GetAxisRaw("Horizontal");
         vertical = Input.GetAxisRaw("Vertical");
 
-        velocity.x = speed * horizontal * Time.deltaTime;
-        velocity.y = speed * vertical * Time.deltaTime;
+        velocity.x = horizontal;
+        velocity.y = vertical;
+        
+        velocity = velocity.normalized;
+
+        velocity.x *= speed;
+        velocity.y *= speed;
 
         transform.Translate(velocity * Time.deltaTime);
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        Debug.Log(collision.gameObject);
     }
 }
 

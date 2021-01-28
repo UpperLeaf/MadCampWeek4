@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     [SerializeField]
     private GameObject map;
 
-    public static List<PlayerManager> playerManagers = new List<PlayerManager>();
+    public static List<PlayerManager> playerManagers;
 
     public static GameManager Instance;
 
@@ -42,6 +42,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     
     private void Start()
     {
+        playerManagers = new List<PlayerManager>();
+        
         Player[] players = PhotonNetwork.PlayerList;
         Array.Sort(players, (player1, player2) => (player1.ActorNumber > player2.ActorNumber) ? -1 : 1);
 

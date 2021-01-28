@@ -720,6 +720,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Attack
       objectReference: {fileID: 0}
+    - target: {fileID: 2899771692713099424, guid: 575f0eb413620954eaa02165e3c457b9,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 575f0eb413620954eaa02165e3c457b9, type: 3}
 --- !u!224 &241604191044114711 stripped
@@ -873,6 +878,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4594052159879894319, guid: 626be61ea46848f48841509c5271e64f,
         type: 3}
+    - target: {fileID: 2899771692713099424, guid: 575f0eb413620954eaa02165e3c457b9,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 5395080189055019594, guid: 575f0eb413620954eaa02165e3c457b9,
         type: 3}
       propertyPath: m_SizeDelta.x
@@ -1039,6 +1049,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: trap
+      objectReference: {fileID: 0}
+    - target: {fileID: 1120071981596827698, guid: 575f0eb413620954eaa02165e3c457b9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2899771692713099424, guid: 575f0eb413620954eaa02165e3c457b9,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 575f0eb413620954eaa02165e3c457b9, type: 3}

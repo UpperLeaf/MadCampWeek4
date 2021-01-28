@@ -26,14 +26,15 @@ public class FieldController : MonoBehaviourPunCallbacks
         colliderOffset = fieldCollider.offset;
         localScale = transform.localScale;
 
-        if (PhotonNetwork.IsMasterClient)
-            StartCoroutine("FieldResize");
-        StartCoroutine("DamageToPlayer");
+        Invoke("Init", 3f);
     }
 
-    private void Update()
+    private void Init()
     {
-        transform.position = Vector3.MoveTowards(transform.position, BattleFieldNotifier.transform.position, circlespeed*Time.deltaTime);
+        if (PhotonNetwork.IsMasterClient)
+            StartCoroutine("FieldResize");
+        
+        StartCoroutine("DamageToPlayer");
     }
 
     IEnumerator FieldResize()
@@ -48,11 +49,20 @@ public class FieldController : MonoBehaviourPunCallbacks
             BattleFieldNotifier.transform.position = transform.position + offset;
             BattleFieldNotifier.transform.localScale = new Vector3(StageScale[currentBattlefieldStage + 1], StageScale[currentBattlefieldStage + 1], 0);
 
-            while (localScale.x > StageScale[currentBattlefieldStage + 1])
+            int max = 2000;
+            float distx = offset.x / max ;
+            float disty = offset.y / max ;
+            float diff = (StageScale[currentBattlefieldStage] - StageScale[currentBattlefieldStage + 1]) / max;
+            int idx = 0;
+            while (idx < max)
             {
-                float size = localScale.x - 0.0005f;
-                localScale = new Vector3(size, size, 1);
+                localScale.x -= diff;
+                localScale.y -= diff;
                 transform.localScale = localScale;
+
+                transform.Translate(distx, disty, 0);
+                photonView.RPC("ResizeClient", PhotonTargets.All, new object[] {transform.position, transform.localScale });
+                idx++;
                 yield return new WaitForSeconds(0.02f);
             }
             currentBattlefieldStage++;
@@ -60,29 +70,39 @@ public class FieldController : MonoBehaviourPunCallbacks
         
     }
 
+    [PunRPC]
+    void ResizeClient(Vector3 position, Vector3 scale)
+    {
+        transform.position = position;
+        transform.localScale = scale;
+    }
+
     IEnumerator DamageToPlayer()
     {
         while (true)
         {
             Vector3 position = transform.position - colliderOffset;
-            Collider2D[] colliders = Physics2D.OverlapCircleAll(position, fieldCollider.radius * localScale.x);
-            
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(position, fieldCollider.radius * transform.localScale.x);
+            Debug.Log("PlayerManagers : "  + GameManager.playerManagers);
             GameManager.playerManagers.FindAll((playerManager) =>
             {
                 for(int i = 0; i < colliders.Length; i++)
                 {
                     if (playerManager.gameObject.Equals(colliders[i].gameObject))
                     {
+                        Debug.Log("In Battle Field Player" + playerManager);
                         return false;
                     }
                 }
+                Debug.Log("Out Battle Field Player" + playerManager);
                 return true;
             }).ForEach((manager) =>
             {
-                manager.GetComponent<PlayerManager>().Damaged(0.01f);
+                Debug.Log("Damaged Player : " + manager);
+                manager.GetComponent<PlayerManager>().Damaged(0.05f);
             });
 
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.5f);
         }
     }
 }
