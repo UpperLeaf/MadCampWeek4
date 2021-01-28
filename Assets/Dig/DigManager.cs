@@ -52,13 +52,15 @@ public class DigManager : MonoBehaviourPunCallbacks
         animator = GetComponent<Animator>();
         animatorManager = GetComponent<AbstarctPlayerAnimatorManager>();
 
+              
+
         GameScene();
         tilemapCoordOffset = new Vector3(1, 1, 0);
     }
 
     public void GameScene()
     {
-        if (SceneManager.GetActiveScene().ToString().Equals("Game"))
+        if (SceneManager.GetActiveScene().name.Equals("Game"))
         {
             wall = GameObject.Find("Wall").GetComponent<Tilemap>();
             minimapwall = GameObject.Find("minimapWall").GetComponent<Tilemap>();
@@ -156,9 +158,7 @@ public class DigManager : MonoBehaviourPunCallbacks
     {
         DigAnim();
         Vector2 dir = mouse - playerposition;
-
-        
-        
+                       
 
         float angle = Vector2.SignedAngle(Vector2.right, dir);
 
