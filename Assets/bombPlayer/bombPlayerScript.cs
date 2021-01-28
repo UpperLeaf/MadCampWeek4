@@ -113,7 +113,6 @@ public class BombPlayerScript : AbstractPlayerScript
         _bomb.GetComponent<bombObject>().Target = mouse;
         _bomb.GetComponent<bombObject>().startposition = playerposition;
         Instantiate(_bomb);
-        StartCoroutine("SkillCool");
     }
 
     [PunRPC]

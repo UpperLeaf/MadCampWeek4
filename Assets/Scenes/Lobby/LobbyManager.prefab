@@ -52,4 +52,4 @@ MonoBehaviour:
   rifleMan: {fileID: 1165432251998972891, guid: 5e4256e6bac527240ace1d2a92f7449b,
     type: 3}
   bombMan: {fileID: 312227030050725378, guid: ed2e45f382e5f7045a780b156800ee19, type: 3}
-  startPlayers: 1
+  startPlayers: 2

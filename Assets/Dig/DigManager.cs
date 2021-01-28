@@ -85,10 +85,7 @@ public class DigManager : MonoBehaviourPunCallbacks
             Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 playerposition = transform.position;
             
-            animatorManager.DigStart();
-            
-            DigOrBuildBool = true;
-            photonView.RPC("DigOrBuild", PhotonTargets.All, new object[] { mouse, playerposition });
+            photonView.RPC("DigOrBuild", PhotonTargets.All, new object[] { mouse, playerposition, true});
         }
 
         if (Input.GetKeyUp(KeyCode.F) &&  num_rocks > 0)
@@ -109,11 +106,10 @@ public class DigManager : MonoBehaviourPunCallbacks
                 wallspriterTransform.GetComponent<SpriteRenderer>().enabled = false;
                 buildmode = false;
                 DigOrBuildBool = false;
-                photonView.RPC("DigOrBuild", PhotonTargets.All, new object[] { mouse, playerposition });
+                photonView.RPC("DigOrBuild", PhotonTargets.All, new object[] { mouse, playerposition, false});
             }            
         }
     }
-
     private void DigAnim()
     {
         animator.SetTrigger("Dig");
@@ -153,7 +149,6 @@ public class DigManager : MonoBehaviourPunCallbacks
             }
 
             Vector3Int coordinate = wall.WorldToCell(playerposition);
-            Debug.Log(coordinate);
 
             wallspriterTransform.position = wall.CellToWorld(coordinate+offset)+tilemapCoordOffset;
 
@@ -162,12 +157,15 @@ public class DigManager : MonoBehaviourPunCallbacks
     }
 
     [PunRPC]
-    public void DigOrBuild(Vector2 mouse, Vector2 playerposition)
+    public void DigOrBuild(Vector2 mouse, Vector2 playerposition, bool isDig)
     {
+        animatorManager.DigStart();
+        DigOrBuildBool = isDig;
+        
         DigAnim();
+        
         Vector2 dir = mouse - playerposition;
                        
-
         float angle = Vector2.SignedAngle(Vector2.right, dir);
 
         if (-45f <angle && angle <= 45f)
@@ -213,12 +211,10 @@ public class DigManager : MonoBehaviourPunCallbacks
             {
                 wall.SetTile(coord + offset, null);
                 minimapwall.SetTile(coord+offset, null);
-
                 
                 num_rocks++;
                 if (abstractPlayerScript != null)
                     abstractPlayerScript.UpdateAmmo(SkillUIController.SkillType.MakeWall, num_rocks);
-            
             }
         }
         else
