@@ -34,6 +34,9 @@ public class PlayerScript : AbstractPlayerScript
     [SerializeField]
     private Sprite skillImage;
 
+    [SerializeField]
+    private AudioClip bulletAttackAudioClip;
+
     protected override void Start()
     {
         base.Start();
@@ -46,7 +49,6 @@ public class PlayerScript : AbstractPlayerScript
 
     public override void SetSkillUiController(SkillUIController uIController)
     {
-        
         uIController.DisableAmmoText(SkillUIController.SkillType.Attack);
         uIController.SetImage(SkillUIController.SkillType.Attack, attackImage);
         uIController.SetImage(SkillUIController.SkillType.Skill, skillImage);
@@ -85,6 +87,9 @@ public class PlayerScript : AbstractPlayerScript
             Vector2 bulletvelocity = (mouse - playerposition).normalized * bulletSpeed;
 
             ShakeCameraAttack(1f, 0.1f);
+            
+            audioSource.PlayOneShot(bulletAttackAudioClip);
+
             if (skillUIController != null)
                 skillUIController.UseSkill(SkillUIController.SkillType.Attack, attackCoolTime);
 

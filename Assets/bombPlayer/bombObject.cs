@@ -25,7 +25,10 @@ public class bombObject : MonoBehaviour
 
     public float damage;
 
-    
+    private AudioSource audioSource;
+
+    [SerializeField]
+    private AudioClip boomAttackClip;
 
     // Start is called before the first frame update
     void Start()
@@ -46,10 +49,7 @@ public class bombObject : MonoBehaviour
             acceleration = -60f;
             onAirVelocity.y = -acceleration * Distance / (2*bombSpeed);
         }
-        
-
-        
-
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -58,19 +58,11 @@ public class bombObject : MonoBehaviour
         
         if (Vector2.Distance(Target, transform.position) > 0.3f)
         {
-
-                       
             transform.position += bombSpeed * Time.deltaTime * displacementdir + onAirVelocity * Time.deltaTime;
             onAirVelocity.y += acceleration * Time.deltaTime;
-
         }
         else
-        {
             GetComponent<Animator>().SetTrigger("blowUp");
-        }
-        
-
-
     }
 
     private void Destroy()
@@ -80,16 +72,13 @@ public class bombObject : MonoBehaviour
 
     private void blowUp()
     {
-        Debug.Log("blowup");
         CircleCollider2D collider = GetComponent<CircleCollider2D>();
         collider.radius = 0.7f;
         Collider2D[] overlappedColliders = Physics2D.OverlapCircleAll(transform.position, 3*collider.radius);
-             
-               
 
+        audioSource.PlayOneShot(boomAttackClip);
         foreach (Collider2D _collider in overlappedColliders)
         {
-            Debug.Log(_collider);
             if (_collider.CompareTag("Player"))
             {
                 _collider.gameObject.GetComponent<PlayerManager>().Damaged(damage);

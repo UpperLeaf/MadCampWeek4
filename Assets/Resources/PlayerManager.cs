@@ -44,32 +44,26 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
             _camera = Instantiate(CinemachineCameraPrefab);
             CinemachineVirtualCamera virtualCamera = _camera.GetComponent<CinemachineVirtualCamera>();
 
-            if (virtualCamera != null)
-            {
-                if (photonView.IsMine)
-                {
-                    virtualCamera.Follow = gameObject.transform;
-                    virtualCamera.m_Lens.Orthographic = true;
-                    virtualCamera.m_Lens.OrthographicSize = 9;
+            virtualCamera.Follow = gameObject.transform;
+            virtualCamera.m_Lens.Orthographic = true;
+            virtualCamera.m_Lens.OrthographicSize = 9;
 
-                    CinemachineConfiner confiner = virtualCamera.GetComponent<CinemachineConfiner>();
-                    GameObject map = GameObject.Find("Map");
-                    confiner.m_BoundingShape2D = map.GetComponent<MapManager>().GetMapCollider();
-                    virtualCamera.AddExtension(confiner);
+            CinemachineConfiner confiner = virtualCamera.GetComponent<CinemachineConfiner>();
+            GameObject map = GameObject.Find("Map");
+            confiner.m_BoundingShape2D = map.GetComponent<MapManager>().GetMapCollider();
+            virtualCamera.AddExtension(confiner);
 
-                    CinemachineBasicMultiChannelPerlin perlin =
-                        virtualCamera.AddCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+            CinemachineBasicMultiChannelPerlin perlin =
+                virtualCamera.AddCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
 
-                    NoiseSettings shake = Resources.Load("6DShake") as NoiseSettings;
-                    perlin.m_NoiseProfile = shake;
-                    perlin.m_AmplitudeGain = 0;
+            NoiseSettings shake = Resources.Load("6DShake") as NoiseSettings;
+            perlin.m_NoiseProfile = shake;
+            perlin.m_AmplitudeGain = 0;
 
-                    playerScript = GetComponent<AbstractPlayerScript>();
-                    playerScript.SetCinemachineBasicMultiChannelPerlin(perlin);
+            playerScript = GetComponent<AbstractPlayerScript>();
+            playerScript.SetCinemachineBasicMultiChannelPerlin(perlin);
 
-                    isGameStart = false;
-                }
-            }
+            isGameStart = false;
         }
 
         if (SceneManager.GetActiveScene().name.Equals("Game"))
@@ -113,6 +107,8 @@ public class PlayerManager : MonoBehaviourPunCallbacks, IPlayer, IPunObservable
             }
         }
     }
+
+
     private void DisableLight()
     {
         GetComponent<Light2D>().enabled = false;

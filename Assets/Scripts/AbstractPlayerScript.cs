@@ -17,6 +17,8 @@ public abstract class AbstractPlayerScript : MonoBehaviourPunCallbacks
 
     protected float vertical;
 
+    protected AudioSource audioSource;
+
     [SerializeField]
     private float speed = 300f;
     
@@ -24,6 +26,7 @@ public abstract class AbstractPlayerScript : MonoBehaviourPunCallbacks
     {
         this.perlin = perlin;
     }
+
     public void ShakeCameraAttack(float intentsity, float time)
     {
         if (photonView.IsMine)
@@ -54,6 +57,7 @@ public abstract class AbstractPlayerScript : MonoBehaviourPunCallbacks
     protected virtual void Start()
     {
         animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     protected virtual void Update()

@@ -23,8 +23,6 @@ public class DigManager : MonoBehaviourPunCallbacks
 
     private AbstarctPlayerAnimatorManager animatorManager;
 
-
-
     public Vector3 tilemapCoordOffset;
     [SerializeField]
     private bool buildmode = false;
@@ -36,11 +34,19 @@ public class DigManager : MonoBehaviourPunCallbacks
     private Vector3Int coord;
     private Vector3Int offset = Vector3Int.zero;
     private Tile tile;
+    
     [SerializeField]
     private bool DigOrBuildBool;
 
     AbstractPlayerScript abstractPlayerScript;
 
+    [SerializeField]
+    private AudioClip digClip;
+
+    [SerializeField]
+    private AudioClip buildClip;
+
+    private AudioSource audioSource;
 
     // Start is called before the first frame update
     void Start()
@@ -54,6 +60,9 @@ public class DigManager : MonoBehaviourPunCallbacks
 
         GameScene();
         tilemapCoordOffset = new Vector3(1, 1, 0);
+
+
+        audioSource = GetComponent<AudioSource>();
     }
 
     public void GameScene()
@@ -73,6 +82,7 @@ public class DigManager : MonoBehaviourPunCallbacks
 
         if (Input.GetKeyUp(KeyCode.LeftShift) && animator.GetCurrentAnimatorStateInfo(0).IsName("idle"))
         {
+            audioSource.PlayOneShot(digClip);
             Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector2 playerposition = transform.position;
             
@@ -92,6 +102,7 @@ public class DigManager : MonoBehaviourPunCallbacks
             }
             else if (animator.GetCurrentAnimatorStateInfo(0).IsName("idle"))
             {
+                audioSource.PlayOneShot(buildClip);
                 animatorManager.DigStart();
 
                 Vector2 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);

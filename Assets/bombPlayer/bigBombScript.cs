@@ -27,6 +27,10 @@ public class bigBombScript : MonoBehaviour
 
     public float damage;
 
+    private AudioSource audioSource;
+
+    [SerializeField]
+    private AudioClip bombAttackClip;
 
 
     // Start is called before the first frame update
@@ -41,6 +45,8 @@ public class bigBombScript : MonoBehaviour
         displacementdir = new Vector3((Target - startposition).normalized.x, (Target - startposition).normalized.y, 0);
         onAirVelocity.y = 4 * bombSpeed * bombheight / Distance;
 
+        audioSource = GetComponent<AudioSource>();
+
         //for near target
         if (Distance <= 3f)
         {
@@ -53,7 +59,6 @@ public class bigBombScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         if (Vector2.Distance(Target, transform.position) > 0.3f)
         {
             transform.position += bombSpeed * Time.deltaTime * displacementdir + onAirVelocity * Time.deltaTime;
@@ -84,6 +89,7 @@ public class bigBombScript : MonoBehaviour
         }
 
         Collider2D[] shakeDistancePlayerColliders = Physics2D.OverlapCircleAll(transform.position, 6 * shakeDistance.radius);
+        audioSource.PlayOneShot(bombAttackClip);
 
         foreach (Collider2D _collider in shakeDistancePlayerColliders)
         {

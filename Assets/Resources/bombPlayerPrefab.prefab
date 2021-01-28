@@ -544,6 +544,8 @@ MonoBehaviour:
   buildmode: 0
   num_rocks: 0
   DigOrBuildBool: 0
+  digClip: {fileID: 8300000, guid: bba1d963a83433b49bdbdf245832e31a, type: 3}
+  buildClip: {fileID: 8300000, guid: 5401c951304c3964792867cbde6c665e, type: 3}
 --- !u!114 &6154713001431595314
 MonoBehaviour:
   m_ObjectHideFlags: 0
